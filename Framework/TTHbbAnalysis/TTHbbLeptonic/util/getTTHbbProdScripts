@@ -1,0 +1,124 @@
+#!/usr/bin/env python
+import sys
+import os
+import ROOT
+from PathResolver import PathResolver
+
+output = os.getcwd() # + '/grid'
+if len(sys.argv) == 2:
+    output = sys.argv[1]
+elif len(sys.argv) > 2:
+    print 'I dont understand you'
+    print 'Use me like'
+    print sys.argv[0]
+    print 'or'
+    print sys.argv[0], '<directory>'
+    sys.exit()
+
+print 'Using PathResolver to copy scripts to', output
+if not os.path.exists(output):
+    os.makedirs(output)
+
+# We cannot use a wildcard anymore as everything is stored in /bin/
+list_of_scripts = [
+    "TTHbbSubmit.py",
+    "setup_production.sh",
+    "setup_group_production.sh",
+    ]
+
+for script in list_of_scripts:
+    full_path = ROOT.PathResolver.find_file(script, "PATH")
+    if (full_path == ''):
+        print 'Warning: can\'t find file '+script
+    else:
+        print "Copying",full_path
+        cmd = "cp %s %s"%(full_path, output)
+        os.system(cmd)
+
+
+# We cannot use a wildcard anymore as everything is stored in /bin/
+list_of_cutFiles = [
+    "cuts_1l_data.txt",
+    "cuts_1l_fakes_data.txt",
+    "cuts_1l_ftrig_data.txt",
+    "cuts_1l_jer_data.txt",
+    "cuts_1l_jer_mc16a.txt",
+    "cuts_1l_jer_mc16c.txt",
+    "cuts_1l_jer_mc16d.txt",
+    "cuts_1l_jfl_mc16a.txt",
+    "cuts_1l_jfl_mc16c.txt",
+    "cuts_1l_jfl_mc16d.txt",
+    "cuts_1l_lrj_mc16a.txt",
+    "cuts_1l_lrj_mc16c.txt",
+    "cuts_1l_lrj_mc16d.txt",
+    "cuts_1l_mc16a.txt",
+    "cuts_1l_mc16c.txt",
+    "cuts_1l_mc16d.txt",
+    "cuts_1l_sys_mc16a.txt",
+    "cuts_1l_sys_mc16c.txt",
+    "cuts_1l_sys_mc16d.txt",
+    "cuts_1l_trf_mc16a.txt",
+    "cuts_1l_trf_mc16c.txt",
+    "cuts_1l_trf_mc16d.txt",
+    "cuts_2l_data.txt",
+    "cuts_2l_jer_data.txt",
+    "cuts_2l_jer_mc16a.txt",
+    "cuts_2l_jer_mc16c.txt",
+    "cuts_2l_jer_mc16d.txt",
+    "cuts_2l_jfl_mc16a.txt",
+    "cuts_2l_jfl_mc16c.txt",
+    "cuts_2l_jfl_mc16d.txt",
+    "cuts_2l_mc16a.txt",
+    "cuts_2l_mc16c.txt",
+    "cuts_2l_mc16d.txt",
+    "cuts_2l_sys_mc16a.txt",
+    "cuts_2l_sys_mc16c.txt",
+    "cuts_2l_sys_mc16d.txt",
+    "cuts_2l_trf_mc16a.txt",
+    "cuts_2l_trf_mc16c.txt",
+    "cuts_2l_trf_mc16d.txt",
+    "cuts_0l_data.txt",
+    "cuts_0l_mc16a.txt",
+    "cuts_0l_mc16c.txt",
+    "cuts_0l_mc16d.txt",
+    "cuts_0l_sys_mc16a.txt",
+    "cuts_0l_sys_mc16c.txt",
+    "cuts_0l_sys_mc16d.txt",
+    ]
+
+for script in list_of_cutFiles:
+    full_path = ROOT.PathResolver.find_file(script, "DATAPATH", ROOT.PathResolver.RecursiveSearch)
+    if (full_path == ''):
+        print 'Warning: can\'t find file '+script
+    else:
+        print "Copying",full_path
+        cmd = "cp %s %s"%(full_path, output)
+        os.system(cmd)
+
+
+# We cannot use a wildcard anymore as everything is stored in /bin/
+list_of_Lists = [
+    "Data_inputs.txt",
+    "MC16a_inputs.txt",
+    "MC16c_inputs.txt",
+    "MC16d_inputs.txt",
+    ]
+
+for script in list_of_Lists:
+    full_path = ROOT.PathResolver.find_file(script, "DATAPATH", ROOT.PathResolver.RecursiveSearch)
+    if (full_path == ''):
+        print 'Warning: can\'t find file '+script
+    else:
+        print "Copying",full_path
+        cmd = "cp %s %s"%(full_path, output)
+        os.system(cmd)
+
+print ''
+print 'You are using the TTHbbLeptonic production scripts. You should now have copied locally:'
+print ' - setup_production.sh to source before launching any job'
+print ' - setup_group_production.sh to source before launching any job (for group production)'
+print ' - the following cutfiles, to be used by the AnalysisTop grid jobs:'
+print list_of_cutFiles
+print ' - the following reference list of samples, extracted from a speadsheet - may be edited for official production:'
+print list_of_Lists
+print ' - TTHbbSubmit.py which you need to edit and execute to launch the production'

@@ -1,0 +1,139 @@
+################################################################################
+#                                                                              #
+# SELECTION CONFIGURATION                                                      #
+#                                                                              #
+# This is a TTHbbLeptonic configuration for the AnalysisTop utility top-xaod.  #
+#                                                                              #
+# - TTHbbLeptonic: http://cern.ch/go/m989                                      #
+# - top-xaod:      http://cern.ch/go/D8bk                                      #
+#                                                                              #
+################################################################################
+
+################################################################################
+#                                                                              #
+# PACKAGE LIBRARIES                                                            #
+#                                                                              #
+################################################################################
+
+LibraryNames libTopEventSelectionTools libTopEventReconstructionTools  libTTHbbLeptonic  libJetSubStructureUtils 
+
+################################################################################
+#                                                                              #
+# OBJECT COLLECTIONS                                                           #
+#                                                                              #
+################################################################################
+
+ElectronCollectionName Electrons
+MuonCollectionName Muons
+TauCollectionName TauJets
+
+PhotonCollectionName None
+
+METCollectionName MET_Reference_AntiKt4EMTopo
+LooseMETCollectionName MET_Reference_AntiKt4EMTopo
+
+JetCollectionName AntiKt4EMTopoJets
+LargeJetCollectionName AntiKt10LCTopoTrimmedPtFrac5SmallR20Jets
+LargeJetSubstructure None
+
+OverlapRemovalProcedure noTauJetOLR
+
+################################################################################
+#                                                                              #
+# TRUTH COLLECTIONS AND SETTINGS                                               #
+#                                                                              #
+################################################################################
+
+#TruthCollectionName None
+TruthCollectionName TruthParticles
+#TruthJetCollectionName AntiKt10TruthJets
+#TruthJetCollectionName None
+TruthJetCollectionName AntiKt4TruthWZJets
+TopPartonHistory False
+TruthBlockInfo False
+PDFInfo False
+TopParticleLevel True
+
+################################################################################
+#                                                                              #
+# OBJECT LOADER AND OBJECT SELECTIONS                                          #
+#                                                                              #
+################################################################################
+
+ObjectSelectionName TTHbbLeptonicObjectLoader
+
+
+ElectronPt 10000
+MuonPt 10000
+JetPt 25000
+LargeRJetPt 250000
+LargeRJetEta 2.0
+
+TauJetConfigFile TTHbbLeptonic/tau_config.conf
+TauJetConfigFileLoose TTHbbLeptonic/tau_config.conf
+
+DoLoose Both
+DoTight False
+ApplyTightSFsInLooseTree True
+
+################################################################################
+#                                                                              #
+# EXPERIMENTAL SYSTEMATICS                                                     #
+#                                                                              #
+################################################################################
+
+Systematics nominal
+
+################################################################################
+#                                                                              #
+# OUTPUT                                                                       #
+#                                                                              #
+# The standard AnalysisTop event savers are as follows:                        #
+#                                                                              #
+# - top::EventSaverxAOD                                                        #
+# - top::EventSaverFlatNtuple                                                  #
+#                                                                              #
+# This configuration uses event savers specialised for ttH.                    #
+#                                                                              #
+################################################################################
+
+OutputFilename out_mc_truth.root
+OutputFormat TTHbbLeptonicEventSaver
+OutputEvents SelectedEvents
+
+OutputFileSetAutoFlushZero True
+
+PerfStats Yes
+CalculateSF False
+
+################################################################################
+#                                                                              #
+# GLOBAL TTH CONFIGURATION                                                     #
+#                                                                              #
+################################################################################
+
+IsAFII False
+MCGeneratorWeights Nominal
+
+
+NEvents 1000
+
+################################################################################
+#                                                                              #
+# PILEUP CONFIG                                                                #
+#                                                                              #
+################################################################################
+
+# MC15c profile (derived from ttbar nohallhad):
+PRWConfigFiles TopCorrections/PRW.410000.mc15c.r7725_r7676.root
+# full 2015 25ns dataset + DS1 2016 dataset:
+PRWLumiCalcFiles GoodRunsLists/data15_13TeV/20160720/physics_25ns_20.7.lumicalc.OflLumi-13TeV-005.root GoodRunsLists/data16_13TeV/20161101/physics_25ns_20.7.lumicalc.OflLumi-13TeV-005.root
+
+
+
+SELECTION truth_all
+PARTICLE_LEVEL
+TTHBBCREATEEVENT
+TTHBBTRUTHEDM
+SAVE
+

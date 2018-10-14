@@ -1,0 +1,141 @@
+# SampleName          : COMMENT :  Comma-separated DSIDs
+Hplus4FS_H1000_tb_dil : COMMENT : 344848,
+Hplus4FS_H1200_tb : COMMENT : 344101,
+Hplus4FS_H1200_tb_dil : COMMENT : 344849,
+Hplus4FS_H1400_tb_dil : COMMENT : 344850,
+Hplus4FS_H1600_tb_dil : COMMENT : 344851,
+Hplus4FS_H1800_tb_dil : COMMENT : 344852,
+Hplus4FS_H2000_tb : COMMENT : 344102,
+Hplus4FS_H2000_tb_dil : COMMENT : 344853,
+Hplus4FS_H200_tb_dil : COMMENT : 344836,
+Hplus4FS_H225_tb_dil : COMMENT : 344837,
+Hplus4FS_H250_tb : COMMENT : 344099,
+Hplus4FS_H250_tb_dil : COMMENT : 344838,
+Hplus4FS_H275_tb_dil : COMMENT : 344839,
+Hplus4FS_H300_tb_dil : COMMENT : 344840,
+Hplus4FS_H350_tb_dil : COMMENT : 344841,
+Hplus4FS_H400_tb_dil : COMMENT : 344842,
+Hplus4FS_H500_tb_dil : COMMENT : 344843,
+Hplus4FS_H600_tb : COMMENT : 344100,
+Hplus4FS_H600_tb_dil : COMMENT : 344844,
+Hplus4FS_H700_tb_dil : COMMENT : 344845,
+Hplus4FS_H800_tb_dil : COMMENT : 344846,
+Hplus4FS_H900_tb_dil : COMMENT : 344847,
+Hptb_aMcAtNloPythia8_H1000 : COMMENT : 341553
+Hptb_aMcAtNloPythia8_H1200 : COMMENT : 341554
+Hptb_aMcAtNloPythia8_H1400 : COMMENT : 341555
+Hptb_aMcAtNloPythia8_H1400 : COMMENT : 341555
+Hptb_aMcAtNloPythia8_H1600 : COMMENT : 341556
+Hptb_aMcAtNloPythia8_H1800 : COMMENT : 341557
+Hptb_aMcAtNloPythia8_H200 : COMMENT : 341541
+Hptb_aMcAtNloPythia8_H2000 : COMMENT : 341558
+Hptb_aMcAtNloPythia8_H225 : COMMENT : 341542
+Hptb_aMcAtNloPythia8_H250 : COMMENT : 341543
+Hptb_aMcAtNloPythia8_H275 : COMMENT : 341544
+Hptb_aMcAtNloPythia8_H300 : COMMENT : 341545
+Hptb_aMcAtNloPythia8_H300 : COMMENT : 341545
+Hptb_aMcAtNloPythia8_H350 : COMMENT : 341546
+Hptb_aMcAtNloPythia8_H400 : COMMENT : 341547
+Hptb_aMcAtNloPythia8_H500 : COMMENT : 341548
+Hptb_aMcAtNloPythia8_H600 : COMMENT : 341549
+Hptb_aMcAtNloPythia8_H700 : COMMENT : 341550
+Hptb_aMcAtNloPythia8_H800 : COMMENT : 341551
+Hptb_aMcAtNloPythia8_H900 : COMMENT : 341552
+VBFH_PowhegPythia8        : COMMENT : 342283,
+WH_Pythia8EvtGen          : COMMENT : 342284,
+WtchanDS_PowhegPythia6_Dilepton     : COMMENT : 410064, 410065,
+WtchanDS_PowhegPythia6_Inclusive    : COMMENT : 410062, 410063,
+Wtchan_PowhegHerwig_Dilepton        : COMMENT : 410145, 410146,
+Wtchan_PowhegHerwig_Inclusive       : COMMENT : 410147, 410148,
+Wtchan_PowhegPythia6_Dilepton       : COMMENT : 410015, 410016,
+Wtchan_PowhegPythia6_Inclusive      : COMMENT : 410013, 410014,
+WtchanradHi_PowhegPythia6_Dilepton  : COMMENT : 410103,410105
+WtchanradHi_PowhegPythia6_Inclusive : COMMENT : 410099,410101
+WtchanradLo_PowhegPythia6_Dilepton  : COMMENT : 410104,410106
+WtchanradLo_PowhegPythia6_Inclusive : COMMENT : 410100,410102
+ZH_Pythia8EvtGen            : COMMENT : 342285,
+bbH125_yb2_inc              : COMMENT : 342286,
+bbH125_ybyt_inc             : COMMENT : 342287,
+diboson_Sherpa21_01NLO23LO  : COMMENT : 361063, 361064, 361065, 361066, 361067, 361068, 361070, 361071, 361072, 361073, 361077, 361091, 361092, 361093, 361094, 361095, 361096, 361097,
+diboson_Sherpa21_0NLO123LO  : Deprecated : 361081, 361082, 361083, 361084, 361085, 361086, 361087,
+diboson_Sherpa21_012LO      : B filter/veto : 344422, 344423, 344424, 344425, 344426, 344427, 344428, 344429, 344430, 344431,
+diboson_Sherpa222           : Nominal : 364250, 364253, 364254, 364255, 364288, 364289, 364290, 363355, 363356, 363357, 363358, 363359, 363360, 363489, 364283, 364284, 364285, 364287, 345705, 345706, 345723,
+diboson_PowhegPythia6       : COMMENT : 361600, 361601, 361602, 361603, 361604, 361605, 361606, 361607, 361608, 361609, 361610, 361611,
+schan_PowhegPythia6         : COMMENT : 410025, 410026
+schanradHi_PowhegPythia6    : COMMENT : 410107, 410109,
+schanradLo_PowhegPythia6    : COMMENT : 410108, 410110,
+tHjb_MadgraphHerwig         : tHjb SM nominal : 341989, 341992, 341995,
+tHjb_MadgraphPythia8        : tHjb SM (PS): 343267, 343270, 343273,
+tWH_aMcAtNloHerwig          : tWH SM nominal  : 341998, 342001, 342004,
+tHjb_minus1_MadgraphHerwig  : tHjb BSM ct=-1 : 341991, 341994, 341988
+tHjb_minus1_MadgraphPythia8 : tHjb BSM ct=-1 (PS)  : 343266, 343269, 343272
+tWH_minus1_aMcAtNloHerwig   : tWH BSM ct=-1  : 341997, 342000, 342003
+tHjb_plus2_MadgraphHerwig   : tHjb BSM ct=+2 : 341990, 341993, 341996
+tHjb_plus2_MadgraphPythia8  : tHjb BSM ct=+2 (PS) : 343268, 343271, 343274
+tWH_plus2_aMcAtNloHerwig    : tWH BSM ct=+2 : 341999, 342002, 342005
+tV_MadgraphPythia6          : COMMENT : 410050,
+tWZ_aMcAtNloHerwig          : COMMENT : 410217,
+tWZ_aMcAtNloPythia8         : COMMENT : 410215,
+tchan_PowhegHerwig          : COMMENT : 410047, 410048,
+tchan_PowhegPythia6         : COMMENT : 410011, 410012,
+tchanradHi_PowhegPythia6    : COMMENT : 410018,410020,
+tchanradLo_PowhegPythia6    : COMMENT : 410017,410019,
+ttA14v3Do_PowhegPythia8_Dilepton_v3  : Nominal + b-filter (no shower weight) : 410516,410520
+ttA14v3Do_PowhegPythia8_NonAllHad_v3 : Nominal + b-filter (no shower weight) : 410512,410518
+ttA14v3Up_PowhegPythia8_Dilepton_v3  : Nominal + b-filter (no shower weight) : 410515,410519
+ttA14v3Up_PowhegPythia8_NonAllHad_v3 : Nominal + b-filter (no shower weight) : 410511,410517
+ttH125_4l                        : COMMENT : 342561,
+ttH125_gamgam                    : COMMENT : 343436,
+ttH_aMcAtNloHerwig               : Deprecated : 341177, 341270, 341271,
+ttH_aMcAtNloHerwig_Alt           : Deprecated : 342299
+ttH_aMcAtNloPythia8              : Older ttH signal : 343365, 343366, 343367,
+ttH_PowhegPythia8                : New ttH signal : 345672, 345673, 345674
+ttWW_MadgraphPythia8             : COMMENT : 410081,
+ttW_MadgraphPythia8              : COMMENT : 410066, 410067, 410068,
+ttW_aMcAtNloPythia8              : COMMENT : 410155
+ttZ_MadgraphPythia8              : COMMENT : 410073, 410074, 410075, 410111, 410112, 410113, 410114, 410115, 410116,
+ttZ_aMcAtNloPythia8              : COMMENT : 410156, 410157, 410218, 410219, 410220
+ttV_Sherpa                       : COMMENT : 410142, 410143, 410144
+tt_PowhegHerwig7_AllHad          : COMMENT : 410526
+tt_PowhegHerwig7_Dilepton        : COMMENT : 410527,410529
+tt_PowhegHerwig7_NonAllHad       : COMMENT : 410525,410528
+tt_PowhegHerwig704_Dilepton      : COMMENT :
+tt_PowhegHerwig704_SingleLep     : COMMENT :
+tt_PowhegHerwig704_AllHad        : COMMENT :
+tt_PowhegHerwig_NonAllHad        : Deprecated : 410004,
+tt_PowhegPythia6_AllHad          : Deprecated : 410007,
+tt_PowhegPythia6_Dilepton        : Deprecated : 410009,410121,
+tt_PowhegPythia6_NonAllHad       : Deprecated : 410000,410120,
+tt_PowhegPythia8_NonAllHad_v1    : Deprecated : 410006,
+tt_PowhegPythia8_NonAllHad_v2    : Deprecated : 410500,
+tt_PowhegPythia8_NonAllHad_v3    : Nominal + b-filter (no shower weight): 410501,410504
+tt_PowhegPythia8_Dilepton_v3     : Nominal + b-filter (no shower weight): 410503,410505
+tt_PowhegPythia8_NonAllHad_v3    : Nominal + b-filter (no shower weight): 410501,410504
+tt_PowhegPythia8_Dilepton_v3     : Nominal + b-filter (no shower weight): 410503,410505
+tt_PowhegPythia8_AllHad_v3       : Nominal (no shower weight): 410502
+tt_PowhegPythia8_SingleLep_v4    : Nominal (inc shower weight) : 410470
+tt_PowhegPythia8_Dilepton_v4     : Nominal (inc shower weight) : 410472
+tt_PowhegPythia8_AllHad_v4       : Nominal (inc shower weight) :
+tt_Sherpa21                      : COMMENT : 410021, 410022, 410023, 410024,
+tt_Sherpa220                     : COMMENT : 410186, 410187, 410188, 410189,
+tt_Sherpa221                     : Nominal + b-filter : 410250,410251,410252,410249,410281,410282,410283
+tt_aMcAtNloHerwig_AllHad         : Deprecated : 410008,
+tt_aMcAtNloHerwig_NonAllHad      : Deprecated : 410003,
+tt_aMcAtNloPythia8_AllHad        : COMMENT : 410227
+tt_aMcAtNloPythia8_AllHad_Old    : COMMENT : 410160,
+tt_aMcAtNloPythia8_Dilepton      : COMMENT : 410226, 410275
+tt_aMcAtNloPythia8_NonAllHad     : COMMENT : 410225, 410274
+tt_aMcAtNloPythia8_NonAllHad_Old : COMMENT : 410159,
+ttbb_Sherpa                      : COMMENT : 410051
+ttbb_Sherpa221                   : COMMENT : 410323,410324,410325
+ttradHi_PowhegPythia6_NonAllHad  : Deprecated : 410001,
+ttradLo_PowhegPythia6_NonAllHad  : Deprecated : 410002,
+tttt_MadgraphPythia8             : COMMENT : 410080,
+ttt_MadgraphPythia8              : COMMENT : 410081,
+wjets_MadgraphPythia8            : COMMENT : 361520, 361521, 361522, 361523, 361524, 361525, 361526, 361527, 361528, 361529, 361530, 361531, 361532, 361533, 361534,
+wjets_Sherpa                     : COMMENT : 361300, 361301, 361302, 361303, 361304, 361305, 361306, 361307, 361308, 361309, 361310, 361311, 361312, 361313, 361314, 361315, 361316, 361317, 361318, 361319, 361320, 361321, 361322, 361323, 361324, 361325, 361326, 361327, 361328, 361329, 361330, 361331, 361332, 361333, 361334, 361335, 361336, 361337, 361338, 361339, 361340, 361341, 361342, 361343, 361344, 361345, 361346, 361347, 361348, 361349, 361350, 361351, 361352, 361353, 361354, 361355, 361356, 361357, 361358, 361359, 361360, 361361, 361362, 361363, 361364, 361365, 361366, 361367, 361368, 361369, 361370, 361371,
+wjets_Sherpa221                  : COMMENT : 364156, 364157, 364158, 364159, 364160, 364161, 364162, 364163, 364164, 364165, 364166, 364167, 364168, 364169, 364170, 364171, 364172, 364173, 364174, 364175, 364176, 364177, 364178, 364179, 364180, 364181, 364182, 364183, 364184, 364185, 364186, 364187, 364188, 364189, 364190, 364191, 364192, 364193, 364194, 364195, 364196, 364197,
+zjets_MadgraphPythia8            : COMMENT : 361500, 361501, 361502, 361503, 361504, 361505, 361506, 361507, 361508, 361509, 361510, 361511, 361512, 361513, 361514, 361628, 361629, 361630, 361631, 361632, 361633, 361634, 361635, 361636, 361637, 361638, 361639, 361640, 361641, 361642
+zjets_Sherpa                     : COMMENT : 361372, 361373, 361374, 361375, 361376, 361377, 361378, 361379, 361380, 361381, 361382, 361383, 361384, 361385, 361386, 361387, 361388, 361389, 361390, 361391, 361392, 361393, 361394, 361395, 361396, 361397, 361398, 361399, 361400, 361401, 361402, 361403, 361404, 361405, 361406, 361407, 361408, 361409, 361410, 361411, 361412, 361413, 361414, 361415, 361416, 361417, 361418, 361419, 361420, 361421, 361422, 361423, 361424, 361425, 361426, 361427, 361428, 361429, 361430, 361431, 361432, 361433, 361434, 361435, 361436, 361437, 361438, 361439, 361440, 361441, 361442, 361443, 361468, 361469, 361470, 361471, 361472, 361473, 361474, 361475, 361476, 361477, 361478, 361479, 361480, 361481, 361482, 361483, 361484, 361485, 361486, 361487, 361488, 361489, 361490, 361491,
+zjets_Sherpa221                  : COMMENT : 364100, 364101, 364102, 364103, 364104, 364105, 364106, 364107, 364108, 364109, 364110, 364111, 364112, 364113, 364114, 364115, 364116, 364117, 364118, 364119, 364120, 364121, 364122, 364123, 364124, 364125, 364126, 364127, 364128, 364129, 364130, 364131, 364132, 364133, 364134, 364135, 364136, 364137, 364138, 364139, 364140, 364141,
+zjets_Sherpa221_LowMass          : COMMENT : 364198, 364199, 364200, 364201, 364202, 364203, 364204, 364205, 364206, 364207, 364208, 364209, 364210, 364211, 364212, 364213, 364214, 364215

@@ -1,0 +1,32 @@
+package BTaggingTruthTagging
+# $Id $
+
+use AtlasPolicy AtlasPolicy-*
+
+use AsgTools        AsgTools-*        Control/AthToolSupport
+use PATCore         PATCore-*         PhysicsAnalysis/AnalysisCommon
+use PATInterfaces   PATInterfaces-*   PhysicsAnalysis/AnalysisCommon
+use xAODJet         xAODJet-*         Event/xAOD
+use CalibrationDataInterface CalibrationDataInterface-* PhysicsAnalysis/JetTagging/JetTagPerformanceCalibration
+use xAODBTagging    xAODBTagging-*    Event/xAOD
+use AtlasReflex	    AtlasReflex-*     External -no-auto-imports
+use AtlasROOT       AtlasROOT-*       External
+
+private
+
+use PathResolver    PathResolver*     Tools
+use GaudiInterface  GaudiInterface-*  External
+use AthenaBaseComps AthenaBaseComps-* Control
+
+end_private
+
+# Build the library:
+library BTaggingTruthTaggingTool *.cxx ../Root/*.cxx components/*.cxx
+apply_pattern component_library
+
+# Install files from the package:
+#apply_pattern declare_joboptions files=../share/*.py
+#apply_pattern declare_runtime files="-s=../share *.root *.xml *.env"
+
+# Build the dictionary:
+apply_pattern lcgdict dict=BTaggingTruthTaggingTool selectionfile=selection.xml headerfiles="../BTaggingTruthTagging/BTaggingTruthTaggingToolDict.h"

@@ -1,0 +1,62 @@
+##################################################
+#    Configuration file for ttH-offline          #
+##################################################
+# Notes:                                         #
+#             				         #
+# Hash demarks the start of a comment            #
+# All settings are "CONFIG param"                #
+# Settings can be altered with command line args #
+#  -o CONFIG param                               #
+# All settings need to be predefined in the code #
+##################################################
+
+###Where to save everything
+OutputDirectory Output
+SampleName sample
+
+###Sample options
+SampleType MC
+UseLargeJets false
+
+###Which systematics to save, provide a full list
+Systematics nominal_Loose
+###Or provide a file
+SystematicsFromFile false
+SystematicsFile None
+
+###Calculate a normalisation weight from
+###totalEventsWeighted,Cutflow or none
+Normalisation none
+
+###Provide a file to configure the weights to save
+WeightsFile OfflineTTHbb/share/weights.txt
+
+###Can choose to provide a list of variables to decorate onto the event
+VariableListToDecorate OfflineTTHbb/share/VariablesToRead.txt
+
+###Save all variables decorated onto the event
+SaveAllDecorations true
+###Otherwise save variables listed in file
+VariablesToSaveFile OfflineTTHbb/share/VariablesToSave.txt
+
+###Define the regions of the form Name:"cut expression",Name2:"cut expression"
+Regions 4j3b:"nJets >= 4 && nBTags_MV2c10_85 == 3",4j4b:"nJets >= 4 && nBTags_MV2c10_85 >= 4"
+
+##################################################
+# TOOL configuration				 #
+#      						 #
+# Notes:					 #
+# 						 #
+# Tools in ToolManager have a given setting key  #
+# Set key to true to run the tool                #
+# Additional options may also be set here        #
+##################################################
+
+#use true to turn a tool on
+#MyTool true
+#AdditionalToolOption this
+
+#Turn on the MVAVariables tool used for variable calculations
+MVAVariables.TurnOn false
+#Which working points to enable
+MVAVariables.bTagWPs MV2c10_70

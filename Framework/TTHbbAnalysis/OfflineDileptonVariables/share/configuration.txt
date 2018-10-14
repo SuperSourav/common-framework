@@ -1,0 +1,71 @@
+##################################################
+#    Configuration file for ttH-offline          #
+##################################################
+# Notes:                                         #
+#             				         #
+# Hash demarks the start of a comment            #
+# All settings are "CONFIG param"                #
+# Settings can be altered with command line args #
+#  -o CONFIG param                               #
+# All settings need to be predefined in the code #
+##################################################
+
+CustomSettings ComputeDilepVars,AddDilepRegions,DilepRegionsFile
+Dictionaries DileptonVariables
+
+###Where to save everything
+OutputDirectory ../DileptonTrainingNtuples
+SampleName sample
+
+###Sample options
+SampleType MC
+UseLargeJets false
+
+###Which systematics to save, provide a full list
+Systematics nominal_Loose
+###Or provide a file
+SystematicsFromFile false
+SystematicsFile None
+
+###Calculate a normalisation weight from
+###totalEventsWeighted,Cutflow or none
+Normalisation Cutflow
+
+###Provide a file to configure the weights to save
+WeightsFile OfflineTTHbb/share/weights.txt
+
+###Can choose to provide a list of variables to decorate onto the event
+VariableListToDecorate DileptonVariables/share/VariablesToDecorate.txt
+
+###Save all variables decorated onto the event
+SaveAllDecorations true
+SaveDefaultVariables true
+###Otherwise save variables listed in file
+VariablesToSaveFile OfflineTTHbb/share/VariablesToSave.txt
+
+###Define the regions of the form Name:"cut expression",Name2:"cut expression"
+#Regions 4ji:"nJets >= 4 && nBTags_77 >= 2",3j:"nJets >= 3 && nBTags_77 >= 2"
+Regions SR1:"DilepRegion_A3 == 1",SR2:"DilepRegion_A3 == 3",SR3:"DilepRegion_A3 == 2",CR1_ttl:"DilepRegions_A3 == 5",CR2_ttc:"DilepRegions_A3 == 4",3j_CR1_ttl:"nBTags_77 >= 2 && !(nBTags_70 >= 3&& nBTags_60 >= 1 )",3j_CR2_ttb:"nBTags_70 >= 3 && nBTags_60 >= 1"
+#Regions CR1_ttl:"DilepRegions_A3 == 5",CR2_ttc:"DilepRegions_A3 == 4",3j_CR1_ttl:"nBTags_77 >= 2 && !(nBTags_70 >= 3&& nBTags_60 >= 1 )",3j_CR2_ttb:"nBTags_70 >= 3 && nBTags_60 >= 1"
+
+##################################################
+# TOOL configuration				 #
+#      						 #
+# Notes:					 #
+# 						 #
+# Tools in ToolManager have a given setting key  #
+# Set key to true to run the tool                #
+# Additional options may also be set here        #
+##################################################
+
+#use true to turn a tool on
+BTaggingWP 70,77,85,PC
+
+#Turn on the MVAVariables tool used for variable calculations
+MVAVariables.TurnOn true
+#Which working points to enable
+MVAVariables.bTagWPs 70,77,85,Sort4
+
+ComputeDilepVars true
+AddDilepRegions false
+DilepRegionsFile $ROOTCOREBIN/data/DileptonVariables/DilepRegions.root

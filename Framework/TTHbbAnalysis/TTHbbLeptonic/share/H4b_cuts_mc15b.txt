@@ -1,0 +1,509 @@
+################################################################################
+#                                                                              #
+# SELECTION CONFIGURATION                                                      #
+#                                                                              #
+# This is a configuration for the AnalysisTop utility top-xaod.                #
+#                                                                              #
+# http://cern.ch/go/D8bk                                                       #
+#                                                                              #
+################################################################################
+
+################################################################################
+#                                                                              #
+# PACKAGE LIBRARIES                                                            #
+#                                                                              #
+################################################################################
+
+LibraryNames libTopEventSelectionTools libTopEventReconstructionTools libTTHbbLeptonic libBoostedJetTaggers libJetSelectorTools libJetSubStructureUtils libJetSubStructureMomentTools
+
+################################################################################
+#                                                                              #
+# GOOD RUN LISTS                                                               #
+#                                                                              #
+# http://atlasdqm.web.cern.ch/atlasdqm/grlgen/All_Good/                        #
+#                                                                              #
+################################################################################
+
+# no GRL needed on MC
+
+################################################################################
+#                                                                              #
+# OBJECT COLLECTIONS                                                           #
+#                                                                              #
+################################################################################
+
+ElectronCollectionName Electrons
+
+MuonCollectionName Muons
+
+#TauCollectionName TauJets
+TauCollectionName None
+
+PhotonCollectionName None
+
+METCollectionName MET_Reference_AntiKt4EMTopo
+LooseMETCollectionName MET_Reference_AntiKt4EMTopo
+
+JetCollectionName AntiKt4EMTopoJets
+
+#LargeJetCollectionName AntiKt10LCTopoTrimmedPtFrac5SmallR20Jets
+LargeJetCollectionName None
+LargeJetSubstructure None
+
+#TrackJetCollectionName AntiKt2PV0TrackJets
+TrackJetCollectionName None
+
+################################################################################
+#                                                                              #
+# TRUTH COLLECTIONS AND SETTINGS                                               #
+#                                                                              #
+################################################################################
+
+#TruthCollectionName None
+TruthCollectionName TruthParticles
+
+TruthJetCollectionName None
+#TruthJetCollectionName AntiKt4TruthJets
+#TruthJetCollectionName AntiKt10TruthJets
+TopPartonHistory False
+TruthBlockInfo False
+PDFInfo False
+#TopParticleLevel True
+
+################################################################################
+#                                                                              #
+# OBJECT LOADER                                                                #
+#                                                                              #
+################################################################################
+
+ObjectSelectionName H4b::H4bObjectLoaderStandardCuts
+
+################################################################################
+#                                                                              #
+# OUTPUT                                                                       #
+#                                                                              #
+# The standard AnalysisTop event savers are as follows:                        #
+#                                                                              #
+# - top::EventSaverxAOD                                                        #
+# - top::EventSaverFlatNtuple                                                  #
+#                                                                              #
+# This configuration uses event savers specialised for ttH.                    #
+#                                                                              #
+################################################################################
+
+OutputFilename output.root
+OutputFormat H4b::H4bEventSaver
+OutputEvents SelectedEvents
+
+#NEvents 200
+
+PerfStats Yes
+CalculateSF True
+#Systematics Nominal
+Systematics All
+
+#BTaggingWP 0.4496 -0.0436 -0.4434 -0.7887
+BTaggingWP 60% 70% 77% 85%
+
+ElectronID TightLH
+ElectronIDLoose MediumLH
+ElectronIsolation Gradient
+ElectronIsolationLoose None
+ElectronPt 25000
+#EgammaSystematicModel FULL_ETACORRELATED_v1
+
+MuonPt 25000
+MuonEta 2.5
+MuonQuality Medium
+MuonQualityLoose Loose
+MuonIsolation Gradient
+MuonIsolationLoose None
+
+JetPt 20000
+JetEta 2.5
+JetUncertainties_BunchSpacing 25ns
+JetUncertainties_NPModel 19NP
+JetJERSmearingModel Full
+#JVTinMETCalculation False
+
+LargeRJetPt 40000
+LaregRJetEta 2.5
+
+TrackJetPt 7000
+TrackJetEta 2.5
+
+TauJetID JetBDTSigMedium
+TauJetIDBkg JetBDTSigLoose
+TauEVetoID EleBDTMedium
+
+FakesControlRegionDoLooseMC False
+OverlapRemovalLeptonDef Tight
+ApplyElectronInJetSubtraction False
+
+################################################################################
+#                                                                              #
+# PILEUP CONFIG                                                                #
+#                                                                              #
+################################################################################
+
+# 25ns MC (derived from ttbar nohallhad):
+PRWConfigFiles TTHbbLeptonic/my.prw_410000_mc15b.root
+# 3.34fb-1 GRL, full 2015 dataset, 25ns only:
+PRWLumiCalcFiles TTHbbLeptonic/ilumicalc_histograms_None_276262-284484.root
+# default channel is ttbar nohallhad
+PRWDefaultChannel 410000
+
+################################################################################
+#                                                                              #
+# GLOBAL TTH CONFIGURATION                                                     #
+#                                                                              #
+################################################################################
+
+# for now used only for reco
+DynamicKeys ttH_btagCut,ttH_btagAlgo,PathToFricoNN,NBExpert,JTM_Samples,H4b_tjet_btagCut,H4b_tjet_btagAlgo,ttHF_JetColl,ttHF_CalcVarRw,ttHF_NormReweightFile,ttHF_ShapeReweightFile,ttHF_CalculateSyst,ttHF_Samples
+
+#Btagging set up
+ttH_btagCut -0.4434
+ttH_btagAlgo MV2c20
+
+#NeuroBayes
+PathToFricoNN TTHbbLeptonic/
+NBExpert 6jin4bin 6jin3bex 5jex4bin
+JTM_Samples 410000,341270,410120,341581,341586,341591,341596,341601,341606
+
+#Track jets
+H4b_tjet_btagAlgo MV2c20
+H4b_tjet_btagCut -0.3098
+
+#Heavy Flavour Classification
+ttHF_JetColl AntiKt4TruthJets
+ttHF_CalcVarRw TRUE
+ttHF_NormReweightFile TTHbbLeptonic/ttbbNormRw.root
+ttHF_ShapeReweightFile TTHbbLeptonic/ttbbShapeRw.root
+ttHF_CalculateSyst TRUE 
+ttHF_Samples 410000,410001,410002,410006,410007,410008,410009,410120,410121
+
+################################################################################
+#                                                                              #
+# SELECTIONS                                                                   #
+#                                                                              #
+################################################################################
+
+################################################################################
+#                                                                              #
+# monoleptonic cutflows                                                        #
+#                                                                              #
+# reference for cuts:                                                          #
+# ATL-COM-PHYS-2014-1471 <https://cds.cern.ch/record/1969527>                  #
+#                                                                              #
+################################################################################
+
+
+##¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´><(((º>
+#SELECTION all
+#INITIAL
+#GRL
+#GOODCALO
+##RECO::JETRECLUSTERING Algorithm=AntiKt Radius=1.0 Grooming=TRIM RClus=0.2 PtFrac=0.05 JetPtThreshold=40000 JetEtaThreshold=2.5
+##RECO::MT2 ALL
+##JETTRUTHMATCHING SMALLJETS 0.3
+#VARIABLES H4BANALYSIS
+#HFCLASSIFICATION HFSYST
+#SAVE 
+
+
+################################################################################
+#¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´><(((º>
+SELECTION resolved_1e_3j
+INITIAL
+GRL
+GOODCALO
+TRIGDEC HLT_e24_lhmedium_L1EM18VH HLT_e60_lhmedium HLT_e120_lhloose
+EL_N 25000 == 1
+MU_N 25000 == 0
+TRIGMATCH 
+JETCLEAN LooseBad
+JET_N 20000 == 3
+MV2C20_N -0.4434 >= 1
+MV2C20_N -0.4434 >= 2
+RECO::MT2 ALL
+#JETTRUTHMATCHING SMALLJETS 0.3
+VARIABLES H4BANALYSIS
+HFCLASSIFICATION HFSYST
+SAVE 
+
+#¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´><(((º>
+SELECTION resolved_1e_4j
+INITIAL
+GRL
+GOODCALO
+TRIGDEC HLT_e24_lhmedium_L1EM18VH HLT_e60_lhmedium HLT_e120_lhloose
+EL_N 25000 == 1
+MU_N 25000 == 0
+TRIGMATCH 
+JETCLEAN LooseBad
+JET_N 20000 == 4
+MV2C20_N -0.4434 >= 1
+MV2C20_N -0.4434 >= 2
+RECO::MT2 ALL
+#JETTRUTHMATCHING SMALLJETS 0.3
+VARIABLES H4BANALYSIS
+HFCLASSIFICATION HFSYST
+SAVE 
+
+#¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´><(((º>
+SELECTION resolved_1e_5pj
+INITIAL
+GRL
+GOODCALO
+TRIGDEC HLT_e24_lhmedium_L1EM18VH HLT_e60_lhmedium HLT_e120_lhloose
+EL_N 25000 == 1
+MU_N 25000 == 0
+TRIGMATCH 
+JETCLEAN LooseBad
+JET_N 20000 >= 5
+MV2C20_N -0.4434 >= 1
+MV2C20_N -0.4434 >= 2
+RECO::MT2 ALL
+#JETTRUTHMATCHING SMALLJETS 0.3
+VARIABLES H4BANALYSIS
+HFCLASSIFICATION HFSYST
+SAVE 
+
+
+
+################################################################################
+#¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´><(((º>
+SELECTION resolved_1m_3j
+INITIAL
+GRL
+GOODCALO
+TRIGDEC  HLT_mu20_iloose_L1MU15 HLT_mu50
+MU_N 25000 == 1
+EL_N 25000 == 0
+TRIGMATCH 
+JETCLEAN LooseBad
+JET_N 20000 == 3
+MV2C20_N -0.4434 >= 1
+MV2C20_N -0.4434 >= 2
+RECO::MT2 ALL
+#JETTRUTHMATCHING SMALLJETS 0.3
+VARIABLES H4BANALYSIS
+HFCLASSIFICATION HFSYST
+SAVE 
+
+#¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´><(((º>
+SELECTION resolved_1m_4j
+INITIAL
+GRL
+GOODCALO
+TRIGDEC HLT_mu20_iloose_L1MU15 HLT_mu50
+MU_N 25000 == 1
+EL_N 25000 == 0
+TRIGMATCH 
+JETCLEAN LooseBad
+JET_N 20000 == 4
+MV2C20_N -0.4434 >= 1
+MV2C20_N -0.4434 >= 2
+RECO::MT2 ALL
+#JETTRUTHMATCHING SMALLJETS 0.3
+VARIABLES H4BANALYSIS
+HFCLASSIFICATION HFSYST
+SAVE 
+
+#¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´><(((º>
+SELECTION resolved_1m_5pj
+INITIAL
+GRL
+GOODCALO
+TRIGDEC HLT_mu20_iloose_L1MU15 HLT_mu50
+MU_N 25000 == 1
+EL_N 25000 == 0
+TRIGMATCH 
+JETCLEAN LooseBad
+JET_N 20000 >= 5
+MV2C20_N -0.4434 >= 1
+MV2C20_N -0.4434 >= 2
+RECO::MT2 ALL
+#JETTRUTHMATCHING SMALLJETS 0.3
+VARIABLES H4BANALYSIS
+HFCLASSIFICATION HFSYST
+SAVE 
+
+
+################################################################################
+#¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´><(((º>
+SELECTION resolved_2e_3j
+INITIAL
+GRL
+GOODCALO
+TRIGDEC HLT_e24_lhmedium_L1EM18VH HLT_e60_lhmedium HLT_e120_lhloose 
+EL_N 25000 == 2
+MU_N 25000 == 0
+TRIGMATCH 
+JETCLEAN LooseBad
+JET_N 20000 == 3
+MV2C20_N -0.4434 >= 1
+MV2C20_N -0.4434 >= 2
+RECO::MT2 ALL
+#JETTRUTHMATCHING SMALLJETS 0.3
+VARIABLES H4BANALYSIS
+HFCLASSIFICATION HFSYST
+SAVE 
+
+#¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´><(((º>
+SELECTION resolved_2e_4j
+INITIAL
+GRL
+GOODCALO
+TRIGDEC HLT_e24_lhmedium_L1EM18VH HLT_e60_lhmedium HLT_e120_lhloose 
+EL_N 25000 == 2
+MU_N 25000 == 0
+TRIGMATCH 
+JETCLEAN LooseBad
+JET_N 20000 == 4
+MV2C20_N -0.4434 >= 1
+MV2C20_N -0.4434 >= 2
+RECO::MT2 ALL
+#JETTRUTHMATCHING SMALLJETS 0.3
+VARIABLES H4BANALYSIS
+HFCLASSIFICATION HFSYST
+SAVE 
+
+#¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´><(((º>
+SELECTION resolved_2e_5pj
+INITIAL
+GRL
+GOODCALO
+TRIGDEC HLT_e24_lhmedium_L1EM18VH HLT_e60_lhmedium HLT_e120_lhloose 
+EL_N 25000 == 2
+MU_N 25000 == 0
+TRIGMATCH 
+JETCLEAN LooseBad
+JET_N 20000 >= 5
+MV2C20_N -0.4434 >= 1
+MV2C20_N -0.4434 >= 2
+RECO::MT2 ALL
+#JETTRUTHMATCHING SMALLJETS 0.3
+VARIABLES H4BANALYSIS
+HFCLASSIFICATION HFSYST
+SAVE 
+
+
+
+################################################################################
+#¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´><(((º>
+SELECTION resolved_2m_3j
+INITIAL
+GRL
+GOODCALO
+TRIGDEC HLT_mu20_iloose_L1MU15 HLT_mu50
+MU_N 25000 == 2
+EL_N 25000 == 0
+TRIGMATCH 
+JETCLEAN LooseBad
+JET_N 20000 == 3
+MV2C20_N -0.4434 >= 1
+MV2C20_N -0.4434 >= 2
+RECO::MT2 ALL
+#JETTRUTHMATCHING SMALLJETS 0.3
+VARIABLES H4BANALYSIS
+HFCLASSIFICATION HFSYST
+SAVE 
+
+#¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´><(((º>
+SELECTION resolved_2m_4j
+INITIAL
+GRL
+GOODCALO
+TRIGDEC HLT_mu20_iloose_L1MU15 HLT_mu50
+MU_N 25000 == 2
+EL_N 25000 == 0
+TRIGMATCH 
+JETCLEAN LooseBad
+JET_N 20000 == 4
+MV2C20_N -0.4434 >= 1
+MV2C20_N -0.4434 >= 2
+RECO::MT2 ALL
+#JETTRUTHMATCHING SMALLJETS 0.3
+VARIABLES H4BANALYSIS
+HFCLASSIFICATION HFSYST
+SAVE 
+
+#¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´><(((º>
+SELECTION resolved_2m_5pj
+INITIAL
+GRL
+GOODCALO
+TRIGDEC HLT_mu20_iloose_L1MU15 HLT_mu50
+MU_N 25000 == 2
+EL_N 25000 == 0
+TRIGMATCH 
+JETCLEAN LooseBad
+JET_N 20000 >= 5
+MV2C20_N -0.4434 >= 1
+MV2C20_N -0.4434 >= 2
+RECO::MT2 ALL
+#JETTRUTHMATCHING SMALLJETS 0.3
+VARIABLES H4BANALYSIS
+HFCLASSIFICATION HFSYST
+SAVE 
+
+
+################################################################################
+#¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´><(((º>
+SELECTION resolved_1e1m_3j
+INITIAL
+GRL
+GOODCALO
+TRIGDEC HLT_e24_lhmedium_L1EM18VH HLT_e60_lhmedium HLT_e120_lhloose HLT_mu20_iloose_L1MU15 HLT_mu50
+EL_N 25000 == 1
+MU_N 25000 == 1
+TRIGMATCH 
+JETCLEAN LooseBad
+JET_N 20000 == 3
+MV2C20_N -0.4434 >= 1
+MV2C20_N -0.4434 >= 2
+RECO::MT2 ALL
+#JETTRUTHMATCHING SMALLJETS 0.3
+VARIABLES H4BANALYSIS
+HFCLASSIFICATION HFSYST
+SAVE 
+
+#¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´><(((º>
+SELECTION resolved_1e1m_4j
+INITIAL
+GRL
+GOODCALO
+TRIGDEC HLT_e24_lhmedium_L1EM18VH HLT_e60_lhmedium HLT_e120_lhloose HLT_mu20_iloose_L1MU15 HLT_mu50
+EL_N 25000 == 1
+MU_N 25000 == 1
+TRIGMATCH 
+JETCLEAN LooseBad
+JET_N 20000 == 4
+MV2C20_N -0.4434 >= 1
+MV2C20_N -0.4434 >= 2
+RECO::MT2 ALL
+#JETTRUTHMATCHING SMALLJETS 0.3
+VARIABLES H4BANALYSIS
+HFCLASSIFICATION HFSYST
+SAVE 
+
+#¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´¯`·.¸¸.·´><(((º>
+SELECTION resolved_1e1m_5pj
+INITIAL
+GRL
+GOODCALO
+TRIGDEC HLT_e24_lhmedium_L1EM18VH HLT_e60_lhmedium HLT_e120_lhloose HLT_mu20_iloose_L1MU15 HLT_mu50
+EL_N 25000 == 1
+MU_N 25000 == 1
+TRIGMATCH 
+JETCLEAN LooseBad
+JET_N 20000 >= 5
+MV2C20_N -0.4434 >= 1
+MV2C20_N -0.4434 >= 2
+RECO::MT2 ALL
+#JETTRUTHMATCHING SMALLJETS 0.3
+VARIABLES H4BANALYSIS
+HFCLASSIFICATION HFSYST
+SAVE 

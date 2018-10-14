@@ -1,0 +1,47 @@
+# This makefile is parsed by shell scripts, so exercise caution in editing it
+# because it supports limited syntax and features.
+# https://twiki.cern.ch/twiki/bin/viewauth/Atlas/RootCore#Package_Makefile
+
+# package name:
+PACKAGE          = NNLOReweighter
+
+# the libraries to link with this one:
+PACKAGE_PRELOAD  = 
+
+# additional compilation flags to pass (not propagated to dependent packages):
+PACKAGE_CXXFLAGS = 
+
+# additional compilation flags to pass (propagated to dependent packages):
+PACKAGE_OBJFLAGS = 
+
+# additional linker flags to pass (for compiling the library):
+PACKAGE_LDFLAGS  = 
+
+# additional linker flags to pass (for compiling binaries):
+PACKAGE_BINFLAGS = 
+
+# additional linker flags to pass (propagated to client libraries):
+PACKAGE_LIBFLAGS = 
+
+# list of dependency packages:
+PACKAGE_DEP = 
+
+# list of packages to use if available, but which are not necessary:
+PACKAGE_TRYDEP   = 
+
+# list pattern of scripts to link directly to binary path:
+PACKAGE_SCRIPTS  = 
+
+# option to have pedantic compilation:
+PACKAGE_PEDANTIC = 1
+
+# option to turn off optimization (set to dict to do it only for dictionaries):
+PACKAGE_NOOPT    = 0
+
+# option to build no library (to be set if no source files are present):
+PACKAGE_NOCC     = 0
+
+# option to build a reflex dictionary:
+PACKAGE_REFLEX   = 0
+
+include $(ROOTCOREDIR)/Makefile-common

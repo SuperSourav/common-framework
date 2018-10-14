@@ -1,0 +1,135 @@
+2017-06-05 Nedaa Alexandra
+    * Added individual settings for each ttbar corrections weight 
+		* The code compiles, process all events but hangs due to NNLOrw 
+		* Commented out NNLOrw 
+		* Tagging TTHbbToolManager-00-00-16
+
+
+2017-05-26 Roger Caminal Armadans <roger.caminal.armadans@cern.ch>
+    * In Root/OfflineTRFFakes.cxx
+        * Remove loop over WPs since they are now inside TRFFakes.
+        * Add option to set b-tagging hypotheses to compute.
+
+2017-05-24 Luca Colasurdo <luca.colasurdo@cern.ch>
+	* Added the interface to the NNLOReweighter tool to the
+	OfflineTtbarCorrections
+	* not tagged yet
+
+2017-05-15 John Keller <jkeller@cern.ch>
+	* Add ChangeDSID to ttc reweighting
+
+2017-05-14 Nedaa Alexandra
+ * The function ChangeDSID is not fixed.
+ * Tagging TTHbbToolManager-00-00-13
+
+2017-05-11 Nedaa Alexandra
+  * Noticed that few changes where not propagated to the lates tag causing
+	confusion
+	* Tagging TTHbbToolManager-00-00-12 
+
+2017-05-09 John Keller <jkeller@cern.ch>
+	* Added ttc reweighting functionality to OfflineTtbarCorrections
+	
+2017-05-02 Nedaa Alexandra
+          * Changed the fakes streams to ejets_2015/2016_Loose
+					mujets_2015/2016_Loose
+					* Tagging TTHbbToolManager-00-00-10 
+2017-04-20 ckilby <callum.kilby@cern.ch>
+	        * tagging as TTHbbToolManager-00-00-08
+	
+2017-04-19 ckilby <callum.kilby@cern.ch>
+	        * Merged devbranch for using MCFakes functionality
+	        * going into tag TTHbbToolManager-00-00-08
+	
+2017-04-19 ckilby <callum.kilby@cern.ch>
+	        * Brought devbranch in line with trunk
+	        * going into branch TTHbbToolManager_2017_04_04_AddingMCFakes
+	
+2017-04-18 Roger Caminal Armadans <roger.caminal.armadans@cern.ch>
+    * Updating OfflineFakes tool (TTH-257)
+        * When use2016Prescaled flag enabled, proper configuration 
+        in SetupWeighter function.
+        * Before, had to be changed by hand.
+
+2017-04-11 Johnny Raine <johnny.raine@cern.ch>
+	* getting rid of printouts in OfflineTtbarCorrections, tidying indentations
+
+2017-04-04 Paul Glaysher <paul.glaysher@cern.ch>
+    * adding interface for ttbar reweighting tools, TTH-233.
+
+2017-04-04 Callum Kilby <callum.kilby@cern.ch?
+	* Included functionality for using MCFakes
+
+2017-03-27 Roger Caminal Armadans <roger.caminal.armadans@cern.ch>
+    * Looping over different configurations for TRFFakes
+
+2017-03-13 Johnny Raine <johnny.raine@cern.ch>
+	* Adding functionality for sorted jets for MVAVariables
+	* Use with SortN to take the first N mv2 ordered jets as btagged
+
+2017-03-01 Roger Caminal Armadans <roger.caminal.armadans@cern.ch>
+    * Add new OfflineTRFFakes class, as wrapper for new TRFFakes class
+    in new TRFFakes package.
+    * Moving TRFFakesClass to new package CustomTRF.
+    * Removing old TRFFakesClass and TRFFakesTool.
+    * Updating dependencies
+
+2017-02-22 Roger Caminal Armadans <roger.caminal.armadans@cern.ch>
+    * Change name of fakesTRFClass to TRFFakesClass
+    * Change name of Tool_TRFfakes to TRFFakesTool
+
+2017-02-22 Johnny Raine <johnny.raine@cern.ch>
+	* Adding two vectors to ToolManager to ensure tools are run in the order
+	they are added to the dictionary
+
+2017-02-21 Roger Caminal Armadans <roger.caminal.armadans@cern.ch>
+    * Updating OfflineFakes tool
+        * See https://its.cern.ch/jira/browse/TTH-216 for more info
+    * Adding Tool_TRF fakes and the  TRF class implementation.
+        * See https://its.cern.ch/jira/browse/TTH-213 for more info
+        * Adding data/ folder containing TRF efficiencies for H->2a->4b
+
+2017-02-06 Johnny Raine <johnny.raine@cern.ch>
+	* Creating DictBase class for other packages to use as the base for
+	their own dictionaries, to contain their tools and add them to the
+	level2 code
+
+2017-01-20 Michele Pinamonti <michele.pinamonti@gmail.com>
+	* Added OfflineFakes
+
+2016-11-15 Johnny Raine <johnny.raine@cern.ch>
+	* OfflineMVAVariables fix
+
+2016-11-10 Johnny Raine <johnny.raine@cern.ch>
+	* Fixing constructor bug in ToolBase
+	* Implementing interface for ToolDictionary classes
+		* No longer add tools to dictionary within ToolManager
+		* Instead use addToolToDict public member function
+
+2016-11-10 Johnny Raine <johnny.raine@cern.ch>
+	* Making ToolManager a singleton so that tools can be accessed from
+	other tools via the ToolManager
+	* Added bool to ToolBase for whether to allow tool being accessed
+	from other tools (via the ToolManager): default false
+	* Added MVAVariables implementation
+
+2016-11-08 Johnny Raine <johnny.raine@cern.ch>
+	* Fixing issues with virtual base class ToolBase
+	* Adding more documentation
+
+2016-10-27 Johnny Raine <johnny.raine@cern.ch>
+	* Switching to unordered maps
+
+2016-10-19 Johnny Raine <johnny.raine@cern.ch>
+	* Tools receive pointer to TTHbb::Event, not by reference
+
+2016-10-13 Johnny Raine <johnny.raine@cern.ch>
+	* Created base class for all tools to inherit from
+	* Created a manager class for interfacing with all the tools
+		* The idea is to add the tools to a dictionary which
+		can then be checked against the config to build a map
+		of tools which are applied in turn.
+		* Need to check about ordering of tools and if we
+		need to rework this somehow, as a map will be alphabetical
+		* Could simply set the names of tools that must run first
+		to _toolName

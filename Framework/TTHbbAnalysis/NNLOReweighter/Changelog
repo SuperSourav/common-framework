@@ -1,0 +1,58 @@
+07-04-17 Leonid Serkin <lserkin@cern.ch>
+        * updated some files (no change in results)
+	* Sherpa221 value in last bin of Top pT extended is 1.6 which is just
+	due to stat. fluctuations, probably need to extrapolate or fit, so
+	work in progress
+
+21-03-17Leonid Serkin <lserkin@cern.ch>
+        * added protection
+
+20-01-17Leonid Serkin <lserkin@cern.ch>
+        * trunk updated with reweighting for the latest ttbar samples (PP8,
+	Sherpa221, PP7...), added new root files (contain only Top pt, TTbar pt and Top pT
+	extended histograms)
+	* added more protection
+
+25-07-16 Leonid Serkin <lserkin@cern.ch>
+        * tag 00-00-02
+        * added protection in Mttbar histo
+        		
+
+14-07-16 Leonid Serkin <lserkin@cern.ch>
+        * added Mass(ttbar system) weights, use GetMttbarWeight(float m_ttbar)
+	where m_ttbar is in MeV and should be > 300 GeV ( in the unphysical
+	case of less, the weight is 1 ), works only for 410000 sample
+        * use published NNLO prediction for top pT for all samples
+        * inclusion of extended top pT reweighting function
+
+03-06-16 Michele Pinamonti, Leonid Serkin <michele.pinamonti@gmail.com>, <lserkin@cern.ch>
+        * tag 00-00-01
+        * fix Pow+Her root file
+        * inclusion of aMC@NLO+Pythia8
+        * fix path for when running on the grid (NB: don't specify the path when doing it!)
+        
+
+02-06-16 Benjamin Sowden <benjamin.sowden@cern.ch>
+        * fix unchecked pointer access when pointers may not be filled for
+        systematic histograms
+
+31-05-16 Michele Pinamonti <michele.pinamonti@gmail.com>
+        * systematics added: use GetTtbarAndTopPtWeight_topPtUp and GetTtbarAndTopPtWeight_ttbarPtUp as alternative weights
+
+27-05-16 Michele Pinamonti <michele.pinamonti@gmail.com>
+        * Reweighting to aMC@NLO+Herwig++ fixed (big change in ttbar pT!!)
+
+24-05-16 Michele Pinamonti <michele.pinamonti@gmail.com>
+        * PP8 fixed (and code updated to read the root file automatically)
+        * channel numbers for HT/MET sliced samples added
+
+13-05-16 Michele Pinamonti <michele.pinamonti@gmail.com>
+        * Protection for non-ttbar samples added
+
+09-05-16 Michele Pinamonti <michele.pinamonti@gmail.com>
+        * PP8 added
+        * Overflow bin of ttbar pT fixed
+
+09-05-16 Michele Pinamonti <michele.pinamonti@gmail.com>
+        * Initial import
+        * Current support for nominal ttbar (PP6) and alternative samples for systematics (PH++, aMCH++, Rad Hi/Lo)

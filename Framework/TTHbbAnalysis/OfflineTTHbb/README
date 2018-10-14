@@ -1,0 +1,23 @@
+# OfflineTTHbb
+
+## Introduction
+
+This is an offline L2 code created for use by those running over the output of TTHbbLeptonic ntuples/
+
+It is an interface to the tools built with the TTHbb EDM, and is completely configurable with a text file.
+
+The latest release of TTHbbAnalysis should be checked out for running with this package.
+
+## Usage
+
+To run the code simply do
+ * ttH-offline configuration.txt inputs.txt
+Or if you wish to change some of the settings in the command line
+ * ttH-offline configuration.txt inputs.txt -o SettingName paramater
+
+## Development
+
+The code is still under development and is no doubt missing your favourite feature or a lot of documentation.
+
+Please report bugs/feature requests to
+ * https://its.cern.ch/jira/projects/TTH/

@@ -1,0 +1,12 @@
+Samples	1l	2l	0_l	1l_fakes	1l_ftrig	1l_jer	2l_jer	0_lb 
+### Data15								
+data15_13TeV.AllYear.physics_Main.PhysCont.DAOD_TOPQ1.grp15_v01_p3388	Y	Y	N	Y	Y	Y	Y	N
+data15_13TeV.AllYear.physics_Main.PhysCont.DAOD_TOPQ4.grp15_v01_p3541_p3553	N	N	Y	N	N	N	N	Y
+								
+### Data16								
+data16_13TeV.AllYear.physics_Main.PhysCont.DAOD_TOPQ1.grp16_v01_p3388	Y	Y	N	Y	Y	Y	Y	N
+data16_13TeV.AllYear.physics_Main.PhysCont.DAOD_TOPQ4.grp16_v01_p3541_p3553	N	N	Y	N	N	N	N	Y
+								
+### Data17								
+data17_13TeV.AllYear.physics_Main.PhysCont.DAOD_TOPQ1.grp17_v01_p3388_p3402	Y	Y	N	Y	Y	Y	Y	N
+data17_13TeV.AllYear.physics_Main.PhysCont.DAOD_TOPQ4.grp17_v01_p3541_p3553	N	N	Y	N	N	N	N	Y

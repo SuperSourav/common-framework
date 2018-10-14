@@ -1,0 +1,262 @@
+
+################################################################################
+#                                                                              #
+# SELECTION CONFIGURATION                                                      #
+#                                                                              #
+# This is a TTHbbAnalysis configuration for the AnalysisTop utility top-xaod.  #
+#                                                                              #
+# https://gitlab.cern.ch/atlasHTop/TTHbbAnalysis                               #
+#                                                                              #
+# This file was automatically generated                                        #
+#                                                                              #
+################################################################################
+
+################################################################################
+#                                                                              #
+# PACKAGE LIBRARIES                                                            #
+#                                                                              #
+################################################################################
+
+LibraryNames libTopEventSelectionTools libTopEventReconstructionTools  libTTHbbLeptonic  libJetSubStructureUtils
+
+
+################################################################################
+#                                                                              #
+# OBJECT COLLECTIONS                                                           #
+#                                                                              #
+################################################################################
+
+ElectronCollectionName Electrons
+MuonCollectionName Muons
+TauCollectionName TauJets
+
+PhotonCollectionName None
+
+METCollectionName MET_Reference_AntiKt4EMTopo
+LooseMETCollectionName MET_Reference_AntiKt4EMTopo
+
+JetCollectionName AntiKt4EMTopoJets
+
+## options for large-R jets
+LargeJetCollectionName AntiKt10LCTopoTrimmedPtFrac5SmallR20Jets
+LargeJetSubstructure None
+
+# need to stick to the "old" CaloMass since it allows the top tagger to go to lower pT than the new one
+LargeRJESJMSConfig CaloMass
+
+# Jet reclustering
+UseRCJets True
+RCJetPt 200000.0
+UseVarRCJets False
+UseRCJetSubstructure True
+
+OverlapRemovalProcedure noTauJetOLR
+
+
+################################################################################
+#                                                                              #
+# TRUTH COLLECTIONS AND SETTINGS                                               #
+#                                                                              #
+################################################################################
+
+#TruthCollectionName None
+TruthCollectionName TruthParticles
+#TruthJetCollectionName None
+TruthJetCollectionName AntiKt4TruthWZJets
+TopPartonHistory False
+TruthBlockInfo False
+PDFInfo False
+#TopParticleLevel True
+MCGeneratorWeights Nominal
+
+
+################################################################################
+#                                                                              #
+# OBJECT LOADER AND OBJECT SELECTIONS                                          #
+#                                                                              #
+################################################################################
+
+ObjectSelectionName TTHbbLeptonicObjectLoader
+
+BTaggingWP MV2c10:FixedCutBEff_60 MV2c10:FixedCutBEff_70 MV2c10:FixedCutBEff_77 MV2c10:FixedCutBEff_85 MV2c10:FixedCutBEff_30 MV2c10:FixedCutBEff_50 MV2c10:FixedCutBEff_80 MV2c10:FixedCutBEff_90 MV2c10:Continuous
+
+ElectronID TightLH
+ElectronIDLoose MediumLH
+#ElectronIDLoose LooseAndBLayerLH
+MuonQuality Medium
+MuonQualityLoose Loose
+
+ElectronIsolation Gradient
+ElectronIsolationLoose Loose
+MuonIsolation Gradient
+MuonIsolationLoose Loose
+
+
+ElectronPt 10000
+MuonPt 10000
+JetPt 25000
+LargeRJetPt 200000
+LargeRJetEta 2.0
+
+TauJetConfigFile TTHbbLeptonic/tau_config.conf
+TauJetConfigFileLoose TTHbbLeptonic/tau_config.conf
+
+DoLoose Both
+DoTight False
+ApplyTightSFsInLooseTree True
+
+
+################################################################################
+#                                                                              #
+# EXPERIMENTAL SYSTEMATICS                                                     #
+#                                                                              #
+################################################################################
+
+
+Systematics Nominal
+
+JetUncertainties_NPModel CategoryReduction
+JetUncertainties_BunchSpacing 25ns
+JetJERSmearingModel Simple
+EgammaSystematicModel 1NP_v1
+LargeRJESUncertaintyConfig mass,Tau32WTA
+
+
+################################################################################
+#                                                                              #
+# OUTPUT                                                                       #
+#                                                                              #
+# This configuration uses event savers specialised for ttHbb.                  #
+#                                                                              #
+################################################################################
+
+OutputFilename out.root
+OutputFormat TTHbbLeptonicEventSaver
+OutputEvents SelectedEvents
+
+OutputFileSetAutoFlushZero True
+
+#NEvents 1000
+
+
+################################################################################
+#                                                                              #
+# PILEUP CONFIG                                                                #
+#                                                                              #
+################################################################################
+
+
+# MC16c pileup profile
+PRWConfigFiles_FS dev/AnalysisTop/PileupReweighting/user.iconnell.Top.PRW.MC16c.FS.v2/prw.merged.root
+PRWConfigFiles_AF dev/AnalysisTop/PileupReweighting/user.iconnell.Top.PRW.MC16c.AF.v2/prw.merged.root
+PRWCustomScaleFactor 1.0/1.03:1.0/0.99:1.0/1.07
+# full 2017 dataset (release 21, OflLumi-13TeV-010)
+PRWLumiCalcFiles GoodRunsLists/data17_13TeV/20180309/physics_25ns_JetHLT_Normal2017.lumicalc.OflLumi-13TeV-010.root
+
+
+###############################################################################
+#                                                                             #
+# Meta-data                                                                   #
+#                                                                             #
+###############################################################################
+
+UseAodMetaData True
+# the latter shouldn't be necessary anymore with p3388/p3390 samples or newer
+# IsAFII False
+
+
+###############################################################################
+#                                                                             #
+# Selections                                                                  #
+#                                                                             #
+###############################################################################
+
+
+########################
+### basic selection with mandatory cuts for reco level
+########################
+
+SUB BASIC
+INITIAL
+GRL
+GOODCALO
+PRIVTX
+RECO_LEVEL
+
+
+########################
+### definition of the data periods
+########################
+
+
+SUB period_2017
+RUN_NUMBER >= 325713
+
+
+########################
+### hadronic trigger and offline cuts for reco-level selections
+########################
+
+SUB HAD_2017
+. BASIC
+. period_2017
+TRIGDEC HLT_3j200 HLT_3j225 HLT_4j100 HLT_4j120 HLT_4j60_gsc100_boffperf_split HLT_4j60_gsc115_boffperf_split HLT_5j70_L14J15 HLT_5j85_L14J15 HLT_5j60_gsc85_boffperf_split HLT_5j60_gsc85_boffperf_split_L14J150ETA25 HLT_5j50_gsc70_boffperf_split HLT_5j50_gsc70_boffperf_split_L14J150ETA25 HLT_6j60_L14J15 HLT_6j70 HLT_6j70_L14J15 HLT_6j50_gsc70_boffperf_split HLT_6j50_gsc70_boffperf_split_L14J150ETA25 HLT_6j45_gsc60_boffperf_split HLT_6j45_gsc60_boffperf_split_L14J150ETA25 HLT_7j45_L14J15 HLT_7j25_gsc45_boffperf_split_L14J20 HLT_7j25_gsc45_boffperf_split_L14J150ETA25 HLT_10j40_L14J15 HLT_j175_gsc225_bmv2c1040_split HLT_j225_gsc275_bmv2c1070_split HLT_j225_gsc275_bmv2c1060_split HLT_j225_gsc300_bmv2c1077_split HLT_j225_gsc300_bmv2c1070_split HLT_j225_gsc360_bmv2c1085_split HLT_j225_gsc360_bmv2c1077_split HLT_j50_gsc65_bmv2c1040_split_3j50_gsc65_boffperf_split HLT_j55_gsc75_bmv2c1040_split_3j55_gsc75_boffperf_split HLT_j60_gsc85_bmv2c1050_split_3j60_gsc85_boffperf_split HLT_j150_gsc175_bmv2c1070_split_j45_gsc60_bmv2c1070_split HLT_j150_gsc175_bmv2c1060_split_j45_gsc60_bmv2c1060_split HLT_j110_gsc150_boffperf_split_2j35_gsc55_bmv2c1077_split_L1J85_3J30 HLT_j110_gsc150_boffperf_split_2j35_gsc55_bmv2c1070_split_L1J85_3J30 HLT_2j15_gsc35_bmv2c1050_split_2j15_gsc35_boffperf_split_L14J15.0ETA25 HLT_2j15_gsc35_bmv2c1040_split_2j15_gsc35_boffperf_split_L14J15.0ETA25 HLT_2j25_gsc45_bmv2c1060_split_2j25_gsc45_boffperf_split_L14J15.0ETA25 HLT_2j35_gsc55_bmv2c1070_split_2j35_gsc55_boffperf_split_L14J15.0ETA25 HLT_2j25_gsc45_bmv2c1050_split_2j25_gsc45_boffperf_split_L14J15.0ETA25 HLT_2j35_gsc55_bmv2c1060_split_2j35_gsc55_boffperf_split_L14J15.0ETA25 HLT_2j15_gsc35_bmv2c1060_split_3j15_gsc35_boffperf_split HLT_2j25_gsc45_bmv2c1070_split_3j25_gsc45_boffperf_split HLT_2j15_gsc35_bmv2c1050_split_3j15_gsc35_boffperf_split HLT_2j25_gsc45_bmv2c1060_split_3j25_gsc45_boffperf_split HLT_3j15_gsc35_bmv2c1070_split_j15_gsc35_boffperf_split_L14J15.0ETA25 HLT_4j15_gsc35_bmv2c1077_split_L14J15.0ETA25 HLT_2j15_gsc35_bmv2c1070_split_2j15_gsc35_bmv2c1085_split_L14J15.0ETA25 HLT_3j50_gsc65_bmv2c1077_split_L13J35.0ETA23
+EL_N_OR_MU_N 27000 == 0
+
+
+########################
+### Nbtag preselections
+########################
+
+SUB Nbtag_MV2c10
+JET_N_BTAG MV2c10:FixedCutBEff_85 >= 1
+JET_N_BTAG MV2c10:FixedCutBEff_85 >= 2
+
+
+########################
+### TTHbbAnalysis specific configurations
+########################
+
+
+###############
+### allhad
+###############
+
+SUB ttHbb_allhad_basic
+TTHBBCREATEEVENT
+TTHBBEDM
+JETHLTMATCH
+TTHBBTRUTHEDM
+#TTBARREWEIGHTING
+JETTRUTHMATCHING SMALLJETS 0.3
+TTHBBREGIONS
+#MVAVARS FixedCutBEff_60 FixedCutBEff_70 FixedCutBEff_77 FixedCutBEff_85 Sort4
+#MCFAKES
+
+
+########################
+### all hadronic selections
+########################
+
+SUB allhad_basic
+EL_N 10000 == 0
+MU_N 10000 == 0
+# at this point this selection is orthogonal to the others
+EL_N 27000 == 0
+EL_N_TIGHT 27000 == 0
+TRIGMATCH
+JETCLEAN LooseBad
+JET_N 25000 >= 1
+JET_N 25000 >= 2
+JET_N 25000 >= 3
+JET_N 25000 >= 4
+# Nbtag_MV2c10 or Nbtag_DL1 to be applied here (unless it's TRF mode)
+
+SELECTION allhad_2017_MV2c10
+. HAD_2017
+. allhad_basic
+. Nbtag_MV2c10
+. ttHbb_allhad_basic
+JETFLAVORPLOTS detailed
+SAVE
+

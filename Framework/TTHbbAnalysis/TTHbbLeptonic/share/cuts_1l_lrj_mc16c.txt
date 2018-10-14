@@ -1,0 +1,571 @@
+
+################################################################################
+#                                                                              #
+# SELECTION CONFIGURATION                                                      #
+#                                                                              #
+# This is a TTHbbAnalysis configuration for the AnalysisTop utility top-xaod.  #
+#                                                                              #
+# https://gitlab.cern.ch/atlasHTop/TTHbbAnalysis                               #
+#                                                                              #
+# This file was automatically generated                                        #
+#                                                                              #
+################################################################################
+
+################################################################################
+#                                                                              #
+# PACKAGE LIBRARIES                                                            #
+#                                                                              #
+################################################################################
+
+LibraryNames libTopEventSelectionTools libTopEventReconstructionTools  libTTHbbLeptonic  libJetSubStructureUtils
+
+
+################################################################################
+#                                                                              #
+# OBJECT COLLECTIONS                                                           #
+#                                                                              #
+################################################################################
+
+ElectronCollectionName Electrons
+MuonCollectionName Muons
+TauCollectionName TauJets
+
+PhotonCollectionName None
+
+METCollectionName MET_Reference_AntiKt4EMTopo
+LooseMETCollectionName MET_Reference_AntiKt4EMTopo
+
+JetCollectionName AntiKt4EMTopoJets
+
+## options for large-R jets
+LargeJetCollectionName AntiKt10LCTopoTrimmedPtFrac5SmallR20Jets
+LargeJetSubstructure None
+
+# need to stick to the "old" CaloMass since it allows the top tagger to go to lower pT than the new one
+LargeRJESJMSConfig CaloMass
+
+# Jet reclustering
+UseRCJets True
+RCJetPt 200000.0
+UseVarRCJets False
+UseRCJetSubstructure True
+
+OverlapRemovalProcedure noTauJetOLR
+
+
+################################################################################
+#                                                                              #
+# TRUTH COLLECTIONS AND SETTINGS                                               #
+#                                                                              #
+################################################################################
+
+#TruthCollectionName None
+TruthCollectionName TruthParticles
+#TruthJetCollectionName None
+TruthJetCollectionName AntiKt4TruthWZJets
+TopPartonHistory False
+TruthBlockInfo False
+PDFInfo False
+#TopParticleLevel True
+MCGeneratorWeights Nominal
+
+
+################################################################################
+#                                                                              #
+# OBJECT LOADER AND OBJECT SELECTIONS                                          #
+#                                                                              #
+################################################################################
+
+ObjectSelectionName TTHbbLeptonicObjectLoader
+
+BTaggingWP MV2c10:FixedCutBEff_60 MV2c10:FixedCutBEff_70 MV2c10:FixedCutBEff_77 MV2c10:FixedCutBEff_85 MV2c10:FixedCutBEff_30 MV2c10:FixedCutBEff_50 MV2c10:FixedCutBEff_80 MV2c10:FixedCutBEff_90 MV2c10:Continuous DL1:FixedCutBEff_60 DL1:FixedCutBEff_70 DL1:FixedCutBEff_77 DL1:FixedCutBEff_85 DL1:FixedCutBEff_30 DL1:FixedCutBEff_50 DL1:FixedCutBEff_80 DL1:FixedCutBEff_90 DL1:Continuous
+
+ElectronID TightLH
+ElectronIDLoose MediumLH
+#ElectronIDLoose LooseAndBLayerLH
+MuonQuality Medium
+MuonQualityLoose Loose
+
+ElectronIsolation Gradient
+ElectronIsolationLoose Loose
+MuonIsolation Gradient
+MuonIsolationLoose Loose
+
+
+ElectronPt 10000
+MuonPt 10000
+JetPt 25000
+LargeRJetPt 200000
+LargeRJetEta 2.0
+
+TauJetConfigFile TTHbbLeptonic/tau_config.conf
+TauJetConfigFileLoose TTHbbLeptonic/tau_config.conf
+
+DoLoose Both
+DoTight False
+ApplyTightSFsInLooseTree True
+
+
+################################################################################
+#                                                                              #
+# EXPERIMENTAL SYSTEMATICS                                                     #
+#                                                                              #
+################################################################################
+
+
+Systematics AllLargeRJets
+
+JetUncertainties_NPModel CategoryReduction
+JetUncertainties_BunchSpacing 25ns
+JetJERSmearingModel Simple
+EgammaSystematicModel 1NP_v1
+LargeRJESUncertaintyConfig mass,Tau32WTA
+
+
+################################################################################
+#                                                                              #
+# OUTPUT                                                                       #
+#                                                                              #
+# This configuration uses event savers specialised for ttHbb.                  #
+#                                                                              #
+################################################################################
+
+OutputFilename out.root
+OutputFormat TTHbbLeptonicEventSaver
+OutputEvents SelectedEvents
+
+OutputFileSetAutoFlushZero True
+
+#NEvents 1000
+
+
+################################################################################
+#                                                                              #
+# PILEUP CONFIG                                                                #
+#                                                                              #
+################################################################################
+
+
+# MC16c pileup profile
+PRWConfigFiles_FS dev/AnalysisTop/PileupReweighting/user.iconnell.Top.PRW.MC16c.FS.v2/prw.merged.root
+PRWConfigFiles_AF dev/AnalysisTop/PileupReweighting/user.iconnell.Top.PRW.MC16c.AF.v2/prw.merged.root
+PRWCustomScaleFactor 1.0/1.03:1.0/0.99:1.0/1.07
+# full 2017 dataset (release 21, OflLumi-13TeV-010)
+PRWLumiCalcFiles GoodRunsLists/data17_13TeV/20180309/physics_25ns_Triggerno17e33prim.lumicalc.OflLumi-13TeV-010.root
+
+
+###############################################################################
+#                                                                             #
+# Meta-data                                                                   #
+#                                                                             #
+###############################################################################
+
+UseAodMetaData True
+# the latter shouldn't be necessary anymore with p3388/p3390 samples or newer
+# IsAFII False
+
+
+###############################################################################
+#                                                                             #
+# Selections                                                                  #
+#                                                                             #
+###############################################################################
+
+
+########################
+### basic selection with mandatory cuts for reco level
+########################
+
+SUB BASIC
+INITIAL
+GRL
+GOODCALO
+PRIVTX
+RECO_LEVEL
+
+
+########################
+### definition of the data periods
+########################
+
+
+SUB period_2017
+RUN_NUMBER >= 325713
+
+
+########################
+### lepton trigger and offline cuts for reco-level selections
+########################
+
+SUB EL_2017
+. BASIC
+. period_2017
+TRIGDEC HLT_e26_lhtight_nod0_ivarloose HLT_e60_lhmedium_nod0
+EL_N 27000 >= 1
+
+SUB MU_2017
+. BASIC
+. period_2017
+TRIGDEC HLT_mu26_ivarmedium HLT_mu50 HLT_mu60_0eta105_msonly
+MU_N 27000 >= 1
+
+SUB EM_2017
+. BASIC
+. period_2017
+TRIGDEC HLT_e26_lhtight_nod0_ivarloose HLT_e60_lhmedium_nod0 HLT_mu26_ivarmedium HLT_mu50 HLT_mu60_0eta105_msonly
+EL_N_OR_MU_N 27000 >= 1
+
+
+########################
+### Nbtag preselections
+########################
+
+SUB Nbtag_MV2c10
+JET_N_BTAG MV2c10:FixedCutBEff_85 >= 1
+JET_N_BTAG MV2c10:FixedCutBEff_85 >= 2
+
+SUB Nbtag_DL1
+JET_N_BTAG DL1:FixedCutBEff_85 >= 1
+JET_N_BTAG DL1:FixedCutBEff_85 >= 2
+
+
+########################
+### TTHbbAnalysis specific configurations
+########################
+
+
+###############
+### l+jets
+###############
+
+SUB SemilepBasic
+TTHBBCREATEEVENT
+TTHBBEDM
+
+TTHBBTRUTHEDM
+TTBARREWEIGHTING
+JETTRUTHMATCHING SMALLJETS 0.3
+
+TTHBBREGIONS
+
+MVAVARS FixedCutBEff_85 Sort4
+
+
+SUB SemilepReco
+NEUTRINO
+TTHSEMILEPRECO Strategy:b4l4 BTag:85 Region:SemilepRegions_signalRegions=601 VarOption:6ji4bi XMLFlag:6ji4bi_b4l4_btag85 Flag:TTHReco
+TTHSEMILEPRECO Strategy:b4l4 BTag:85 Region:SemilepRegions_signalRegions=501 VarOption:5je4bi XMLFlag:5je4bi_b4l4_btag85 Flag:TTHReco
+TTHSEMILEPLHD
+
+SUB SemilepClass
+TTHSEMILEPCLASSBDT Strategy:withRecob4l4_withLL BTag:85 Region:SemilepRegions_signalRegions=601 VarOption:6ji4bi XMLFlag:6j_signalRegions601_withRecob4l4_withLL Flag:TTHClassBDTOutput_inclusive RecoFlag:TTHReco
+TTHSEMILEPCLASSBDT Strategy:withRecob4l4_withLL BTag:85 Region:SemilepRegions_optionE=601 VarOption:6ji4bi XMLFlag:6j_optionE601_withRecob4l4_withLL Flag:TTHClassBDTOutput RecoFlag:TTHReco
+TTHSEMILEPCLASSBDT Strategy:withRecob4l4_withLL BTag:85 Region:SemilepRegions_optionE=602 VarOption:6ji4bi XMLFlag:6j_optionE602_withRecob4l4_withLL Flag:TTHClassBDTOutput RecoFlag:TTHReco
+TTHSEMILEPCLASSBDT Strategy:withRecob4l4_withLL BTag:85 Region:SemilepRegions_optionE=603 VarOption:6ji4bi XMLFlag:6j_optionE603_withRecob4l4_withLL Flag:TTHClassBDTOutput RecoFlag:TTHReco
+TTHSEMILEPCLASSBDT Strategy:withRecob4l4_withLL BTag:85 Region:SemilepRegions_optionE=604 VarOption:6ji4bi XMLFlag:6j_optionE604_withRecob4l4_withLL Flag:TTHClassBDTOutput RecoFlag:TTHReco
+TTHSEMILEPCLASSBDT Strategy:withRecob4l4_withLL BTag:85 Region:SemilepRegions_optionE=605 VarOption:6ji4bi XMLFlag:6j_optionE605_withRecob4l4_withLL Flag:TTHClassBDTOutput RecoFlag:TTHReco
+
+TTHSEMILEPCLASSBDT Strategy:withRecob4l4_withLL BTag:85 Region:SemilepRegions_signalRegions=501 VarOption:5je4bi XMLFlag:5j_signalRegions501_withRecob4l4_withLL Flag:TTHClassBDTOutput_inclusive RecoFlag:TTHReco
+TTHSEMILEPCLASSBDT Strategy:withRecob4l4_withLL BTag:85 Region:SemilepRegions_optionH=501 VarOption:5je4bi XMLFlag:5j_optionH501_withRecob4l4_withLL Flag:TTHClassBDTOutput RecoFlag:TTHReco
+TTHSEMILEPCLASSBDT Strategy:withRecob4l4_withLL BTag:85 Region:SemilepRegions_optionH=502 VarOption:5je4bi XMLFlag:5j_optionH502_withRecob4l4_withLL Flag:TTHClassBDTOutput RecoFlag:TTHReco
+TTHSEMILEPCLASSBDT Strategy:withRecob4l4_withLL BTag:85 Region:SemilepRegions_optionH=503 VarOption:5je4bi XMLFlag:5j_optionH503_withRecob4l4_withLL Flag:TTHClassBDTOutput RecoFlag:TTHReco
+TTHSEMILEPCLASSBDT Strategy:withRecob4l4_withLL BTag:85 Region:SemilepRegions_optionH=504 VarOption:5je4bi XMLFlag:5j_optionH504_withRecob4l4_withLL Flag:TTHClassBDTOutput RecoFlag:TTHReco
+
+
+TTHSEMILEPCLASSBDT Strategy:withRecob4l4_withLL_withBTag BTag:85 Region:SemilepRegions_signalRegions=601 VarOption:6ji4bi XMLFlag:6j_signalRegions601_withRecob4l4_withLL_withBTag Flag:TTHClassBDTOutput_withBTag_inclusive RecoFlag:TTHReco
+TTHSEMILEPCLASSBDT Strategy:withRecob4l4_withLL_withBTag BTag:85 Region:SemilepRegions_optionE=601 VarOption:6ji4bi XMLFlag:6j_optionE601_withRecob4l4_withLL_withBTag Flag:TTHClassBDTOutput_withBTag RecoFlag:TTHReco
+TTHSEMILEPCLASSBDT Strategy:withRecob4l4_withLL_withBTag BTag:85 Region:SemilepRegions_optionE=602 VarOption:6ji4bi XMLFlag:6j_optionE602_withRecob4l4_withLL_withBTag Flag:TTHClassBDTOutput_withBTag RecoFlag:TTHReco
+TTHSEMILEPCLASSBDT Strategy:withRecob4l4_withLL_withBTag BTag:85 Region:SemilepRegions_optionE=603 VarOption:6ji4bi XMLFlag:6j_optionE603_withRecob4l4_withLL_withBTag Flag:TTHClassBDTOutput_withBTag RecoFlag:TTHReco
+TTHSEMILEPCLASSBDT Strategy:withRecob4l4_withLL_withBTag BTag:85 Region:SemilepRegions_optionE=604 VarOption:6ji4bi XMLFlag:6j_optionE604_withRecob4l4_withLL_withBTag Flag:TTHClassBDTOutput_withBTag RecoFlag:TTHReco
+TTHSEMILEPCLASSBDT Strategy:withRecob4l4_withLL_withBTag BTag:85 Region:SemilepRegions_optionE=605 VarOption:6ji4bi XMLFlag:6j_optionE605_withRecob4l4_withLL_withBTag Flag:TTHClassBDTOutput_withBTag RecoFlag:TTHReco
+
+TTHSEMILEPCLASSBDT Strategy:withRecob4l4_withLL_withBTag BTag:85 Region:SemilepRegions_signalRegions=501 VarOption:5je4bi XMLFlag:5j_signalRegions501_withRecob4l4_withLL_withBTag Flag:TTHClassBDTOutput_withBTag_inclusive RecoFlag:TTHReco
+TTHSEMILEPCLASSBDT Strategy:withRecob4l4_withLL_withBTag BTag:85 Region:SemilepRegions_optionH=501 VarOption:5je4bi XMLFlag:5j_optionH501_withRecob4l4_withLL_withBTag Flag:TTHClassBDTOutput_withBTag RecoFlag:TTHReco
+TTHSEMILEPCLASSBDT Strategy:withRecob4l4_withLL_withBTag BTag:85 Region:SemilepRegions_optionH=502 VarOption:5je4bi XMLFlag:5j_optionH502_withRecob4l4_withLL_withBTag Flag:TTHClassBDTOutput_withBTag RecoFlag:TTHReco
+TTHSEMILEPCLASSBDT Strategy:withRecob4l4_withLL_withBTag BTag:85 Region:SemilepRegions_optionH=503 VarOption:5je4bi XMLFlag:5j_optionH503_withRecob4l4_withLL_withBTag Flag:TTHClassBDTOutput_withBTag RecoFlag:TTHReco
+TTHSEMILEPCLASSBDT Strategy:withRecob4l4_withLL_withBTag BTag:85 Region:SemilepRegions_optionH=504 VarOption:5je4bi XMLFlag:5j_optionH504_withRecob4l4_withLL_withBTag Flag:TTHClassBDTOutput_withBTag RecoFlag:TTHReco
+
+TTHSEMILEPCLASSBDT Strategy:reduced_inclusive BTag:85 Region:SemilepRegions_signalRegions=601 VarOption:6ji4bi XMLFlag:6j_signalRegions601_withReco_withBTag_15_0511 Flag:ClassifBDTOutput_inclusive_withBTag_new RecoFlag:TTHReco
+TTHSEMILEPCLASSBDT Strategy:reduced_inclusive_nojet5 BTag:85 Region:SemilepRegions_signalRegions=601 VarOption:6ji4bi XMLFlag:6j_signalRegions601_withReco_withBTag_14noptjet5 Flag:ClassifBDTOutput_inclusive_withBTag_new_nopt5 RecoFlag:TTHReco
+TTHSEMILEPCLASSBDT Strategy:reduced BTag:85 Region:SemilepRegions_optionE=601 VarOption:6ji4bi XMLFlag:6j_default601_withReco_7 Flag:ClassifBDTOutput_NewUPR RecoFlag:TTHReco
+
+TTHSEMILEPCLASSBDT Strategy:reduced_inclusive BTag:85 Region:SemilepRegions_signalRegions=501 VarOption:5je4bi XMLFlag:5j_signalRegions501_withReco_withBTag_15_op Flag:ClassifBDTOutput_inclusive_withBTag_new RecoFlag:TTHReco
+TTHSEMILEPCLASSBDT Strategy:reduced BTag:85 Region:SemilepRegions_optionH=501 VarOption:5je4bi XMLFlag:5j_default501_withReco_11_9 Flag:ClassifBDTOutput_NewUPR RecoFlag:TTHReco
+
+TTHSEMILEPCLASSBDT Strategy:btagOnly1 BTag:85 Region:6ji4bi VarOption:6ji4bi XMLFlag:6ji4bi_btagOnly1_btag85 Flag:TTHClassBDTOutput_btagOnly1 RecoFlag:TTHReco
+TTHSEMILEPCLASSBDT Strategy:btagOnly1 BTag:85 Region:SemilepRegions_optionE=604 VarOption:6ji4bi XMLFlag:6ji4bi_btagOnly1_btag85 Flag:TTHClassBDTOutput_btagOnly1 RecoFlag:TTHReco
+
+TTHMULTICLASSBDT Strategy:ICHEP BTag:85 Region:5ji3bi VarOption:5je3bi85_01pt XMLFlag:5je3bi85_01pt Flag:TTHMultiClass;ttH;ttb;ttc;ttl
+TTHMULTICLASSBDT Strategy:ICHEP BTag:85 Region:6ji3bi VarOption:6ji3bi85_01mv XMLFlag:6ji3bi85_01mv Flag:TTHMultiClass;ttH;ttb;ttc;ttl
+
+
+#SUB Hplus
+#HplusDiscriminant 200 225 250 275 300 350 400 500 600 700 800 900 1000 1200 1400 1600 1800 2000
+#HplusBDT Semilep
+
+
+SUB ttHbb_ljets_basic
+. SemilepBasic
+. SemilepReco
+. SemilepClass
+
+#. Hplus
+
+
+###############
+### boosted
+###############
+
+SUB BoostedBasic
+TTHBBCREATEEVENT
+TTHBBTRUTHEDM
+TTBARREWEIGHTING
+JETTRUTHMATCHING LARGEJETS 1.0
+MCFAKES
+TTHBBEDM
+TTHBBLARGEJETEDM
+TTHBBREGIONS
+
+MVAVARS FixedCutBEff_85 Sort4
+BOOSTEDSELECTION
+TTHBOOSTEDBDT Strategy:RCJETS BTag:85 XMLFlag:_RC Flag:TTHBOOSTEDBDTOutput_RC
+
+
+########################
+### e+jets selections
+########################
+
+SUB ejets_basic
+EL_N 10000 >= 1
+EL_N 10000 == 1
+MU_N 10000 == 0
+# at this point this selection is orthogonal to the others
+EL_N 27000 == 1
+EL_N_TIGHT 27000 == 1
+TRIGMATCH
+JETCLEAN LooseBad
+JET_N 25000 >= 1
+JET_N 25000 >= 2
+JET_N 25000 >= 3
+JET_N 25000 >= 4
+# Nbtag_MV2c10 or Nbtag_DL1 to be applied here (unless it's TRF mode)
+
+SELECTION ejets_2017_MV2c10
+. EL_2017
+. ejets_basic
+. Nbtag_MV2c10
+. ttHbb_ljets_basic
+JETFLAVORPLOTS detailed
+SAVE
+
+SELECTION ejets_2017_DL1
+. EL_2017
+. ejets_basic
+. Nbtag_DL1
+. ttHbb_ljets_basic
+JETFLAVORPLOTS detailed
+SAVE
+
+
+########################
+### mu+jets selections
+########################
+
+SUB mujets_basic
+MU_N 10000 >= 1
+MU_N 10000 == 1
+EL_N 10000 == 0
+# at this point this selection is orthogonal to the others
+MU_N 27000 == 1
+MU_N_TIGHT 27000 == 1
+TRIGMATCH
+JETCLEAN LooseBad
+JET_N 25000 >= 1
+JET_N 25000 >= 2
+JET_N 25000 >= 3
+JET_N 25000 >= 4
+# Nbtag_MV2c10 or Nbtag_DL1 to be applied here (unless it's TRF mode)
+
+SELECTION mujets_2017_MV2c10
+. MU_2017
+. mujets_basic
+. Nbtag_MV2c10
+. ttHbb_ljets_basic
+JETFLAVORPLOTS detailed
+SAVE
+
+SELECTION mujets_2017_DL1
+. MU_2017
+. mujets_basic
+. Nbtag_DL1
+. ttHbb_ljets_basic
+JETFLAVORPLOTS detailed
+SAVE
+
+
+###############################
+### boosted e+jets selections
+###############################
+
+SUB boosted_ejets_basic
+EL_N 10000 >= 1
+EL_N 10000 == 1
+MU_N 10000 == 0
+# at this point this selection is orthogonal to the others
+EL_N 27000 == 1
+EL_N_TIGHT 27000 == 1
+TRIGMATCH
+JETCLEAN LooseBad
+LJET_N 200000 >= 1
+JET_N 25000 >= 1
+JET_N 25000 >= 2
+JET_N 25000 >= 3
+# Nbtag_MV2c10 or Nbtag_DL1 to be applied here (unless it's TRF mode)
+
+SELECTION boosted_ejets_2017_MV2c10
+. EL_2017
+. boosted_ejets_basic
+. Nbtag_MV2c10
+. BoostedBasic
+JETFLAVORPLOTS detailed
+SAVE
+
+SELECTION boosted_ejets_2017_DL1
+. EL_2017
+. boosted_ejets_basic
+. Nbtag_DL1
+. BoostedBasic
+JETFLAVORPLOTS detailed
+SAVE
+
+
+###############################
+### boosted mu+jets selections
+###############################
+
+SUB boosted_mujets_basic
+MU_N 10000 >= 1
+MU_N 10000 == 1
+EL_N 10000 == 0
+# at this point this selection is orthogonal to the others
+MU_N 27000 == 1
+MU_N_TIGHT 27000 == 1
+TRIGMATCH
+JETCLEAN LooseBad
+LJET_N 200000 >= 1
+JET_N 25000 >= 1
+JET_N 25000 >= 2
+JET_N 25000 >= 3
+# Nbtag_MV2c10 or Nbtag_DL1 to be applied here (unless it's TRF mode)
+
+SELECTION boosted_mujets_2017_MV2c10
+. MU_2017
+. boosted_mujets_basic
+. Nbtag_MV2c10
+. BoostedBasic
+JETFLAVORPLOTS detailed
+SAVE
+
+SELECTION boosted_mujets_2017_DL1
+. MU_2017
+. boosted_mujets_basic
+. Nbtag_DL1
+. BoostedBasic
+JETFLAVORPLOTS detailed
+SAVE
+
+
+########################
+### ee selections
+########################
+
+SUB ee_basic
+EL_N 10000 >= 2
+EL_N 10000 == 2
+MU_N 10000 == 0
+# at this point this selection is orthogonal to the others
+EL_N 27000 >= 1
+EL_N 10000 >= 2
+EL_N 10000 == 2
+EL_N_TIGHT 15000 == 2
+TRIGMATCH
+JETCLEAN LooseBad
+JET_N 25000 >= 1
+JET_N 25000 >= 2
+OS
+MLL > 15000
+MLLWIN 83000 99000
+# Nbtag_MV2c10 or Nbtag_DL1 to be applied here (unless it's TRF mode)
+
+SELECTION ee_2017_MV2c10
+. EL_2017
+. ee_basic
+. Nbtag_MV2c10
+
+SELECTION ee_2017_DL1
+. EL_2017
+. ee_basic
+. Nbtag_DL1
+
+
+########################
+### mumu selections
+########################
+
+SUB mumu_basic
+MU_N 10000 >= 2
+MU_N 10000 == 2
+EL_N 10000 == 0
+# at this point this selection is orthogonal to the others
+MU_N 27000 >= 1
+MU_N_TIGHT 10000 == 2
+TRIGMATCH
+JETCLEAN LooseBad
+JET_N 25000 >= 1
+JET_N 25000 >= 2
+OS
+MLL > 15000
+MLLWIN 83000 99000
+# Nbtag_MV2c10 or Nbtag_DL1 to be applied here (unless it's TRF mode)
+
+SELECTION mumu_2017_MV2c10
+. MU_2017
+. mumu_basic
+. Nbtag_MV2c10
+
+SELECTION mumu_2017_DL1
+. MU_2017
+. mumu_basic
+. Nbtag_DL1
+
+
+########################
+### emu selections
+########################
+
+SUB emu_basic
+EL_N 10000 >= 1
+MU_N 10000 >= 1
+EL_N 10000 == 1
+MU_N 10000 == 1
+# at this point this selection is orthogonal to the others
+EL_N_OR_MU_N 27000 >= 1
+EL_N_TIGHT 10000 == 1
+MU_N_TIGHT 10000 == 1
+TRIGMATCH
+JETCLEAN LooseBad
+JET_N 25000 >= 1
+JET_N 25000 >= 2
+OS
+# Nbtag_MV2c10 or Nbtag_DL1 to be applied here (unless it's TRF mode)
+
+SELECTION emu_2017_MV2c10
+. EM_2017
+. emu_basic
+. Nbtag_MV2c10
+
+SELECTION emu_2017_DL1
+. EM_2017
+. emu_basic
+. Nbtag_DL1
+

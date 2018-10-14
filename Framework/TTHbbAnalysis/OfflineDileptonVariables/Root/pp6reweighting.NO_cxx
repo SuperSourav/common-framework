@@ -1,0 +1,113 @@
+#include "DileptonVariables/pp6reweighting.h"
+#include "TTHbbToolManager/ToolManager.h"
+#include "TTHbbObjects/TTHbbUtils.h"
+
+//#include "TTHbbConfiguration/GlobalConfiguration.h"
+
+#include <memory>
+
+namespace TTHbb{
+
+  pp6reweighting::pp6reweighting() : m_ttbbSyst(0), m_ttbarNNLO(0)
+  {
+    
+    //auto* config = TTHbb::GlobalConfiguration::get();
+    
+  }
+
+  pp6reweighting::~pp6reweighting(){
+    if(m_ttbbSyst){
+      delete m_ttbbSyst;
+    }
+    
+    if(m_ttbarNNLO){
+      delete m_ttbarNNLO;
+    }
+  }
+  
+
+  void pp6reweighting::initialise(){
+    m_ttbbNLONormFileName="$ROOTCOREBIN/data/IFAEReweightingTools/ttbbNormRw.root";
+    m_ttbbNLOShapeFileName="$ROOTCOREBIN/data/IFAEReweightingTools/ttbbShapeRw.root";
+
+    m_ttbarHFweights.push_back("ttbb_Nominal_weight");
+    m_ttbarHFweights.push_back("ttbb_CSS_KIN_weight");
+    m_ttbarHFweights.push_back("ttbb_MSTW_weight");
+    m_ttbarHFweights.push_back("ttbb_NNPDF_weight");
+    m_ttbarHFweights.push_back("ttbb_Q_CMMPS_weight");
+    m_ttbarHFweights.push_back("ttbb_glosoft_weight");
+    m_ttbarHFweights.push_back("ttbb_defaultX05_weight");
+    m_ttbarHFweights.push_back("ttbb_defaultX2_weight");
+    m_ttbarHFweights.push_back("ttbb_MPIup_weight");
+    m_ttbarHFweights.push_back("ttbb_MPIdown_weight");
+    m_ttbarHFweights.push_back("ttbb_MPIfactor_weight");
+    m_ttbarHFweights.push_back("ttbb_aMcAtNloHpp_weight");
+    m_ttbarHFweights.push_back("ttbb_aMcAtNloPy8_weight");
+  }
+
+  void pp6reweighting::apply(TTHbb::Event* event){
+    nnloWeights(event);
+    ttbbWeights(event);
+  }
+
+
+  void pp6reweighting::nnloWeights(TTHbb::Event* event){
+
+    if(event->m_info->mcChannelNumber == 410121 || event->m_info->mcChannelNumber ==410009){
+      if(!m_ttbarNNLO){
+	m_ttbarNNLO = new NNLOReweighter(event->m_info->mcChannelNumber);
+	m_ttbarNNLO->Init();
+      }
+      
+      float ttbar_pt = event->floatVariable("truth_ttbar_pt");
+      float top_pt = event->floatVariable("truth_top_pt");
+      float nnlo_ttbartopptweight = m_ttbarNNLO->GetTtbarAndTopPtWeight(ttbar_pt, top_pt);
+    
+      //weightData->addWeight("NNLO_weight_ttbartoppt", nnlo_ttbartopptweight);
+      event->floatVariable("weight_ttbartoppt_NNLO") = nnlo_ttbartopptweight;
+    }
+
+  }
+
+  void pp6reweighting::ttbbWeights(TTHbb::Event* event){
+
+    if(event->m_info->mcChannelNumber == 410121 || event->m_info->mcChannelNumber ==410009){
+      int hfDSID = 410000;
+      if(!m_ttbbSyst){
+	m_ttbbSyst = new ttbbNLO_syst(std::to_string(hfDSID), m_ttbbNLONormFileName, m_ttbbNLOShapeFileName);
+	m_ttbbSyst->Init();
+      }
+
+      std::map<std::string,float> ttbbweights;
+      HFSystDataMembers HFData;
+      HFData.HF_Classification = event->intVariable("HF_Classification");
+      HFData.q1_pt = event->floatVariable("HFClassification_q1_pt");
+      HFData.q1_eta = event->floatVariable("HFClassification_q1_eta");
+      HFData.qq_pt = event->floatVariable("HFClassification_qq_pt");
+      HFData.qq_dr = event->floatVariable("HFClassification_qq_dr");
+      HFData.top_pt = event->floatVariable("truth_top_pt")/1000.;
+      HFData.ttbar_pt = event->floatVariable("truth_ttbar_pt")/1000.;
+
+      ttbbweights=m_ttbbSyst->GetttHFWeights(&HFData);
+    
+  
+      for(auto sw : m_ttbarHFweights){
+
+	float ttbbweight = 1.;
+
+	if(m_ttbbSyst){
+	  std::map<std::string,float>::iterator iter = ttbbweights.find(sw);
+	  if(iter == ttbbweights.end()){
+	    std::cout << "WARNING EventWeightSetter could not find TTBarHF weight " << sw << std::endl;
+	  }
+	  else{
+	    ttbbweight=iter->second;
+	  }
+	}
+
+	//weightData->addWeight("ttHFICHEP_"+sw,ttbbweight);
+	event->floatVariable("weight_ICHEP_"+sw) = ttbbweight;
+      }
+    }
+  }
+}

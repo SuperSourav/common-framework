@@ -1,0 +1,52 @@
+float HT_jets
+float HT_all
+float mll
+float mtw
+float mJSum
+
+int nBTags_MV2c10_60
+int nBTags_MV2c10_70
+int nBTags_MV2c10_77
+int nBTags_MV2c10_85
+int nBTags_DL1_60
+int nBTags_DL1_70
+int nBTags_DL1_77
+int nBTags_DL1_85
+int nJets
+int nRCJets
+int lepFlavChannel
+
+char ejets_2015_MV2c10
+char ejets_2016_MV2c10
+char ejets_2017_MV2c10
+char mujets_2015_MV2c10
+char mujets_2016_MV2c10
+char mujets_2017_MV2c10
+char ee_2015_MV2c10
+char ee_2016_MV2c10
+char ee_2017_MV2c10
+char mumu_2015_MV2c10
+char mumu_2016_MV2c10
+char mumu_2017_MV2c10
+char emu_2015_MV2c10
+char emu_2016_MV2c10
+char emu_2017_MV2c10
+
+electron char el_isTight
+electron char el_trigMatch_HLT_e120_lhloose
+electron char el_trigMatch_HLT_e24_lhmedium_L1EM20VH
+electron char el_trigMatch_HLT_e60_lhmedium
+electron char el_trigMatch_HLT_e140_lhloose_nod0
+electron char el_trigMatch_HLT_e60_lhmedium_nod0
+electron char el_trigMatch_HLT_e26_lhtight_nod0_ivarloose
+
+muon char mu_isTight
+muon char mu_trigMatch_HLT_mu20_iloose_L1MU15
+muon char mu_trigMatch_HLT_mu26_ivarmedium
+muon char mu_trigMatch_HLT_mu50
+muon char mu_trigMatch_HLT_mu60_0eta105_msonly
+
+rcjet float rcjet_pt
+rcjet float rcjet_eta
+rcjet float rcjet_phi
+rcjet float rcjet_e

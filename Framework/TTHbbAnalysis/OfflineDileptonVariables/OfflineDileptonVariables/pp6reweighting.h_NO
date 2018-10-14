@@ -1,0 +1,39 @@
+#ifndef _TTHBB_PP6REWEIGHTER_H_
+#define _TTHBB_PP6REWEIGHTER_H_
+
+#include "TTHbbToolManager/ToolBase.h"
+#include <string>
+#include <vector>
+
+#include "NNLOReweighter/NNLOReweighter.h"
+#include "IFAEReweightingTools/ttbbNLO_syst.h"
+
+
+namespace TTHbb {
+
+  class pp6reweighting : public ToolBase {
+
+  public:
+    pp6reweighting();                                                                                                                                                                                                                                                                                                         
+    ~pp6reweighting();
+
+    void initialise();
+    void apply(TTHbb::Event* event);
+    void finalise(){};
+
+  private:
+
+    void nnloWeights(TTHbb::Event* event);
+    void ttbbWeights(TTHbb::Event* event);
+
+    ttbbNLO_syst* m_ttbbSyst;
+    NNLOReweighter* m_ttbarNNLO;
+
+    std::vector<std::string> m_ttbarHFweights;
+    std::string m_ttbbNLONormFileName;
+    std::string m_ttbbNLOShapeFileName;
+
+  };
+}
+
+#endif

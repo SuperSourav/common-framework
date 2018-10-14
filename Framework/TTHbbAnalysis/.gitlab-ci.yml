@@ -1,0 +1,190 @@
+variables:
+  ATLAS_LOCAL_ROOT_BASE: /cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
+  GIT_SUBMODULE_STRATEGY: recursive
+  ANALYSISTOP_VERSION: 21.2.38
+  CIJOB: TEST
+
+before_script:
+  - date
+  - echo ${CI_REGISTRY_IMAGE}
+  - echo ${CI_COMMIT_REF_NAME}
+  - echo ${CI_PROJECT_NAME}
+  - echo ${CI_PROJECT_NAMESPACE}
+  - echo ${CI_REGISTRY_USER}
+  - echo "${TTHBBANA_PASSWORD}" | kinit ${TTHBBANA_USER}@CERN.CH
+  - klist
+  - echo -e "Host svn.cern.ch lxplus.cern.ch\n\tUser ${TTHBBANA_USER}\n\tStrictHostKeyChecking no\n\tGSSAPIAuthentication yes\n\tGSSAPIDelegateCredentials yes\n\tProtocol 2\n\tForwardX11 no\n\tIdentityFile ~/.ssh/id_rsa" >> ~/.ssh/config
+  - cat ~/.ssh/config
+  - echo "This pipeline is configured for ${CIJOB} [MONITOR, TEST, FULL]"
+  - echo "This stage is ${CI_JOB_STAGE}"
+  - if [[ ${CIJOB} == "MONITOR" && ${CI_JOB_STAGE} != "check" ]]; then exit 0; fi
+  - if [[ ${CIJOB} != "MONITOR" && ${CI_JOB_STAGE} == "check" ]]; then exit 0; fi
+  - echo ${ANALYSISTOP_VERSION}
+
+stages:
+  - check
+  - build
+  - test_online
+  - test_offline
+  - docker
+
+gridmon:
+  image: gitlab-registry.cern.ch/iconnell/ci-docker
+  stage: check
+  tags:
+    - docker
+    - cvmfs
+  only:
+    - schedules
+  script:
+    - set +e
+    - source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh
+    - lsetup python
+    - cd CI
+    - ./check_production.py ${GRIDMON_TAG} ${GRIDMON_VER}
+    - scp ${GRIDMON_TAG}_${GRIDMON_VER}.twiki.table tthbbana@lxplus.cern.ch:/eos/user/t/tthbbana/www/production/
+    - scp outDS.${GRIDMON_TAG}_${GRIDMON_VER}.txt tthbbana@lxplus.cern.ch:/eos/user/t/tthbbana/www/production/
+
+build_image_latest:
+  stage: docker
+  tags:
+    - docker-image-build
+  only:
+    - master@atlasHTop/TTHbbAnalysis
+  except:
+    - schedules
+  script:
+    - "echo"
+  variables:
+    #TO: gitlab-registry.cern.ch/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}/latest
+    TO: gitlab-registry.cern.ch/atlashtop/tthbbanalysis/latest
+    DOCKER_FILE: Dockerfile
+
+build_image_tag:
+  stage: docker
+  tags:
+    - docker-image-build
+  only:
+    - tags
+  except:
+    - schedules
+  script:
+    - "echo"
+  variables:
+    #TO: gitlab-registry.cern.ch/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}/tags:${CI_COMMIT_TAG}
+    TO: gitlab-registry.cern.ch/atlashtop/tthbbanalysis/tags:${CI_COMMIT_TAG}
+    DOCKER_FILE: Dockerfile
+
+build_online:
+  image: gitlab-registry.cern.ch/iconnell/ci-docker
+  stage: build
+  retry: 1
+  tags:
+    - docker
+    - cvmfs
+  except:
+    - schedules
+  script:
+    - mkdir build_online && cd build_online
+    - set +e
+    - source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh
+    - asetup AnalysisTop,${ANALYSISTOP_VERSION}
+    - cmake -DATLAS_PACKAGE_FILTER_FILE=../PackageFilters/online_packages.txt ../
+    - cmake --build ./
+    - date +%H%M > build_time
+    - cat build_time
+    - ls -l
+  dependencies: []
+  artifacts:
+    paths:
+      - build_online
+    expire_in: 1 day
+
+build_offline:
+  image: gitlab-registry.cern.ch/iconnell/ci-docker
+  stage: build
+  retry: 1
+  tags:
+    - docker
+    - cvmfs
+  except:
+    - schedules
+  script:
+    - mkdir build_offline && cd build_offline
+    - set +e
+    - source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh
+    - asetup AnalysisTop,${ANALYSISTOP_VERSION}
+    - cmake -DATLAS_PACKAGE_FILTER_FILE=../PackageFilters/offline_packages.txt ../
+    - cmake --build ./
+    - source */setup.sh
+  dependencies: []
+  artifacts:
+    paths:
+      - build_offline
+    expire_in: 1 day
+
+test_online_1l:
+  image: gitlab-registry.cern.ch/iconnell/ci-docker
+  stage: test_online
+  retry: 1
+  tags:
+    - docker
+    - cvmfs
+  except:
+    - schedules
+  script:
+    - ./CI/test_online.sh cuts_1l_mc16a ${ANALYSISTOP_VERSION}
+  dependencies:
+    - build_online
+  artifacts:
+    paths:
+      - run_cuts_1l_mc16a
+    expire_in: 1 day
+
+test_online_2l:
+  image: gitlab-registry.cern.ch/iconnell/ci-docker
+  stage: test_online
+  retry: 1
+  tags:
+    - docker
+    - cvmfs
+  except:
+    - schedules
+  script:
+    - ./CI/test_online.sh cuts_2l_mc16a ${ANALYSISTOP_VERSION}
+  dependencies:
+    - build_online
+  artifacts:
+    paths:
+      - run_cuts_2l_mc16a
+    expire_in: 1 day
+
+test_offline_1l:
+  image: gitlab-registry.cern.ch/iconnell/ci-docker
+  stage: test_offline
+  retry: 1
+  tags:
+    - docker
+    - cvmfs
+  except:
+    - schedules
+  script:
+    - ./CI/test_offline.sh cuts_1l_mc16a ${ANALYSISTOP_VERSION} configuration.txt
+  dependencies:
+    - build_offline
+    - test_online_1l
+
+test_offline_2l:
+  image: gitlab-registry.cern.ch/iconnell/ci-docker
+  stage: test_offline
+  retry: 1
+  tags:
+    - docker
+    - cvmfs
+  except:
+    - schedules
+  script:
+    - ./CI/test_offline.sh cuts_2l_mc16a ${ANALYSISTOP_VERSION} configuration.txt
+  dependencies:
+    - build_offline
+    - test_online_2l

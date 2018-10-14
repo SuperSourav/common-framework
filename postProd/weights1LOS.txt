@@ -1,0 +1,16 @@
+#########WEIGHTS FILE############
+#list all weights
+#if a weight is a vector then precede with VEC
+#For weights which are only saved in nominal tree
+#  list after SYSTEMATICS
+
+#nominal weights in all trees
+weight_mc
+weight_bTagSF_MV2c10_85
+weight_bTagSF_MV2c10_77
+weight_bTagSF_MV2c10_70
+weight_bTagSF_MV2c10_60
+#weight_bTagSF_MV2c10_Continuous
+weight_leptonSF
+weight_pileup
+weight_jvt

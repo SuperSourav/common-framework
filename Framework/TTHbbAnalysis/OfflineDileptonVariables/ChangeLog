@@ -1,0 +1,11 @@
+2017-07-28 Ian Connelly <iconnell@cern.ch>
+	* Adding BDT class
+	
+2017-03-13 Johnny Raine <johnny.raine@cern.ch>
+	* Adding workshop combination binning
+
+2017-03-10 Johnny Raine <johnny.raine@cern.ch>
+	* initial commit of the dileptonvariables package
+	* adds recalculation of MVAVariables
+	* add dilepton region definitions
+	* includes config for dilepton

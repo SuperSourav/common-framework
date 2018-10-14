@@ -1,0 +1,69 @@
+2017-03-12 Johnny Raine <johnny.raine@cern.ch>
+	* changing default values in PairedSystem
+
+2017-03-08 Johnny Raine <johnny.raine@cern.ch>
+	* Adding template functions to jetorderingtool to get a sorted container
+	for a given decor
+
+2017-02-21 Johnny Raine <johnny.raine@cern.ch>
+	* Fix a bug in setpairs, misplaced } in jlVec creation
+
+2017-02-16 Johnny Raine <johnny.raine@cern.ch>
+	* Add function to get lepton sorted by pT
+	* Getting by pT takes an integer for number, not index (ie starts at 1)
+
+2017-02-15 Johnny Raine <johnny.raine@cern.ch>
+	* Adding template function to JetOrderingTool for sorting any object by pT
+	* Updating MVAVariables to use pT sorting
+	* Adding some documentation to MVAVariables
+	* Changing default btag string in mvavariables
+
+2017-02-17 Georges Aad
+	* add JetOrderingTool
+
+2017-02-09 Johnny Raine <johnny.raine@cern.ch>
+	* Reworked the SetPairs function to use the object vectors
+	instead of rechecking whether a jet is tagged
+	* Add pairings bu, ul.
+		* Compare bj is bjet and any other jet. bu is bjet and any untagged jet
+	* Consolidating the get(B)JetTrip/Quadruplet functions and factoring them out
+		* Now have getTriplet(c,v) and getQuadruplet(c,v) functions and make functions
+		to make the collections if they have not already been made that event
+		* TTH-203
+
+2017-02-08 Johnny Raine <johnny.raine@cern.ch>
+	* removing a pop_back
+
+2017-02-06 Georges Aad
+	* add function to change the full btagcut string
+
+2017-01-26 Georges Aad
+	* bug fix
+
+2017-01-26 Georges Aad
+	* remove m_event cache
+	* add new constructor without m_event
+
+2017-01-13 Roger Caminal Armadans <roger.caminal.armadans@cern.ch>
+    * Adding function to return the masses of a b-jet triplet, a jet quadruplet and a b-jet quadruplet.
+
+2016-12-12 Johnny Raine <johnny.raine@cern.ch>
+	* TTHbb::Jet no longer has member function mv2, access with
+	variable decorations
+
+2016-11-15 Johnny Raine <johnny.raine@cern.ch>
+	* Adding vector cleaning function
+	* Adding protection for collections with zero entries
+	* Optimising and bug fixes
+
+2016-11-14 Johnny Raine <johnny.raine@cern.ch>
+	* Changing jet_isbtagged string
+
+2016-11-10 Johnny Raine <johnny.raine@cern.ch>
+	* Making package for MVAVariables
+	* MVAVariables now runs on TTHbb EDM
+	* Performance improvements
+		* Now only calculates the pair and shape variables
+		when one of them is accessed for the first time
+	* Removal of the unmaintained run one higgs definition
+	* Removal of track jets (not in EDM)

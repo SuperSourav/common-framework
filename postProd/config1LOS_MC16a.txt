@@ -1,0 +1,65 @@
+##################################################
+#    Configuration file for sm4t-offline          #
+##################################################
+# Notes:                                         #
+#             				         #
+# Hash demarks the start of a comment            #
+# All settings are "CONFIG param"                #
+# Settings can be altered with command line args #
+#  -o CONFIG param                               #
+# All settings need to be predefined in the code #
+##################################################
+
+### Where to save everything
+OutputDirectory test
+SampleName ttbar_powpyt8
+
+### Sample options
+SampleType MC
+UseLargeJets false
+CustomObjects rcjet
+
+### Which systematics to save, provide a full list
+Systematics nominal_Loose
+### Or provide a file
+SystematicsFromFile false
+SystematicsFile None
+
+### Calculate a normalisation weight from
+### totalEventsWeighted,Cutflow or none
+Normalisation Cutflow
+
+### Provide a file to configure the weights to save
+WeightsFile weights1LOS.txt
+
+### Can choose to provide a list of variables to decorate onto the event
+VariableListToDecorate Variables1LOS.txt
+
+### Save all variables decorated onto the event
+SaveDefaultVariables true
+SaveAllDecorations true
+SaveAllObjectDecorations true
+
+### Otherwise save variables listed in file
+# VariablesToSaveFile VariablesToSave.txt
+
+### Define the regions of the form Name:"cut expression",Name2:"cut expression"
+Regions 1L:"ejets_2015_MV2c10||ejets_2016_MV2c10||mujets_2015_MV2c10||mujets_2016_MV2c10",2LOS:"ee_2015_MV2c10||ee_2016_MV2c10||mumu_2015_MV2c10||mumu_2016_MV2c10||emu_2015_MV2c10||emu_2016_MV2c10"
+
+##################################################
+# TOOL configuration				 #
+#      						 #
+# Notes:					 #
+# 						 #
+# Tools in ToolManager have a given setting key  #
+# Set key to true to run the tool                #
+# Additional options may also be set here        #
+##################################################
+
+# use true to turn a tool on
+# MyTool true
+# AdditionalToolOption this
+
+CustomSettings Add1LOSVar
+Dictionaries OffSM4topsTool
+Add1LOSVar true

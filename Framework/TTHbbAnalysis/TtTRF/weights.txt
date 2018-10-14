@@ -1,0 +1,14 @@
+weight_mc
+# weight_bTagSF_MV2c10_85
+weight_bTagSF_MV2c10_77
+# weight_bTagSF_MV2c10_70
+# weight_bTagSF_MV2c10_60
+# weight_bTagSF_MV2c10_Continuous
+weight_leptonSF
+weight_pileup
+weight_jvt
+# weight_ttbb_Nominal
+# weight_ttbb_Norm
+# weight_ttbb_Norm_new
+# weight_ttbb_Norm_pp8
+# weight_ttbar_FracRw
