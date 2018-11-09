@@ -1,5 +1,4 @@
 #include "BucketofTops/BucketofTops.h"
-#include "BucketofTops/Bucket.h"
 #include <iostream>
 #include <vector>
 
@@ -11,7 +10,7 @@ namespace TTHbb {
   class OfflineBucketofTops : public ToolBase{
 
   public:
-    OfflineBucketofTops();
+OfflineBucketofTops();
     ~OfflineBucketofTops();
 
     void initialise();
@@ -19,8 +18,8 @@ namespace TTHbb {
     void finalise();
     
   private:
-
-
+    BucketofTops m_buckets=0;
+    bool m_DoBuckets;
   };
 
 }

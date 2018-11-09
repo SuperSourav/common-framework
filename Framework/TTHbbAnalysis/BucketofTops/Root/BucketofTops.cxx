@@ -16,8 +16,8 @@ BucketofTops::BucketofTops(std::vector<shared_ptr<TTHbb::Jet> > specjets){
   for (int i = 0; i < B.size(); ++i) {
     if (B[i].getBucketMass() > -1) {
       mW = B[i].WcandMnum();
-	mBucketPrim = B[i].getBucketMass();
-	mratio = B[i].WcandRatio();
+        mBucketPrim = B[i].getBucketMass();
+        mratio = B[i].WcandRatio();
     }
     if (B[i].getBucketLabel() == "t-") {
       tmincand.push_back(B[i]);
@@ -25,23 +25,24 @@ BucketofTops::BucketofTops(std::vector<shared_ptr<TTHbb::Jet> > specjets){
     else {
       telseindex = i;
     }
-
-    //redo both buckets for t-
-    double bucketP2massMax = 155; //GeV
-    double bucketP2massMin = 75; //GeV
-    double firstP2Bucketwt = 1;
-
-    if (tmincand.size() == 2) {
-      B = doublebucket(specjets, bucketP2massMax, bucketP2massMin, "t-", firstP2Bucketwt);
-    }
-
-    else if (tmincand.size() == 1){
-      B[1-telseindex] = singlebucket(specjets, B[telseindex], bucketP2massMax, bucketP2massMin);
-    }
-
-    return B;
   }
+
+  //redo both buckets for t-
+  double bucketP2massMax = 155; //GeV
+  double bucketP2massMin = 75; //GeV
+  double firstP2Bucketwt = 1;
+
+  if (tmincand.size() == 2) {
+    B = doublebucket(specjets, bucketP2massMax, bucketP2massMin, "t-", firstP2Bucketwt);
+  }
+
+  else if (tmincand.size() == 1){
+    B[1-telseindex] = singlebucket(specjets, B[telseindex], bucketP2massMax, bucketP2massMin);
+  }
+
 };
+
+std::vector <shared_ptr<TTHbb::Jet> > 
 
 std::vector <shared_ptr<TTHbb::Jet> > compvec(std::vector <shared_ptr<TTHbb::Jet> > EVT, std::vector <shared_ptr<TTHbb::Jet> > set) //another bug
 {
