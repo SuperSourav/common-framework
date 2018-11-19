@@ -1,0 +1,61 @@
+BucketofTops/Root/BucketofTops.cxx:BucketofTops::BucketofTops(std::vector<shared_ptr<TTHbb::Jet> > specjets){
+BucketofTops/Root/BucketofTops.cxx:std::vector <shared_ptr<TTHbb::Jet> > 
+BucketofTops/Root/BucketofTops.cxx:std::vector <shared_ptr<TTHbb::Jet> > compvec(std::vector <shared_ptr<TTHbb::Jet> > EVT, std::vector <shared_ptr<TTHbb::Jet> > set) //another bug
+BucketofTops/Root/BucketofTops.cxx:  std::vector <shared_ptr<TTHbb::Jet> > compset;
+BucketofTops/Root/BucketofTops.cxx:      findflag = findflag || (EVT[i]==set[j]); //check if the "==" works for TTHbb::Jet
+BucketofTops/Root/BucketofTops.cxx:std::vector <shared_ptr<TTHbb::Jet> > extra(std::vector <shared_ptr<TTHbb::Jet> > EVT, std::vector <Bucket> B)
+BucketofTops/Root/BucketofTops.cxx:std::vector<Bucket> BucketofTops::doublebucket(std::vector<shared_ptr<TTHbb::Jet> > specjets, double MbucketMax, double MbucketMin, string target_label, double B1weight) {
+BucketofTops/Root/BucketofTops.cxx:  std::vector<shared_ptr<TTHbb::Jet> > nonbjets, bjets;
+BucketofTops/Root/BucketofTops.cxx:    std::vector<shared_ptr<TTHbb::Jet> > nonbA;
+BucketofTops/Root/BucketofTops.cxx:      std::vector<shared_ptr<TTHbb::Jet> >  nonbB;
+BucketofTops/Root/BucketofTops.cxx:Bucket singlebucket(std::std::vector<shared_ptr<TTHbb::Jet> > specjets, Bucket twbucket, double MbucketMax, double MbucketMin)
+BucketofTops/Root/BucketofTops.cxx:  std::std::vector<shared_ptr<TTHbb::Jet> > nonbjets, bjets;
+BucketofTops/Root/BucketofTops.cxx:  shared_ptr<TTHbb::Jet> bucketBjet = (bjets[0] == twbucket.BJET) ? bjets[1] : bjets[0]; //bjet to be used in the bucket
+BucketofTops/Root/BucketofTops.cxx:      std::vector <shared_ptr<TTHbb::Jet> > tempnb;
+BucketofTops/BucketofTops/BucketofTops.h:    BucketofTops(std::vector<shared_ptr<TTHbb::Jet> > specjets);
+BucketofTops/BucketofTops/BucketofTops.h:    std::vector <shared_ptr<TTHbb::Jet> > compvec(std::vector <shared_ptr<TTHbb::Jet> > EVT, std::vector <shared_ptr<TTHbb::Jet> > set);
+BucketofTops/BucketofTops/BucketofTops.h:    std::vector <shared_ptr<TTHbb::Jet> > extra(std::vector <shared_ptr<TTHbb::Jet> > EVT, std::vector <Bucket> B);
+BucketofTops/BucketofTops/BucketofTops.h:    Bucket singlebucket(std::std::vector<shared_ptr<TTHbb::Jet> > specjets, Bucket twbucket, double MbucketMax, double MbucketMin);
+DilepFakes/temp/EventHandler.cxx:      std::shared_ptr<TTHbb::Jet> Jet = currentEvent->addJet(vIn_jet_pt->at(i),
+FourTopTools/FourTopTools/FourTopVariables.h:    const xAOD::Jet* FindxAODJets(std::shared_ptr<TTHbb::Jet>& jet,
+FourTopTools/Root/FourTopVariables.cxx:const xAOD::Jet* FourTopVariables::FindxAODJets(std::shared_ptr<TTHbb::Jet>& jet,
+MVAVariables/Changelog:	* TTHbb::Jet no longer has member function mv2, access with
+MVAVariables/MVAVariables/JetOrderingTool.h:  void decorateEventBtagSort(TTHbb::BaseObject* event, std::vector<std::shared_ptr<TTHbb::Jet> >& jets, 
+MVAVariables/MVAVariables/JetOrderingTool.h:  void decorateEventPseudoBtagSort(TTHbb::BaseObject* event, std::vector<std::shared_ptr<TTHbb::Jet> >& jets, 
+MVAVariables/MVAVariables/JetOrderingTool.h:  void decoratePtSortedVar(TTHbb::BaseObject* event, std::vector<std::shared_ptr<TTHbb::Jet> >& jets, 
+MVAVariables/MVAVariables/JetOrderingTool.h:  void decorateAbsEtaSortedVar(TTHbb::BaseObject* event, std::vector<std::shared_ptr<TTHbb::Jet> >& jets, 
+MVAVariables/MVAVariables/JetOrderingTool.h:  void upSort(std::vector<std::shared_ptr<TTHbb::Jet> >& jets, std::string variable, TTHbb::DecorationType type);
+MVAVariables/MVAVariables/JetOrderingTool.h:  void downSort(std::vector<std::shared_ptr<TTHbb::Jet> >& jets, std::string variable, TTHbb::DecorationType type);
+MVAVariables/MVAVariables/JetOrderingTool.h:  void sortPseudoBtagPt(std::vector<std::shared_ptr<TTHbb::Jet> >& jets, std::string variable);
+MVAVariables/MVAVariables/JetOrderingTool.h:  //void sortPt(std::vector<std::shared_ptr<TTHbb::Jet> >& jets);
+MVAVariables/MVAVariables/JetOrderingTool.h:  void sortAbsEta(std::vector<std::shared_ptr<TTHbb::Jet> >& jets);
+MVAVariables/Root/JetOrderingTool.cxx:void JetOrderingTool::decorateEventBtagSort(TTHbb::BaseObject* event, std::vector<std::shared_ptr<TTHbb::Jet> >& jets, 
+MVAVariables/Root/JetOrderingTool.cxx:void JetOrderingTool::decorateEventPseudoBtagSort(TTHbb::BaseObject* event, std::vector<std::shared_ptr<TTHbb::Jet> >& jets, 
+MVAVariables/Root/JetOrderingTool.cxx:void JetOrderingTool::decoratePtSortedVar(TTHbb::BaseObject* event, std::vector<std::shared_ptr<TTHbb::Jet> >& jets, 
+MVAVariables/Root/JetOrderingTool.cxx:void JetOrderingTool::decorateAbsEtaSortedVar(TTHbb::BaseObject* event, std::vector<std::shared_ptr<TTHbb::Jet> >& jets, 
+MVAVariables/Root/JetOrderingTool.cxx:void JetOrderingTool::upSort(std::vector<std::shared_ptr<TTHbb::Jet> >& jets, std::string variable, TTHbb::DecorationType type){
+MVAVariables/Root/JetOrderingTool.cxx:	    [&](std::shared_ptr<TTHbb::Jet> jet1, std::shared_ptr<TTHbb::Jet> jet2){
+MVAVariables/Root/JetOrderingTool.cxx:void JetOrderingTool::downSort(std::vector<std::shared_ptr<TTHbb::Jet> >& jets, std::string variable, TTHbb::DecorationType type){
+MVAVariables/Root/JetOrderingTool.cxx:	    [&](std::shared_ptr<TTHbb::Jet> jet1, std::shared_ptr<TTHbb::Jet> jet2){
+MVAVariables/Root/JetOrderingTool.cxx:void JetOrderingTool::sortPseudoBtagPt(std::vector<std::shared_ptr<TTHbb::Jet> >& jets, std::string variable){
+MVAVariables/Root/JetOrderingTool.cxx:	    [&](std::shared_ptr<TTHbb::Jet> jet1, std::shared_ptr<TTHbb::Jet> jet2){
+MVAVariables/Root/JetOrderingTool.cxx:/*void JetOrderingTool::sortPt(std::vector<std::shared_ptr<TTHbb::Jet> >& jets){
+MVAVariables/Root/JetOrderingTool.cxx:	    [](std::shared_ptr<TTHbb::Jet> jet1, std::shared_ptr<TTHbb::Jet> jet2){
+MVAVariables/Root/JetOrderingTool.cxx:void JetOrderingTool::sortAbsEta(std::vector<std::shared_ptr<TTHbb::Jet> >& jets){
+MVAVariables/Root/JetOrderingTool.cxx:	    [](std::shared_ptr<TTHbb::Jet> jet1, std::shared_ptr<TTHbb::Jet> jet2){
+OfflineDileptonVariables/OfflineDileptonVariables/DilepRegions.h:    std::pair<int,int> getBin(std::vector<std::shared_ptr<TTHbb::Jet> > & jets);
+OfflineDileptonVariables/Root/DilepRegions.cxx:  std::pair<int, int> DilepRegions::getBin(std::vector<std::shared_ptr<TTHbb::Jet> > & jets){
+OfflineTTHbb/Root/EventHandler.cxx:      std::shared_ptr<TTHbb::Jet> Jet = currentEvent->addJet(vIn_jet_pt->at(i),
+TRFFakes/TRFFakes/TRFFakesTool.h:      std::vector<std::shared_ptr<TTHbb::Jet>> jets_ordered_MV2;
+TTHbbClassification/Root/DileptonSimplePCRegionTool.cxx:  std::vector< std::pair<std::string, int> > DileptonSimplePCRegionTool::getEventRegions(std::vector<std::shared_ptr<TTHbb::Jet> > & jets){
+TTHbbClassification/Root/DileptonSimplePCRegionTool.cxx:  int DileptonSimplePCRegionTool::getEventRegionBin(std::vector<std::shared_ptr<TTHbb::Jet> > & jets, std::string region){
+TTHbbClassification/Root/DileptonSimplePCRegionTool.cxx:  std::pair<int, int> DileptonSimplePCRegionTool::getBin(std::vector<std::shared_ptr<TTHbb::Jet> > & jets){
+TTHbbClassification/Root/SemilepPCRegionTool.cxx:  int SemilepPCRegionTool::SemilepPCRegionsNumber(TTHbb::JetContainer* jets, std::string option){
+TTHbbClassification/Root/SemilepPCRegionTool.cxx:  bool SemilepPCRegionTool::getSemilepPCRegionBit(std::string name, TTHbb::JetContainer* jets){
+TTHbbClassification/Root/SemilepPCRegionTool.cxx:  int SemilepPCRegionTool::SemilepPCRegionDiscri(TTHbb::JetContainer* jets){
+TTHbbClassification/TTHbbClassification/DileptonSimplePCRegionTool.h:    std::vector< std::pair<std::string, int> > getEventRegions(std::vector<std::shared_ptr<TTHbb::Jet> > & jets);
+TTHbbClassification/TTHbbClassification/DileptonSimplePCRegionTool.h:    int getEventRegionBin(std::vector<std::shared_ptr<TTHbb::Jet> > & jets, std::string region);
+TTHbbClassification/TTHbbClassification/DileptonSimplePCRegionTool.h:    std::pair<int, int> getBin(std::vector<std::shared_ptr<TTHbb::Jet> > & jets);
+TTHbbClassification/TTHbbClassification/SemilepPCRegionTool.h:    int SemilepPCRegionsNumber(TTHbb::JetContainer* jets, std::string option);
+TTHbbClassification/TTHbbClassification/SemilepPCRegionTool.h:    bool getSemilepPCRegionBit(std::string name, TTHbb::JetContainer* jets);
+T

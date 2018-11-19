@@ -23,14 +23,17 @@ namespace TTHbb{
   void OfflineBucketofTops::finalise(){}
 
   void OfflineBucketofTops::apply(TTHbb::Event* event){
-    std::vector<shared_ptr<TTHbb::Jet> > specjets //for now using all the jets as spectators
+    std::vector<shared_ptr<TTHbb::Jet> > specbjets, specnonbjets; //for now using all the jets as spectators
     for(auto jet : event->m_jets){
-      specjets.push_back(jet);
+      bool isbtagged_MV2c10_85 = jet->charVariable("isbtagged_MV2c10_85") == 1;
+      if (isbtagged_MV2c10_85) {specbjets.push_back(jet);}
+      else {specnonbjets.push_back(jet);}
     } 
     if (m_DoBuckets) {
-      m_buckets = new BucketofTops(specjets);
+      m_buckets = new BucketofTops(specbjets, specnonbjets);
     }
+    std::vector<TTHbb::Bucket> tbuck = m_buckets->B;
+    //std::cout << B1.getBucketMass() << std::endl;
+    event->intVariable("B1mass") = tbuck.size();
   }
-
-
 }

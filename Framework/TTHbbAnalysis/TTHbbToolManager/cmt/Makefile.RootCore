@@ -24,7 +24,7 @@ PACKAGE_BINFLAGS =
 PACKAGE_LIBFLAGS = 
 
 # list of dependency packages:
-PACKAGE_DEP = TTHbbObjects TTHbbConfiguration MVAVariables TopFakes TRFFakes MCFakes TTHbbTtbarCorrections NNLOReweighter TtTRF
+PACKAGE_DEP = TTHbbObjects TTHbbConfiguration MVAVariables TopFakes TRFFakes MCFakes BucketofTops TTHbbTtbarCorrections NNLOReweighter TtTRF
 
 # list of packages to use if available, but which are not necessary:
 PACKAGE_TRYDEP   = 

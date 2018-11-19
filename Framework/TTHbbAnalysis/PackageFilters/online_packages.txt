@@ -18,6 +18,7 @@
 + TTHbbToolManager
 + TTHbbTRFCalc
 + TTHbbTruthHelper
++ BucketofTops
 + TTHbbTtbarCorrections
 + TTHFClassificationTools
 + TtTRF

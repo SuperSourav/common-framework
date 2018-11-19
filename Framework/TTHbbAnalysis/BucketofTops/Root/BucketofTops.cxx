@@ -1,24 +1,37 @@
 #include <stdio.h>
 #include <math.h>
 #include <string>
-#include "TTHbbObjects/Event.h"
 #include "BucketofTops/BucketofTops.h"
-#include "BucketofTops/Bucket.h"
+#include "TTHbbObjects/Bucket.h"
 using namespace std;
 
-BucketofTops::BucketofTops(std::vector<shared_ptr<TTHbb::Jet> > specjets){
+//#define CHECK( ARG )                                    \
+   do {                                                 \
+      const bool result = ARG;                          \
+      if( ! result ) {                                  \
+         std::ostringstream os;                         \
+         const char *pos = strrchr(__FILE__, '/');      \
+         const char *fn = pos ? pos+1 : __FILE__;       \
+         os << "Fatal error at " << fn << ":"           \
+            << __LINE__ << ": \"" << #ARG << "\"";      \
+         throw std::runtime_error(os.str());            \
+      }                                                 \
+   } while( false )
+
+  
+BucketofTops::BucketofTops(std::vector<shared_ptr<TTHbb::Jet> > specbjets, std::vector<shared_ptr<TTHbb::Jet> > specnonbjets){
   double bucketP1massMax = 200; //GeV
   double bucketP1massMin = 155; //GeV
   double firstP1Bucketwt = 100;
-  B = doublebucket(specjets, bucketP1massMax, bucketP1massMin, "tw", firstP1Bucketwt);
-  vector <Bucket> tmincand; //fill tmin candidates
+  B = doublebucket(specbjets, specnonbjets, bucketP1massMax, bucketP1massMin, "tw", firstP1Bucketwt);
+  vector <TTHbb::Bucket> tmincand; //fill tmin candidates
   int telseindex; //tw or t0 bucket
   for (int i = 0; i < B.size(); ++i) {
-    if (B[i].getBucketMass() > -1) {
-      mW = B[i].WcandMnum();
-        mBucketPrim = B[i].getBucketMass();
-        mratio = B[i].WcandRatio();
-    }
+    //if (B[i].getBucketMass() > -1) {
+      //double mWcand = B[i].WcandMnum();
+      //double mBucketPrim = B[i].getBucketMass();
+      //double mratio = B[i].WcandRatio();
+    //}
     if (B[i].getBucketLabel() == "t-") {
       tmincand.push_back(B[i]);
     }
@@ -33,18 +46,18 @@ BucketofTops::BucketofTops(std::vector<shared_ptr<TTHbb::Jet> > specjets){
   double firstP2Bucketwt = 1;
 
   if (tmincand.size() == 2) {
-    B = doublebucket(specjets, bucketP2massMax, bucketP2massMin, "t-", firstP2Bucketwt);
+    B = doublebucket(specbjets, specnonbjets, bucketP2massMax, bucketP2massMin, "t-", firstP2Bucketwt);
   }
 
   else if (tmincand.size() == 1){
-    B[1-telseindex] = singlebucket(specjets, B[telseindex], bucketP2massMax, bucketP2massMin);
+    B[1-telseindex] = singlebucket(specbjets, specnonbjets, B[telseindex], bucketP2massMax, bucketP2massMin);
   }
 
 };
 
-std::vector <shared_ptr<TTHbb::Jet> > 
+BucketofTops::~BucketofTops(){};
 
-std::vector <shared_ptr<TTHbb::Jet> > compvec(std::vector <shared_ptr<TTHbb::Jet> > EVT, std::vector <shared_ptr<TTHbb::Jet> > set) //another bug
+std::vector <shared_ptr<TTHbb::Jet> > BucketofTops::compvec(std::vector <shared_ptr<TTHbb::Jet> > EVT, std::vector <shared_ptr<TTHbb::Jet> > set) //another bug
 {
   std::vector <shared_ptr<TTHbb::Jet> > compset;
   for (int i = 0; i < EVT.size(); ++i)
@@ -57,7 +70,7 @@ std::vector <shared_ptr<TTHbb::Jet> > compvec(std::vector <shared_ptr<TTHbb::Jet
     if (!findflag) {compset.push_back(EVT[i]);}
   }
   return compset;
-};
+}
 
 //power set generator
 std::vector <std::vector <int> > BucketofTops::pSet(std::vector <int> set, int offset=0)
@@ -80,7 +93,7 @@ std::vector <std::vector <int> > BucketofTops::pSet(std::vector <int> set, int o
     v.clear();
   }
   return pVec;
-};
+}
 
 //complementary set generator
 std::vector <int> BucketofTops::cSet(std::vector <int> set, std::vector <int> subset)
@@ -95,32 +108,25 @@ std::vector <int> BucketofTops::cSet(std::vector <int> set, std::vector <int> su
      cVec.push_back(set[i]);
   }
   return cVec;
-};
+}
 
 
 //function for the extra jets
-std::vector <shared_ptr<TTHbb::Jet> > extra(std::vector <shared_ptr<TTHbb::Jet> > EVT, std::vector <Bucket> B)
+std::vector <shared_ptr<TTHbb::Jet> > BucketofTops::extra(std::vector <shared_ptr<TTHbb::Jet> > EVT, std::vector <TTHbb::Bucket> B)
 {
-  std::vector <> Xmembers = EVT;
+  std::vector <shared_ptr<TTHbb::Jet> > Xmembers = EVT;
   for (int i = 0; i < B.size(); ++i)
   {
     Xmembers = compvec(Xmembers, B[i].members);
   }
   return Xmembers;
-};
+}
 
 //function to get two top buckets
-std::vector<Bucket> BucketofTops::doublebucket(std::vector<shared_ptr<TTHbb::Jet> > specjets, double MbucketMax, double MbucketMin, string target_label, double B1weight) {
-  std::vector <Bucket> B; //B1 and B2
-  Bucket B1, B2;
-  std::vector<shared_ptr<TTHbb::Jet> > nonbjets, bjets;
-  for (auto &jet: specjets){
-    CHECK( jet->checkCharVariable("isbtagged_MV2c10_85") );
-    bool isbtagged_MV2c10_85 = jet->charVariable("isbtagged_MV2c10_85") == 1;
-    if (isbtagged_MV2c10_85) {bjets.push_back(jet);}
-    else {nonbjets.push_back(jet);}
-  }
-  int nonbjetsize = nonbjets.size();
+std::vector<TTHbb::Bucket> BucketofTops::doublebucket(std::vector<shared_ptr<TTHbb::Jet> > specbjets, std::vector<shared_ptr<TTHbb::Jet> > specnonbjets, double MbucketMax, double MbucketMin, string target_label, double B1weight) {
+  std::vector <TTHbb::Bucket> B; //B1 and B2
+  TTHbb::Bucket B1, B2;
+  int nonbjetsize = specnonbjets.size();
   std::vector <std::vector <int> > nonbindexset1;
   std::vector <int> nonbset;
   for (int j = 0; j < nonbjetsize; ++j) {nonbset.push_back(j);}
@@ -161,23 +167,23 @@ std::vector<Bucket> BucketofTops::doublebucket(std::vector<shared_ptr<TTHbb::Jet
     std::vector<shared_ptr<TTHbb::Jet> > nonbA;
     for (int k = 0; k < nonbindexset1[i].size(); ++k)
     {
-      nonbA.push_back(nonbjets[nonbindexset1[i][k]]);
+      nonbA.push_back(specnonbjets[nonbindexset1[i][k]]);
     }
     for (int i1 = 0; i1 < nonbindexset2.size(); ++i1)
     {
       std::vector<shared_ptr<TTHbb::Jet> >  nonbB;
       for (int k1 = 0; k1 < nonbindexset2[i1].size(); ++k1)
       {
-        nonbB.push_back(nonbjets[nonbindexset2[i1][k1]]);
+        nonbB.push_back(specnonbjets[nonbindexset2[i1][k1]]);
       }
-      Bucket Afirst(nonbA, bjets[0]);
+      TTHbb::Bucket Afirst(nonbA, specbjets[0]);
       double AfirstDistance = (target_label == "tw") ? Afirst.twOptMetric() : Afirst.tminusOptMetric();
-      Bucket Asecond(nonbA, bjets[1]);
-	double AsecondDistance = (target_label == "tw") ? Asecond.twOptMetric() : Asecond.tminusOptMetric();
-      Bucket Bfirst(nonbB, bjets[0]);
-	double BfirstDistance = (target_label == "tw") ? Bfirst.twOptMetric() : Bfirst.tminusOptMetric();
-      Bucket Bsecond(nonbB, bjets[1]);
-	double BsecondDistance = (target_label == "tw") ? Bsecond.twOptMetric() : Bsecond.tminusOptMetric();
+      TTHbb::Bucket Asecond(nonbA, specbjets[1]);
+      double AsecondDistance = (target_label == "tw") ? Asecond.twOptMetric() : Asecond.tminusOptMetric();
+      TTHbb::Bucket Bfirst(nonbB, specbjets[0]);
+      double BfirstDistance = (target_label == "tw") ? Bfirst.twOptMetric() : Bfirst.tminusOptMetric();
+      TTHbb::Bucket Bsecond(nonbB, specbjets[1]);
+      double BsecondDistance = (target_label == "tw") ? Bsecond.twOptMetric() : Bsecond.tminusOptMetric();
       
       double del1 = (B1weight*AfirstDistance) + BsecondDistance;
       double del2 = (B1weight*BfirstDistance) + AsecondDistance;
@@ -239,40 +245,32 @@ std::vector<Bucket> BucketofTops::doublebucket(std::vector<shared_ptr<TTHbb::Jet
     B[i].setBucketLabel(label);
   }
   return B;
-};
-
-//function to get one top bucket
-Bucket singlebucket(std::std::vector<shared_ptr<TTHbb::Jet> > specjets, Bucket twbucket, double MbucketMax, double MbucketMin)
-{
-
-  Bucket newbucket; 
-  double Deltamin = pow(10,10); //arbit large number
-  std::std::vector<shared_ptr<TTHbb::Jet> > nonbjets, bjets;
-  for (auto &jet: specjets){
-  CHECK( jet->checkCharVariable("isbtagged_MV2c10_85") );
-  bool isbtagged_MV2c10_85 = jet->charVariable("isbtagged_MV2c10_85") == 1;
-  if (isbtagged_MV2c10_85) {bjets.push_back(jet);}
-  else {nonbjets.push_back(jet);}
 }
 
-  shared_ptr<TTHbb::Jet> bucketBjet = (bjets[0] == twbucket.BJET) ? bjets[1] : bjets[0]; //bjet to be used in the bucket
+//function to get one top bucket
+TTHbb::Bucket BucketofTops::singlebucket(std::vector<shared_ptr<TTHbb::Jet> > specbjets, std::vector<shared_ptr<TTHbb::Jet> > specnonbjets, TTHbb::Bucket twbucket, double MbucketMax, double MbucketMin)
+{
 
-  int Evnonbjetsize = nonbjets.size();
+  TTHbb::Bucket newbucket; 
+  double Deltamin = pow(10,10); //arbit large number
+
+  shared_ptr<TTHbb::Jet> bucketBjet = (specbjets[0] == twbucket.BJET) ? specbjets[1] : specbjets[0]; //bjet to be used in the bucket
+
+  int Evnonbjetsize = specnonbjets.size();
   int twnonbjetsize = twbucket.nonBJETS.size();
-  std::vector <int> plist = twbucket.getPIDlist();
   for (int i = 0; i < Evnonbjetsize; ++i)
   {
     bool findtw = false;
     for (int j = 0; j < twnonbjetsize; ++j)
     {
-      bool findtemp = (nonbjets[i]==twbucket.nonBJETS[j]); //particle part of tw bucket; can be added to extra
+      bool findtemp = (specnonbjets[i]==twbucket.nonBJETS[j]); //particle part of tw bucket; can be added to extra
       findtw = findtw || findtemp;
     }
     if (!findtw)  //no match
     {
       std::vector <shared_ptr<TTHbb::Jet> > tempnb;
-      tempnb.push_back(nonbjets[i]);
-      Bucket tempbucket(tempnb, bucketBjet);
+      tempnb.push_back(specnonbjets[i]);
+      TTHbb::Bucket tempbucket(tempnb, bucketBjet);
       if (Deltamin > tempbucket.tminusOptMetric())
       {
         Deltamin = tempbucket.tminusOptMetric();
@@ -286,5 +284,4 @@ Bucket singlebucket(std::std::vector<shared_ptr<TTHbb::Jet> > specjets, Bucket t
   string label = ((massbucket < MbucketMax) && (massbucket  > MbucketMin)) ? "t-" : "t0";
   newbucket.setBucketLabel(label);
   return newbucket;
-};
-
+}

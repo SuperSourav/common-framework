@@ -1,3 +1,9 @@
+#ifndef _TTHBB_OFFLINEBUCKETOFTOPS_H_
+#define _TTHBB_OFFLINEBUCKETOFTOPS_H_
+
+#include "TTHbbObjects/TTHbbUtils.h"
+#include "TTHbbToolManager/ToolBase.h"
+
 #include "BucketofTops/BucketofTops.h"
 #include <iostream>
 #include <vector>
@@ -10,16 +16,16 @@ namespace TTHbb {
   class OfflineBucketofTops : public ToolBase{
 
   public:
-OfflineBucketofTops();
+    OfflineBucketofTops(std::string name);
     ~OfflineBucketofTops();
 
     void initialise();
     void apply(TTHbb::Event* event);
     void finalise();
+    BucketofTops *m_buckets;
+    bool m_DoBuckets;
     
   private:
-    BucketofTops m_buckets=0;
-    bool m_DoBuckets;
   };
 
 }

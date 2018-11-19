@@ -140,6 +140,14 @@ namespace TTHbb{
         "Set to true to switch on the ttcc re-weighting. (Default false)",
         "false"
         );
+
+    //bucket of tops switch
+    registerSetting("OfflineBucketofTops.UseBucketsAlgo",
+        "Set to true to switch on the buckets of tops. (Default false)",
+        "false"
+        );
+
+  
     /// Default settings required for running
 
     registerSetting("OutputDirectory",

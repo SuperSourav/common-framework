@@ -1,0 +1,4 @@
+/eos/atlas/atlascerngroupdisk/phys-top/4tops/ntuples/common-fw_tag212380/preProd/mc16a/SS3L/group.phys-top.412002.aMcAtNloPythia8EvtGen.DAOD_TOPQ1.e6794_a875_r9364_p3554.SM4t-212380_mc16a_SS3L_v1_output_root/group.phys-top.15331167._000001.output.root
+/eos/atlas/atlascerngroupdisk/phys-top/4tops/ntuples/common-fw_tag212380/preProd/mc16a/SS3L/group.phys-top.412002.aMcAtNloPythia8EvtGen.DAOD_TOPQ1.e6794_a875_r9364_p3554.SM4t-212380_mc16a_SS3L_v1_output_root/group.phys-top.15331167._000002.output.root
+/eos/atlas/atlascerngroupdisk/phys-top/4tops/ntuples/common-fw_tag212380/preProd/mc16a/SS3L/group.phys-top.412002.aMcAtNloPythia8EvtGen.DAOD_TOPQ1.e6794_a875_r9364_p3554.SM4t-212380_mc16a_SS3L_v1_output_root/group.phys-top.15331167._000003.output.root
+

@@ -46,8 +46,9 @@ namespace TTHbb{
     m_muons.push_back(l);
   }
 
-
-
+  void Event::addBucket(Bucket b){
+    m_BucketCont.push_back(b);
+  }
   std::shared_ptr<LargeJet> Event::addLargeJet(float pt, float eta, float phi, float e, int topTag, float D2, float tau32_wta){
     m_largeJets.push_back(std::make_shared<LargeJet>(pt, eta, phi, e, topTag, D2, tau32_wta));
     return m_largeJets.back();

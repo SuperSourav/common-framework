@@ -11,7 +11,8 @@ atlas_depends_on_subdirs( PUBLIC
                           TopFakes
                           TRFFakes
                           MCFakes
-                          TTHbbTtbarCorrections
+                          BucketofTops
+			  TTHbbTtbarCorrections
                           TtTRF
                           NNLOReweighter )
 
@@ -34,10 +35,11 @@ atlas_add_library( TTHbbToolManager Root/*.cxx Root/*.h Root/*.icc
                                   TopFakes
                                   TRFFakes
                                   MCFakes
-                                  TTHbbTtbarCorrections
+                                  BucketofTops
+				  TTHbbTtbarCorrections
                                   NNLOReweighter
                                   TtTRF
                                   MCFakes
-                                  ${ROOT_LIBRARIES}
+				  ${ROOT_LIBRARIES}
                    INCLUDE_DIRS ${ROOT_INCLUDE_DIRS} )
 
