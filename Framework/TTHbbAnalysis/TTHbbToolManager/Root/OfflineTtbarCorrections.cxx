@@ -22,6 +22,7 @@ namespace TTHbb{
     m_DoNormRw = TTHbb::util::iequals((*config)(m_name + ".ttbbNormRw"),"true");
     m_DoShapeRw = TTHbb::util::iequals((*config)(m_name + ".ttbbShapeRw"),"true");
     m_DottccRw = TTHbb::util::iequals((*config)(m_name + ".ttccRw"),"true");
+    std::cout << "m_DoFracRw being set to: " << m_DoFracRw << std::endl;
   } 
   
   OfflineTtbarCorrections::~OfflineTtbarCorrections(){
@@ -40,7 +41,7 @@ namespace TTHbb{
 
   void OfflineTtbarCorrections::initialise(){
     //initialise with some DSID and change in the loop as needed
-    
+    std::cout << "m_DoFracRw: " << m_DoFracRw << std::endl;
     if (m_DoFracRw){
       m_FracRW = new FractionReweighting(410501);
     }
@@ -69,6 +70,7 @@ namespace TTHbb{
   }
 
   void OfflineTtbarCorrections::apply(TTHbb::Event* event){
+    std::cout << "HELLO WORLD" << std::endl;
     m_HF_Classification=event->intVariable("HF_Classification");     
     m_HF_SimpleClassification=event->intVariable("HF_SimpleClassification");
     

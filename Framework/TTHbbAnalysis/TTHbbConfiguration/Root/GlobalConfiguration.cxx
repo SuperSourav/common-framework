@@ -142,6 +142,11 @@ namespace TTHbb{
         );
 
     //bucket of tops switch
+    registerSetting("OfflineBucketofTops.TurnOn",
+		    "Set to true to switch on the OfflineBucketofTops. (Default false)",
+		    "false"
+		    );
+
     registerSetting("OfflineBucketofTops.UseBucketsAlgo",
         "Set to true to switch on the buckets of tops. (Default false)",
         "false"

@@ -66,5 +66,9 @@ MVAVariables.bTagWPs MV2c10_70
 SM4topAnalysis.TurnOn true
 SM4topAnalysis.MeVToGeV true
 
+OfflineTtbarCorrections.TurnOn true
+OfflineTtbarCorrections.ttbarFracRw false
+
 #Bucket of Tops algorithm on
+OfflineBucketofTops.TurnOn true
 OfflineBucketofTops.UseBucketsAlgo true

@@ -18,22 +18,34 @@ using namespace std;
       }                                                 \
    } while( false )
 
-  
 BucketofTops::BucketofTops(std::vector<shared_ptr<TTHbb::Jet> > specbjets, std::vector<shared_ptr<TTHbb::Jet> > specnonbjets){
-  double bucketP1massMax = 200; //GeV
+    TTHbb::Bucket b1, b2;
+    Blist.push_back(b1);
+    Blist.push_back(b2);
+}
+
+/*  double bucketP1massMax = 200; //GeV
   double bucketP1massMin = 155; //GeV
   double firstP1Bucketwt = 100;
-  B = doublebucket(specbjets, specnonbjets, bucketP1massMax, bucketP1massMin, "tw", firstP1Bucketwt);
+  //std::vector<TTHbb::Bucket> Blist;
+  std::cout << "Bucket Mass: " << b.Mbucket << std::endl;
+  std::cout << "Bucket label: " << b.bucket_label << std::endl;
+
+  std::cout << "Bucket Mass: " << Blist[0].Mbucket << std::endl;
+  std::cout << "Bucket label: " << Blist[0].bucket_label << std::endl;
+  std::cout << "Blist size before: " << Blist.size() << std::endl;
+  Blist = doublebucket(specbjets, specnonbjets, bucketP1massMax, bucketP1massMin, "tw", firstP1Bucketwt);
+  std::cout << "Blist size after: " << Blist.size() << std::endl;
   vector <TTHbb::Bucket> tmincand; //fill tmin candidates
   int telseindex; //tw or t0 bucket
-  for (int i = 0; i < B.size(); ++i) {
-    //if (B[i].getBucketMass() > -1) {
-      //double mWcand = B[i].WcandMnum();
-      //double mBucketPrim = B[i].getBucketMass();
-      //double mratio = B[i].WcandRatio();
+  for (int i = 0; i < Blist.size(); ++i) {
+    //if (Blist[i].getBucketMass() > -1) {
+      //double mWcand = Blist[i].WcandMnum();
+      //double mBucketPrim = Blist[i].getBucketMass();
+      //double mratio = Blist[i].WcandRatio();
     //}
-    if (B[i].getBucketLabel() == "t-") {
-      tmincand.push_back(B[i]);
+    if (Blist[i].getBucketLabel() == "t-") {
+      tmincand.push_back(Blist[i]);
     }
     else {
       telseindex = i;
@@ -46,16 +58,22 @@ BucketofTops::BucketofTops(std::vector<shared_ptr<TTHbb::Jet> > specbjets, std::
   double firstP2Bucketwt = 1;
 
   if (tmincand.size() == 2) {
-    B = doublebucket(specbjets, specnonbjets, bucketP2massMax, bucketP2massMin, "t-", firstP2Bucketwt);
+    Blist = doublebucket(specbjets, specnonbjets, bucketP2massMax, bucketP2massMin, "t-", firstP2Bucketwt);
   }
 
   else if (tmincand.size() == 1){
-    B[1-telseindex] = singlebucket(specbjets, specnonbjets, B[telseindex], bucketP2massMax, bucketP2massMin);
+    Blist[1-telseindex] = singlebucket(specbjets, specnonbjets, Blist[telseindex], bucketP2massMax, bucketP2massMin);
   }
 
-};
+}*/
 
-BucketofTops::~BucketofTops(){};
+std::vector<TTHbb::Bucket> * BucketofTops::returnbucketlistptr(){
+  std::vector<TTHbb::Bucket> * Blistptr = new  std::vector<TTHbb::Bucket>;
+  *Blistptr = Blist;
+  return Blistptr;
+}
+
+BucketofTops::~BucketofTops(){}
 
 std::vector <shared_ptr<TTHbb::Jet> > BucketofTops::compvec(std::vector <shared_ptr<TTHbb::Jet> > EVT, std::vector <shared_ptr<TTHbb::Jet> > set) //another bug
 {
@@ -147,6 +165,7 @@ std::vector<TTHbb::Bucket> BucketofTops::doublebucket(std::vector<shared_ptr<TTH
   double Deltatw = pow(10,10); //arbit large number
   for (int i = 0; i < nonbindexset1.size(); ++i) //looping over all possible buckets
   {
+  std::cout << "inside doublebucket" << std::endl;
     vector <vector <int> > nonbindexset2;
     vector <int> restjetset = cSet(nonbset, nonbindexset1[i]);
     /*switching of second bucket's freedom for now//nonbindexset2 = pSet(restjetset); // no offset as all the jets can now be used*/

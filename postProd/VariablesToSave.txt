@@ -5,3 +5,15 @@ nBTags_MV2c10_77
 nBTags_MV2c10_85
 nJets
 B1m
+PS_HLT_mu24
+myNJets
+nElectrons
+blistsize
+Mbucket1
+Mbucket2
+pTbucket1
+pTbucket2
+etabucket1
+etabucket2
+mpairnum1
+mpairnum2

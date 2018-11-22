@@ -1,0 +1,3 @@
+[submodule "Framework/TTHbbAnalysis"]
+	path = Framework/TTHbbAnalysis
+	url = ../TTHbbAnalysis.git

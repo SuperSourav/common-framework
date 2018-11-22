@@ -5,3 +5,15 @@ int nBTags_MV2c10_77
 int nBTags_MV2c10_85
 int nJets
 int B1m
+float PS_HLT_mu24
+int myNJets
+int nElectrons
+int blistsize
+float Mbucket1
+float Mbucket2
+float pTbucket1
+float pTbucket2
+float etabucket1
+float etabucket2
+float mpairnum1
+float mpairnum2

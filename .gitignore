@@ -1,0 +1,8 @@
+build*/
+*.root
+*.tmp
+setup*.sh
+*pyc
+runSimon/
+run_rustige/
+*log*

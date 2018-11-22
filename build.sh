@@ -8,4 +8,3 @@ cmake -DATLAS_PACKAGE_FILTER_FILE=../Framework/TTHbbAnalysis/PackageFilters/offl
 cmake --build ./
 source */setup.sh
 cd ..
-

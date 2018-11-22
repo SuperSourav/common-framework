@@ -24,7 +24,7 @@ namespace TTHbb {
     void finalise();
     BucketofTops *m_buckets;
     bool m_DoBuckets;
-    
+    std::vector<TTHbb::Bucket> tbuck;
   private:
   };
 

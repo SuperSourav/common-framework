@@ -29,10 +29,10 @@ namespace TTHbb{
     Bucket()
     {
       bucket_label = "tx"; //tx means label unassigned
-      Mbucket = -9999; //GeV
-      pTbucket = -9999; //GeV
-      etabucket = -9999;
-      mpairnum = -9999; //GeV
+      Mbucket = -777; //GeV
+      pTbucket = -777; //GeV
+      etabucket = -777;
+      mpairnum = -777; //GeV
     }
   
     Bucket(std::vector <shared_ptr<TTHbb::Jet> > nonbjets, shared_ptr<TTHbb::Jet> bjet)

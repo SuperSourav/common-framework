@@ -1,0 +1,117 @@
+# ATLAS Analysis Gitlab-CI
+# For use with RECAST, etc.
+
+# Stolen from the SUSY multi-b search (G. Stark) 
+# for use with the SM-4t analaysis (MLB)
+
+image: lukasheinrich/recast_cvmfs_assisted:20161231
+
+variables:
+  BUILD_DIR: 4t_TestArea
+  BUILD_DIR_ABS: "${CI_PROJECT_DIR}/${BUILD_DIR}"
+  PACKAGE_NAME: common-framework
+
+stages:
+  - setup
+  - build
+  #- execute
+  #- scaffold
+  #- test
+
+# if we need to set up ssh-keys always
+before_script:
+  - pwd
+  - mkdir -p ~/.ssh
+  - source ~/.bashrc || echo ignore alrb
+  - echo "${SERVICE_PASSWORD}" | kinit ${CERN_USER}@CERN.CH
+  - klist
+  - echo -e "Host svn.cern.ch lxplus.cern.ch\n\tUser ${CERN_USER}\n\tStrictHostKeyChecking no\n\tGSSAPIAuthentication yes\n\tGSSAPIDelegateCredentials yes\n\tProtocol 2\n\tForwardX11 no\n\tIdentityFile ~/.ssh/id_rsa" >> ~/.ssh/config
+  - cat ~/.ssh/config
+  # Install ssh-agent if not already installed, it is required by Docker.
+  # (change apt-get to yum if you use a CentOS-based image)
+  # - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+
+  # Run ssh-agent (inside the build environment)
+  # - eval $(ssh-agent -s)
+
+  # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+  # - echo "$SSH_PRIVATE_KEY"
+  #- ssh-add <(echo "$SSH_PRIVATE_KEY")
+  #- echo "${SSH_PRIVATE_KEY}" > test.key; chmod 600 test.key
+  - echo "Project Directory    ${CI_PROJECT_DIR}"
+  - echo "Build Directory      ${BUILD_DIR_ABS}"
+  - echo "      Directory Name ${BUILD_DIR}"
+  - pwd
+  - mkdir -p $BUILD_DIR_ABS
+  - cd $BUILD_DIR_ABS
+
+#codecapture:
+#  stage: build
+#  tags: [code-capture]
+#  variables:
+#    BUILD_BASE_IMAGE: lukasheinrich/recast_cvmfs_assisted
+#    TO: ${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_NAME}
+#  image: gitlab-registry.cern.ch/runner_admin/codecapture_steering
+#  before_script: []
+#  script:
+#   - /codecapture_utils/steering.sh
+#  allow_failure: true
+
+setup:
+  stage: setup
+  script:
+    - rsync -a $CI_PROJECT_DIR $BUILD_DIR_ABS  --exclude $BUILD_DIR
+    - ls; ls -l "${PACKAGE_NAME}/"
+    - grep "#!!" "${PACKAGE_NAME}/README.md" | sed -r 's/#!!//g' | sed -e 's/^[ \t]*//' > INSTALL
+    # - grep "#!!" "${PACKAGE_NAME}/tests/README.md" | sed -r 's/#!!//g' | sed -e 's/^[ \t]*//' > SCAFFOLD
+  artifacts:
+    paths:
+      - $BUILD_DIR
+    name: "${BUILD_DIR}_${CI_BUILD_STAGE}"
+    expire_in: 1 mos
+  tags:
+    # Make your job be executed in a shared runner that has CVMFS mounted
+    - cvmfs
+
+
+build:
+  stage: build
+  dependencies: [setup]
+  script:
+    - cat INSTALL
+    - source INSTALL
+  #artifacts:
+    #paths:
+    #  - $BUILD_DIR
+    #name: "${BUILD_DIR}_${CI_BUILD_STAGE}"
+    #expire_in: 1 mos
+  tags:
+    # Make your job be executed in a shared runner that has CVMFS mounted
+    - cvmfs
+
+#scaffold:
+#  stage: scaffold
+#  dependencies: [build]
+#  script:
+#    - rcSetup || echo ignore alrb
+#    - cat SCAFFOLD
+#    - source SCAFFOLD
+#  artifacts:
+#    paths:
+#      - $BUILD_DIR/submitDir/
+#      - $BUILD_DIR/$PACKAGE_NAME/
+#    name: "${BUILD_DIR}_${CI_BUILD_STAGE}"
+#    expire_in: 1 mos
+#  tags:
+#    # Make your job be executed in a shared runner that has CVMFS mounted
+#    - cvmfs
+
+#python_import_test:
+#  stage: test
+#  dependencies: [build, scaffold]
+#  script:
+#    - rcSetup || echo ignore alrb
+#    - python -c "import ROOT; ROOT.gROOT.Macro( '$ROOTCOREDIR/scripts/load_packages.C' ); ROOT.MainAnalysis()"
+
+# See more examples of tests in the Multi-b repo
+# https://gitlab.cern.ch/MultiBJets/MultibjetsAnalysis/tree/master/tests

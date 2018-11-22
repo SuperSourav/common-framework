@@ -6,6 +6,7 @@
 #include "TTHbbObjects/TTHbbUtils.h"
 #include "TTHbbToolManager/OfflineMVAVariables.h"
 #include "TTHbbToolManager/OfflineTtbarCorrections.h"
+#include "TTHbbToolManager/OfflineBucketofTops.h"
 #include "TTHbbToolManager/OfflineFakes.h"
 #include "TTHbbToolManager/OfflineTRFFakes.h"
 #include "TTHbbToolManager/OfflineMCFakes.h"
@@ -44,6 +45,10 @@ namespace TTHbb{
 			       "OfflineFakes", 
 			       []{ return new OfflineFakes("OfflineFakes");});
     
+    toolManager->addToolToDict("OfflineBucketofTops.TurnOn",
+			       "OfflineBucketofTops",
+			       []{ return new OfflineBucketofTops("OfflineBucketofTops");});
+
     toolManager->addToolToDict("OfflineTtbarCorrections.TurnOn",
 			       "OfflineTtbarCorrections",
 			       []{ return new OfflineTtbarCorrections("OfflineTtbarCorrections");});
