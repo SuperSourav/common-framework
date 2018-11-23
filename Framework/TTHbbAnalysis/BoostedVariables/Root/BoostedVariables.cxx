@@ -656,6 +656,7 @@ void BoostedVariables::applyReclustered1T1H(TTHbb::Event* event, std::string pre
     bool isbtagged_MV2c10_77 = jet->charVariable("isbtagged_MV2c10_77") == 1;
     bool isbtagged_MV2c10_70 = jet->charVariable("isbtagged_MV2c10_70") == 1;
     bool isbtagged_MV2c10_60 = jet->charVariable("isbtagged_MV2c10_60") == 1;
+      std::cout << "boosted - 85: " << isbtagged_MV2c10_85 << "\t77: " << isbtagged_MV2c10_77 << "\t70: " << isbtagged_MV2c10_70 << "\t60: " << isbtagged_MV2c10_60 << std::endl;
 
     if (isbtagged_MV2c10_85) {
       

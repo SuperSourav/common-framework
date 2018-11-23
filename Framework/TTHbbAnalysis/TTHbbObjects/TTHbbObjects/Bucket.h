@@ -49,7 +49,25 @@ namespace TTHbb{
       Mbucket = b.M();
       pTbucket = b.Pt();
       etabucket = b.Et();
-    } 
+    }
+
+    //copy contructor
+    Bucket(const Bucket &bb)
+    {
+      nonBJETS = bb.nonBJETS;
+      BJET = bb.BJET;
+      members.push_back(bjet);
+      TLorentzVector b = bjet->p4();
+      for(int i =0; i < nonbjets.size(); ++i)
+      {
+        b = b + nonbjets[i]->p4();
+        members.push_back(nonbjets[i]);
+      }
+      Mbucket = b.M();
+      pTbucket = b.Pt();
+      etabucket = b.Et();
+    }
+
   
     void setBucketLabel(string label)  {bucket_label=label;}
   

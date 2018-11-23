@@ -19,23 +19,25 @@ using namespace std;
    } while( false )
 
 BucketofTops::BucketofTops(std::vector<shared_ptr<TTHbb::Jet> > specbjets, std::vector<shared_ptr<TTHbb::Jet> > specnonbjets){
-    TTHbb::Bucket b1, b2;
+/*    TTHbb::Bucket b1, b2;
     Blist.push_back(b1);
     Blist.push_back(b2);
-}
+}*/
 
-/*  double bucketP1massMax = 200; //GeV
+  double bucketP1massMax = 200; //GeV
   double bucketP1massMin = 155; //GeV
   double firstP1Bucketwt = 100;
   //std::vector<TTHbb::Bucket> Blist;
-  std::cout << "Bucket Mass: " << b.Mbucket << std::endl;
-  std::cout << "Bucket label: " << b.bucket_label << std::endl;
-
-  std::cout << "Bucket Mass: " << Blist[0].Mbucket << std::endl;
-  std::cout << "Bucket label: " << Blist[0].bucket_label << std::endl;
-  std::cout << "Blist size before: " << Blist.size() << std::endl;
+  std::cout << "inside buckets constructor " << specbjets.size() << std::endl;
+    for(auto btjet : specbjets){
+      TLorentzVector tesbtjet = btjet->p4();
+      std::cout << "print b jet px: " << tesbtjet.Px() << "\tpy: " << tesbtjet.Py() << "\tpz: " << tesbtjet.Pz() << "\tE: " << tesbtjet.E() << std::endl;
+    }
+  for(auto tjet: specnonbjets){
+    TLorentzVector testjet = tjet->p4();
+    std::cout << "print jet px: " << testjet.Px() << "\tpy: " << testjet.Py() << "\tpz: " << testjet.Pz() << "\tE: " << testjet.E() << std::endl;
+  }
   Blist = doublebucket(specbjets, specnonbjets, bucketP1massMax, bucketP1massMin, "tw", firstP1Bucketwt);
-  std::cout << "Blist size after: " << Blist.size() << std::endl;
   vector <TTHbb::Bucket> tmincand; //fill tmin candidates
   int telseindex; //tw or t0 bucket
   for (int i = 0; i < Blist.size(); ++i) {
@@ -65,7 +67,7 @@ BucketofTops::BucketofTops(std::vector<shared_ptr<TTHbb::Jet> > specbjets, std::
     Blist[1-telseindex] = singlebucket(specbjets, specnonbjets, Blist[telseindex], bucketP2massMax, bucketP2massMin);
   }
 
-}*/
+}
 
 std::vector<TTHbb::Bucket> * BucketofTops::returnbucketlistptr(){
   std::vector<TTHbb::Bucket> * Blistptr = new  std::vector<TTHbb::Bucket>;

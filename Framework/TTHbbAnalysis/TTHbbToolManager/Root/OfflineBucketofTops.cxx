@@ -25,13 +25,40 @@ namespace TTHbb{
 
   void OfflineBucketofTops::apply(TTHbb::Event* event){
     std::vector<shared_ptr<TTHbb::Jet> > specbjets, specnonbjets; //for now using all the jets as spectators
+    //artificial bjet count
+    int bjcount = 0;
     for(auto jet : event->m_jets){
-      bool isbtagged_MV2c10_85 = jet->charVariable("isbtagged_MV2c10_85") == 1;
-      if (isbtagged_MV2c10_85) {specbjets.push_back(jet);}
+      bool isbtagged_MV2c10_85 = jet->charVariable("isbtagged_MV2c10_85") == 0;
+      bool isbtagged_MV2c10_77 = jet->charVariable("isbtagged_MV2c10_77") == 0;
+      bool isbtagged_MV2c10_70 = jet->charVariable("isbtagged_MV2c10_70") == 0;
+      bool isbtagged_MV2c10_60 = jet->charVariable("isbtagged_MV2c10_60") == 0;
+      int jet_isbtagged_85 = jet->charVariable("isbtagged_85");
+      int jet_isbtagged_77 = jet->charVariable("isbtagged_77");
+      int jet_isbtagged_70 = jet->charVariable("isbtagged_70");
+      int jet_isbtagged_60 = jet->charVariable("jetIsBtagged_60");
+       
+      if (jet->charVariable("isbtagged_70")) { std::cout << "70 btag" << std::endl;}
+      if (jet->charVariable("isbtagged_60")) { std::cout << "60 btag" << std::endl;}
+
+
+      std::cout << "85: " << isbtagged_MV2c10_85 << "\t77: " << isbtagged_MV2c10_77 << "\t70: " << isbtagged_MV2c10_70 << "\t60: " << isbtagged_MV2c10_60 << std::endl;
+      std::cout << "85: " << jet_isbtagged_85 << "\t77: " << jet_isbtagged_77 << "\t70: " << jet->floatVariable("mv2") << "\t60: " << jet_isbtagged_60 << std::endl;
+      if (bjcount < 2) {bjcount++; specbjets.push_back(jet);}
       else {specnonbjets.push_back(jet);}
     } 
+    std::cout << specbjets.size() << std::endl;
+    for(auto btjet : specbjets){
+      TLorentzVector tesbtjet = btjet->p4();
+      std::cout << "print b jet px: " << tesbtjet.Px() << "\tpy: " << tesbtjet.Py() << "\tpz: " << tesbtjet.Pz() << "\tE: " << tesbtjet.E() << std::endl;
+    }
+    for(auto tjet : specnonbjets){
+      TLorentzVector testjet = tjet->p4();
+      std::cout << "print jet px: " << testjet.Px() << "\tpy: " << testjet.Py() << "\tpz: " << testjet.Pz() << "\tE: " << testjet.E() << std::endl;
+    }
     std::cout << m_DoBuckets << std::endl;
-    if (m_DoBuckets) {
+    std::cout << (m_DoBuckets and (specbjets.size() == 2)) << std::endl;
+    if (m_DoBuckets and (specbjets.size() == 2)) {
+    //if (m_DoBuckets) {
       std::cout << "inside DoBuckets before call" << std::endl;
       m_buckets = new BucketofTops(specbjets, specnonbjets);
       std::vector<TTHbb::Bucket> bucklist = m_buckets->Blist;
