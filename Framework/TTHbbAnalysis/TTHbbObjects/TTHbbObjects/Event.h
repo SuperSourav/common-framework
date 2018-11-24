@@ -12,7 +12,7 @@
 #include "TTHbbObjects/Neutrino.h"
 #include "TTHbbObjects/EventData.h"
 #include "TTHbbObjects/TruthParticle.h"
-#include "TTHbbObjects/Bucket.h"
+//#include "TTHbbObjects/Bucket.h"
 
 #include <vector>
 #include <memory>
@@ -47,7 +47,7 @@ namespace TTHbb{
     std::shared_ptr<Particle> addCustomObject(std::string name); // Michele
     void addCustomObject(std::string name,std::shared_ptr<Particle> o); // Michele
 
-    void addBucket(Bucket b); 
+//    void addBucket(Bucket b); 
 
     inline void recoAvailable(bool a){m_reco=a;}
     inline bool recoAvailable(){return m_reco;}
@@ -70,8 +70,8 @@ namespace TTHbb{
     float met_met;
     float met_phi;
 
-    //Container for buckets of top in the event
-    std::vector<Bucket> m_BucketCont;
+//    //Container for buckets of top in the event
+//    std::vector<Bucket> m_BucketCont;
 
     /// Containers for objects not created initially
     NeutrinoContainer m_neutrinos;

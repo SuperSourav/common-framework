@@ -6,25 +6,27 @@
 #include <math.h>
 #include <string>
 #include "TTHbbObjects/Event.h"
-#include "TTHbbObjects/Bucket.h"
+#include "BucketofTops/bucket_all.h"
 #include "PathResolver/PathResolver.h"
 
 class BucketofTops {
   
   public:
-    double mTop = 173.5; //GeV
-    double mW = 80.4; //GeV
-    std::vector<TTHbb::Bucket> Blist; // = -888;
+    std::vector<bucketAlgo::bucket> Blist; //
+    std::vector<TLorentzVector> Xtra; //
+    std::vector<float> mWcand, mBucketPrim, mratio; //GeV
+    std::vector<float> twmass, twPt, tweta; //GeV
+    std::vector<float> tminmass, tminPt, tmineta; //GeV
+    std::vector<float> t0mass, t0Pt, t0eta; //GeV
+    std::vector<float> Xmass, XPt, Xeta; //GeV
 
-    BucketofTops(std::vector<shared_ptr<TTHbb::Jet> > specbjets, std::vector<shared_ptr<TTHbb::Jet> > specnonbjets);
+
+    BucketofTops(std::vector<TLorentzVector> specbjets, std::vector<TLorentzVector> specnonbjets);
     ~BucketofTops();
-    std::vector <shared_ptr<TTHbb::Jet> > compvec(std::vector <shared_ptr<TTHbb::Jet> > EVT, std::vector <shared_ptr<TTHbb::Jet> > set);
-    std::vector <std::vector <int> > pSet(std::vector <int> set, int offset);
-    std::vector <int> cSet(std::vector <int> set, std::vector <int> subset);
-    std::vector <shared_ptr<TTHbb::Jet> > extra(std::vector <shared_ptr<TTHbb::Jet> > EVT, std::vector <TTHbb::Bucket> B);
-    std::vector<TTHbb::Bucket> doublebucket(std::vector<shared_ptr<TTHbb::Jet> > specbjets, std::vector<shared_ptr<TTHbb::Jet> > specnonbjets, double MbucketMax, double MbucketMin, string target_label, double B1weight);
-    TTHbb::Bucket singlebucket(std::vector<shared_ptr<TTHbb::Jet> > specbjets, std::vector<shared_ptr<TTHbb::Jet> > specnonbjets, TTHbb::Bucket twbucket, double MbucketMax, double MbucketMin);
-    std::vector<TTHbb::Bucket> * returnbucketlistptr();
+
+    std::vector<bucketAlgo::bucket> * returnbucketlistptr();
+
+    //
   private:
 
 };

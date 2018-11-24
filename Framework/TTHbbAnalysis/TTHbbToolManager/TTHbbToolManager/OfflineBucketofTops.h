@@ -5,6 +5,7 @@
 #include "TTHbbToolManager/ToolBase.h"
 
 #include "BucketofTops/BucketofTops.h"
+#include "BucketofTops/bucket_all.h"
 #include <iostream>
 #include <vector>
 
@@ -24,7 +25,7 @@ namespace TTHbb {
     void finalise();
     BucketofTops *m_buckets;
     bool m_DoBuckets;
-    std::vector<TTHbb::Bucket> tbuck;
+    std::vector<bucketAlgo::bucket> tbuck;
   private:
   };
 

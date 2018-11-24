@@ -24,7 +24,7 @@ namespace TTHbb{
   void OfflineBucketofTops::finalise(){}
 
   void OfflineBucketofTops::apply(TTHbb::Event* event){
-    std::vector<shared_ptr<TTHbb::Jet> > specbjets, specnonbjets; //for now using all the jets as spectators
+    std::vector<TLorentzVector> specbjets, specnonbjets; //for now using all the jets as spectators
     //artificial bjet count
     int bjcount = 0;
     for(auto jet : event->m_jets){
@@ -43,17 +43,23 @@ namespace TTHbb{
 
       std::cout << "85: " << isbtagged_MV2c10_85 << "\t77: " << isbtagged_MV2c10_77 << "\t70: " << isbtagged_MV2c10_70 << "\t60: " << isbtagged_MV2c10_60 << std::endl;
       std::cout << "85: " << jet_isbtagged_85 << "\t77: " << jet_isbtagged_77 << "\t70: " << jet->floatVariable("mv2") << "\t60: " << jet_isbtagged_60 << std::endl;
-      if (bjcount < 2) {bjcount++; specbjets.push_back(jet);}
-      else {specnonbjets.push_back(jet);}
+      if (bjcount < 2) 
+      {
+        bjcount++;
+        TLorentzVector vecb = jet->p4();
+        specbjets.push_back(vecb*(0.001));} //converting MeV to GeV
+      else 
+      {
+        TLorentzVector vecnonb = jet->p4();
+        specnonbjets.push_back(vecnonb((0.001)); //converting MeV to GeV
+      }
     } 
     std::cout << specbjets.size() << std::endl;
     for(auto btjet : specbjets){
-      TLorentzVector tesbtjet = btjet->p4();
-      std::cout << "print b jet px: " << tesbtjet.Px() << "\tpy: " << tesbtjet.Py() << "\tpz: " << tesbtjet.Pz() << "\tE: " << tesbtjet.E() << std::endl;
+      std::cout << "print b jet px: " << btjet.Px() << "\tpy: " << btjet.Py() << "\tpz: " << btjet.Pz() << "\tE: " << btjet.E() << std::endl;
     }
     for(auto tjet : specnonbjets){
-      TLorentzVector testjet = tjet->p4();
-      std::cout << "print jet px: " << testjet.Px() << "\tpy: " << testjet.Py() << "\tpz: " << testjet.Pz() << "\tE: " << testjet.E() << std::endl;
+      std::cout << "print jet px: " << tjet.Px() << "\tpy: " << tjet.Py() << "\tpz: " << tjet.Pz() << "\tE: " << tjet.E() << std::endl;
     }
     std::cout << m_DoBuckets << std::endl;
     std::cout << (m_DoBuckets and (specbjets.size() == 2)) << std::endl;
@@ -61,7 +67,7 @@ namespace TTHbb{
     //if (m_DoBuckets) {
       std::cout << "inside DoBuckets before call" << std::endl;
       m_buckets = new BucketofTops(specbjets, specnonbjets);
-      std::vector<TTHbb::Bucket> bucklist = m_buckets->Blist;
+      std::vector<bucketAlgo::bucket> bucklist = m_buckets->Blist;
       std::cout << "buclet list size: " << bucklist.size() << std::endl;
       std::cout << "init bucket mass: " << bucklist[0].Mbucket << "\t" << bucklist[1].Mbucket << std::endl;
       std::cout << "init bucket label: " << bucklist[0].bucket_label << "\t" << bucklist[1].bucket_label << std::endl;
@@ -70,7 +76,7 @@ namespace TTHbb{
       std::cout << "init bucket mpairnum: " << bucklist[0].mpairnum << "\t" << bucklist[1].mpairnum << std::endl;
 
       if (m_buckets == NULL) {std::cout << "bucket ptr is null" << std::endl;}
-	std::vector<TTHbb::Bucket>& blistp = *m_buckets->returnbucketlistptr();
+	std::vector<bucketAlgo::bucket>& blistp = *m_buckets->returnbucketlistptr();
         std::cout << "get blist size: " << blistp.size() << std::endl;
 	std::cout <<"get blist mass: " << blistp[0].Mbucket  << "\t" << blistp[1].Mbucket  << std::endl;
 	std::cout <<"get blist label: " << blistp[0].bucket_label  << "\t" << blistp[1].bucket_label  << std::endl;
