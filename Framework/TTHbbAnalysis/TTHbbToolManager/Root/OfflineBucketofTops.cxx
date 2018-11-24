@@ -51,7 +51,7 @@ namespace TTHbb{
       else 
       {
         TLorentzVector vecnonb = jet->p4();
-        specnonbjets.push_back(vecnonb((0.001)); //converting MeV to GeV
+        specnonbjets.push_back(vecnonb*(0.001)); //converting MeV to GeV
       }
     } 
     std::cout << specbjets.size() << std::endl;
@@ -69,29 +69,29 @@ namespace TTHbb{
       m_buckets = new BucketofTops(specbjets, specnonbjets);
       std::vector<bucketAlgo::bucket> bucklist = m_buckets->Blist;
       std::cout << "buclet list size: " << bucklist.size() << std::endl;
-      std::cout << "init bucket mass: " << bucklist[0].Mbucket << "\t" << bucklist[1].Mbucket << std::endl;
-      std::cout << "init bucket label: " << bucklist[0].bucket_label << "\t" << bucklist[1].bucket_label << std::endl;
-      std::cout << "init bucket pT: " << bucklist[0].pTbucket << "\t" << bucklist[1].pTbucket << std::endl;
-      std::cout << "init bucket eta: " << bucklist[0].etabucket << "\t" << bucklist[1].etabucket << std::endl;
-      std::cout << "init bucket mpairnum: " << bucklist[0].mpairnum << "\t" << bucklist[1].mpairnum << std::endl;
+      std::cout << "init bucket mass: " << bucklist[0].getBucketMass() << "\t" << bucklist[1].getBucketMass() << std::endl;
+      std::cout << "init bucket label: " << bucklist[0].getBucketLabel() << "\t" << bucklist[1].getBucketLabel() << std::endl;
+      std::cout << "init bucket pT: " << bucklist[0].getBucketPt() << "\t" << bucklist[1].getBucketPt() << std::endl;
+      std::cout << "init bucket eta: " << bucklist[0].getBucketEta() << "\t" << bucklist[1].getBucketEta() << std::endl;
+      std::cout << "init bucket WcandMnum(): " << bucklist[0].WcandMnum() << "\t" << bucklist[1].WcandMnum() << std::endl;
 
       if (m_buckets == NULL) {std::cout << "bucket ptr is null" << std::endl;}
 	std::vector<bucketAlgo::bucket>& blistp = *m_buckets->returnbucketlistptr();
         std::cout << "get blist size: " << blistp.size() << std::endl;
-	std::cout <<"get blist mass: " << blistp[0].Mbucket  << "\t" << blistp[1].Mbucket  << std::endl;
-	std::cout <<"get blist label: " << blistp[0].bucket_label  << "\t" << blistp[1].bucket_label  << std::endl;
-	std::cout <<"get blist pT: " << blistp[0].pTbucket  << "\t" << blistp[1].pTbucket  << std::endl;
-	std::cout <<"get blist eta: " << blistp[0].etabucket  << "\t" << blistp[1].etabucket  << std::endl;
-	std::cout <<"get blist mpairnum: " << blistp[0].mpairnum << "\t" << blistp[1].mpairnum << std::endl;
+	std::cout <<"get blist mass: " << blistp[0].getBucketMass()  << "\t" << blistp[1].getBucketMass()  << std::endl;
+	std::cout <<"get blist label: " << blistp[0].getBucketLabel()  << "\t" << blistp[1].getBucketLabel()  << std::endl;
+	std::cout <<"get blist pT: " << blistp[0].getBucketPt()  << "\t" << blistp[1].getBucketPt()  << std::endl;
+	std::cout <<"get blist eta: " << blistp[0].getBucketEta()  << "\t" << blistp[1].getBucketEta()  << std::endl;
+	std::cout <<"get blist WcandMnum(): " << blistp[0].WcandMnum() << "\t" << blistp[1].WcandMnum() << std::endl;
       event->intVariable("blistsize") = blistp.size();
-      event->floatVariable("Mbucket1") = blistp[0].Mbucket;
-      event->floatVariable("Mbucket2") = blistp[1].Mbucket;
-      event->floatVariable("pTbucket1") = blistp[0].pTbucket;
-      event->floatVariable("pTbucket2") = blistp[1].pTbucket;
-      event->floatVariable("etabucket1") = blistp[0].etabucket;
-      event->floatVariable("etabucket2") = blistp[1].etabucket;
-      event->floatVariable("mpairnum1") = blistp[0].mpairnum;
-      event->floatVariable("mpairnum2") = blistp[1].mpairnum;
+      event->floatVariable("BucketMass1") = blistp[0].getBucketMass();
+      event->floatVariable("BucketMass2") = blistp[1].getBucketMass();
+      event->floatVariable("BucketPt1") = blistp[0].getBucketPt();
+      event->floatVariable("BucketPt2") = blistp[1].getBucketPt();
+      event->floatVariable("BucketEta1") = blistp[0].getBucketEta();
+      event->floatVariable("BucketEta2") = blistp[1].getBucketEta();
+      event->floatVariable("WcandMnum1") = blistp[0].WcandMnum();
+      event->floatVariable("WcandMnum2") = blistp[1].WcandMnum();
 
       std::cout << "inside DoBuckets after call" << std::endl;
       //tbuck = m_buckets->B;

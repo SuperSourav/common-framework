@@ -3,9 +3,8 @@
 # Declare the name of this package:
 atlas_subdir( BucketofTops None )
 
-atlas_depends_on_subdirs( PUBLIC
-                          TTHbbObjects
-                          Tools/PathResolver )
+atlas_depends_on_subdirs( PUBLIC 
+	                  Tools/PathResolver )
 
 # This package uses ROOT:
 find_package( ROOT REQUIRED COMPONENTS Core Gpad Tree Hist RIO MathCore Graf Physics )
