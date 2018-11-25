@@ -7,7 +7,7 @@
 #include <string>
 //#include "TTHbbObjects/Event.h"
 #include "BucketofTops/bucket_all.h"
-#include "PathResolver/PathResolver.h"
+//#include "PathResolver/PathResolver.h"
 
 class BucketofTops {
   

@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 #include "TLorentzVector.h"
-#include "PathResolver/PathResolver.h"
+//#include "PathResolver/PathResolver.h"
 using namespace std;
 
 //put top bucket algo stuff inside bucketAlgo namespace
