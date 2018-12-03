@@ -2,6 +2,7 @@
 #include "TTHbbObjects/TTHbbUtils.h"
 #include "TTHbbConfiguration/GlobalConfiguration.h"
 #include <iostream>
+#include <string>
 
 namespace TTHbb{
 
@@ -25,27 +26,10 @@ namespace TTHbb{
 
   void OfflineBucketofTops::apply(TTHbb::Event* event){
     std::vector<TLorentzVector> specbjets, specnonbjets; //for now using all the jets as spectators
-    //artificial bjet count
-    int bjcount = 0;
     for(auto jet : event->m_jets){
-      bool isbtagged_MV2c10_85 = jet->charVariable("isbtagged_MV2c10_85") == 0;
-      bool isbtagged_MV2c10_77 = jet->charVariable("isbtagged_MV2c10_77") == 0;
-      bool isbtagged_MV2c10_70 = jet->charVariable("isbtagged_MV2c10_70") == 0;
-      bool isbtagged_MV2c10_60 = jet->charVariable("isbtagged_MV2c10_60") == 0;
-      int jet_isbtagged_85 = jet->charVariable("isbtagged_85");
-      int jet_isbtagged_77 = jet->charVariable("isbtagged_77");
-      int jet_isbtagged_70 = jet->charVariable("isbtagged_70");
-      int jet_isbtagged_60 = jet->charVariable("jetIsBtagged_60");
-       
-      if (jet->charVariable("isbtagged_70")) { std::cout << "70 btag" << std::endl;}
-      if (jet->charVariable("isbtagged_60")) { std::cout << "60 btag" << std::endl;}
-
-
-      std::cout << "85: " << isbtagged_MV2c10_85 << "\t77: " << isbtagged_MV2c10_77 << "\t70: " << isbtagged_MV2c10_70 << "\t60: " << isbtagged_MV2c10_60 << std::endl;
-      std::cout << "85: " << jet_isbtagged_85 << "\t77: " << jet_isbtagged_77 << "\t70: " << jet->floatVariable("mv2") << "\t60: " << jet_isbtagged_60 << std::endl;
-      if (bjcount < 2) 
+      bool isbtagged_MV2c10_60 = jet->charVariable("isbtagged_MV2c10_60");
+      if (isbtagged_MV2c10_60) 
       {
-        bjcount++;
         TLorentzVector vecb = jet->p4();
         specbjets.push_back(vecb*(0.001));} //converting MeV to GeV
       else 
@@ -59,7 +43,7 @@ namespace TTHbb{
       std::cout << "print b jet px: " << btjet.Px() << "\tpy: " << btjet.Py() << "\tpz: " << btjet.Pz() << "\tE: " << btjet.E() << std::endl;
     }
     for(auto tjet : specnonbjets){
-      std::cout << "print jet px: " << tjet.Px() << "\tpy: " << tjet.Py() << "\tpz: " << tjet.Pz() << "\tE: " << tjet.E() << std::endl;
+      std::cout << "print nonb jet px: " << tjet.Px() << "\tpy: " << tjet.Py() << "\tpz: " << tjet.Pz() << "\tE: " << tjet.E() << std::endl;
     }
     std::cout << m_DoBuckets << std::endl;
     std::cout << (m_DoBuckets and (specbjets.size() == 2)) << std::endl;
@@ -96,6 +80,96 @@ namespace TTHbb{
       std::cout << "inside DoBuckets after call" << std::endl;
       //tbuck = m_buckets->B;
       //event->intVariable("B1mass") = tbuck.size();
+      std::vector<float> m_mW = m_buckets->mWcand;
+      for(unsigned int iTarget = 0; iTarget < m_mW.size(); ++iTarget ) {
+        std::string thisVarToSave = "mW"+std::to_string(iTarget); 
+	cout << "var_name: " << thisVarToSave;
+	event->floatVariable(thisVarToSave) = m_mW.at(iTarget);
+      } 
+      std::vector<float> m_mBucketPrim = m_buckets->mBucketPrim;
+      for(unsigned int iTarget = 0; iTarget < m_mBucketPrim.size(); ++iTarget ) {
+        std::string thisVarToSave = "mBucketPrim"+std::to_string(iTarget); 
+	cout << "var_name: " << thisVarToSave;
+	event->floatVariable(thisVarToSave) = m_mBucketPrim.at(iTarget);
+      } 
+      std::vector<float> m_mratio = m_buckets->mratio;
+      for(unsigned int iTarget = 0; iTarget < m_mratio.size(); ++iTarget ) {
+        std::string thisVarToSave = "mratio"+std::to_string(iTarget); 
+	cout << "var_name: " << thisVarToSave;
+	event->floatVariable(thisVarToSave) = m_mratio.at(iTarget);
+      } 
+      std::vector<float> m_twmass = m_buckets->twmass;
+      for(unsigned int iTarget = 0; iTarget < m_twmass.size(); ++iTarget ) {
+        std::string thisVarToSave = "twmass"+std::to_string(iTarget); 
+	cout << "var_name: " << thisVarToSave;
+	event->floatVariable(thisVarToSave) = m_twmass.at(iTarget);
+      } 
+      std::vector<float> m_twPt = m_buckets->twPt;
+      for(unsigned int iTarget = 0; iTarget < m_twPt.size(); ++iTarget ) {
+        std::string thisVarToSave = "twPt"+std::to_string(iTarget); 
+	cout << "var_name: " << thisVarToSave;
+	event->floatVariable(thisVarToSave) = m_twPt.at(iTarget);
+      } 
+      std::vector<float> m_tweta = m_buckets->tweta;
+      for(unsigned int iTarget = 0; iTarget < m_tweta.size(); ++iTarget ) {
+        std::string thisVarToSave = "tweta"+std::to_string(iTarget); 
+	cout << "var_name: " << thisVarToSave;
+	event->floatVariable(thisVarToSave) = m_tweta.at(iTarget);
+      } 
+      std::vector<float> m_tminmass = m_buckets->tminmass;
+      for(unsigned int iTarget = 0; iTarget < m_tminmass.size(); ++iTarget ) {
+        std::string thisVarToSave = "tminmass"+std::to_string(iTarget); 
+	cout << "var_name: " << thisVarToSave;
+	event->floatVariable(thisVarToSave) = m_tminmass.at(iTarget);
+      } 
+      std::vector<float> m_tminPt = m_buckets->tminPt;
+      for(unsigned int iTarget = 0; iTarget < m_tminPt.size(); ++iTarget ) {
+        std::string thisVarToSave = "tminPt"+std::to_string(iTarget); 
+	cout << "var_name: " << thisVarToSave;
+	event->floatVariable(thisVarToSave) = m_tminPt.at(iTarget);
+      } 
+      std::vector<float> m_tmineta = m_buckets->tmineta;
+      for(unsigned int iTarget = 0; iTarget < m_tmineta.size(); ++iTarget ) {
+        std::string thisVarToSave = "tmineta"+std::to_string(iTarget); 
+	cout << "var_name: " << thisVarToSave;
+	event->floatVariable(thisVarToSave) = m_tmineta.at(iTarget);
+      } 
+      std::vector<float> m_t0mass = m_buckets->t0mass;
+      for(unsigned int iTarget = 0; iTarget < m_t0mass.size(); ++iTarget ) {
+        std::string thisVarToSave = "t0mass"+std::to_string(iTarget); 
+	cout << "var_name: " << thisVarToSave;
+	event->floatVariable(thisVarToSave) = m_t0mass.at(iTarget);
+      } 
+      std::vector<float> m_t0Pt = m_buckets->t0Pt;
+      for(unsigned int iTarget = 0; iTarget < m_t0Pt.size(); ++iTarget ) {
+        std::string thisVarToSave = "t0Pt"+std::to_string(iTarget); 
+	cout << "var_name: " << thisVarToSave;
+	event->floatVariable(thisVarToSave) = m_t0Pt.at(iTarget);
+      } 
+      std::vector<float> m_t0eta = m_buckets->t0eta;
+      for(unsigned int iTarget = 0; iTarget < m_t0eta.size(); ++iTarget ) {
+        std::string thisVarToSave = "t0eta"+std::to_string(iTarget); 
+	cout << "var_name: " << thisVarToSave;
+	event->floatVariable(thisVarToSave) = m_t0eta.at(iTarget);
+      } 
+      std::vector<float> m_Xmass = m_buckets->Xmass;
+      for(unsigned int iTarget = 0; iTarget < m_Xmass.size(); ++iTarget ) {
+        std::string thisVarToSave = "Xmass"+std::to_string(iTarget); 
+	cout << "var_name: " << thisVarToSave;
+	event->floatVariable(thisVarToSave) = m_Xmass.at(iTarget);
+      } 
+      std::vector<float> m_XPt = m_buckets->XPt;
+      for(unsigned int iTarget = 0; iTarget < m_XPt.size(); ++iTarget ) {
+        std::string thisVarToSave = "XPt"+std::to_string(iTarget); 
+	cout << "var_name: " << thisVarToSave;
+	event->floatVariable(thisVarToSave) = m_XPt.at(iTarget);
+      } 
+      std::vector<float> m_Xeta = m_buckets->Xeta;
+      for(unsigned int iTarget = 0; iTarget < m_Xeta.size(); ++iTarget ) {
+        std::string thisVarToSave = "Xeta"+std::to_string(iTarget); 
+	cout << "var_name: " << thisVarToSave;
+	event->floatVariable(thisVarToSave) = m_Xeta.at(iTarget);
+      } 
     }
     std::cout << "HELLO WORLD FROM BUCKETS" << std::endl;
   }

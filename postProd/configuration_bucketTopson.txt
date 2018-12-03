@@ -73,3 +73,6 @@ OfflineTtbarCorrections.ttbarFracRw false
 #Bucket of Tops algorithm on
 OfflineBucketofTops.TurnOn true
 OfflineBucketofTops.UseBucketsAlgo true
+
+
+BTaggingWP MV2c10_60
