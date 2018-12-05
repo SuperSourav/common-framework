@@ -1,0 +1,4 @@
+/eos/atlas/atlascerngroupdisk/phys-top/4tops/ntuples/common-fw_tag212380/preProd/mc16a/1LOS/group.phys-top.410470.PhPy8EG.DAOD_TOPQ1.e6337_a875_r9364_p3554.SM4t-212380_mc16a_1LOS_v1_output_root/group.phys-top.15343595._000001.output.root  
+/eos/atlas/atlascerngroupdisk/phys-top/4tops/ntuples/common-fw_tag212380/preProd/mc16a/1LOS/group.phys-top.410470.PhPy8EG.DAOD_TOPQ1.e6337_a875_r9364_p3554.SM4t-212380_mc16a_1LOS_v1_output_root/group.phys-top.15343595._000007.output.root  
+/eos/atlas/atlascerngroupdisk/phys-top/4tops/ntuples/common-fw_tag212380/preProd/mc16a/1LOS/group.phys-top.410470.PhPy8EG.DAOD_TOPQ1.e6337_a875_r9364_p3554.SM4t-212380_mc16a_1LOS_v1_output_root/group.phys-top.15343595._000013.output.root
+/eos/atlas/atlascerngroupdisk/phys-top/4tops/ntuples/common-fw_tag212380/preProd/mc16a/1LOS/group.phys-top.410470.PhPy8EG.DAOD_TOPQ1.e6337_a875_r9364_p3554.SM4t-212380_mc16a_1LOS_v1_output_root/group.phys-top.15343595._000002.output.root  
