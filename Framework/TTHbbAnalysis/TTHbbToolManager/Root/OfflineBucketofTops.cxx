@@ -25,17 +25,26 @@ namespace TTHbb{
   void OfflineBucketofTops::finalise(){}
 
   void OfflineBucketofTops::apply(TTHbb::Event* event){
+    auto rcjets = event->m_customObj["rcjet"];
     std::vector<TLorentzVector> specbjets, specnonbjets; //for now using all the jets as spectators
     for(auto jet : event->m_jets){
-      bool isbtagged_MV2c10_60 = jet->charVariable("isbtagged_MV2c10_60");
-      if (isbtagged_MV2c10_60) 
-      {
-        TLorentzVector vecb = jet->p4();
-        specbjets.push_back(vecb*(0.001));} //converting MeV to GeV
-      else 
-      {
-        TLorentzVector vecnonb = jet->p4();
-        specnonbjets.push_back(vecnonb*(0.001)); //converting MeV to GeV
+      bool ORfromRC = true;
+      for (auto rcjet : rcjets){
+        TLorentzVector j = jet->p4();
+	TLorentzVector rcj = rcjet->p4();
+	if (rcj.DeltaR(j) < 0.1) {ORfromRC = false; break;}
+      }
+      if (ORfromRC){
+        bool isbtagged_MV2c10_77 = jet->charVariable("isbtagged_MV2c10_60");
+        if (isbtagged_MV2c10_77) 
+        {
+          TLorentzVector vecb = jet->p4();
+          specbjets.push_back(vecb*(0.001));} //converting MeV to GeV
+        else 
+        {
+          TLorentzVector vecnonb = jet->p4();
+          specnonbjets.push_back(vecnonb*(0.001)); //converting MeV to GeV
+        }
       }
     } 
     std::cout << specbjets.size() << std::endl;
