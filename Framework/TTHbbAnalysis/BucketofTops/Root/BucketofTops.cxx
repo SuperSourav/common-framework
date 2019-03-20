@@ -48,10 +48,15 @@ BucketofTops::BucketofTops(std::vector<TLorentzVector> specbjets, std::vector<TL
     Blist[1-telseindex] = bucketAlgo::singlebucket(specbjets, specnonbjets, Blist[telseindex], bucketP2massMax, bucketP2massMin);
   }
 
+  twcount = 0;
+  tmincount = 0;
+  t0count = 0;
   for (int i = 0; i < Blist.size(); ++i)
   {
     if (Blist[i].getBucketLabel() == "tw") {
       if (Blist[i].getBucketMass() > -1) {
+	twcount++;
+	std::cout << "i: " << i << "twcount: " << twcount << std::endl;
         twmass.push_back(Blist[i].getBucketMass());
         twPt.push_back(Blist[i].getBucketPt());
         tweta.push_back(Blist[i].getBucketEta()); 
@@ -59,6 +64,7 @@ BucketofTops::BucketofTops(std::vector<TLorentzVector> specbjets, std::vector<TL
     }
     else if (Blist[i].getBucketLabel() == "t-") {
       if (Blist[i].getBucketMass() > -1) {
+	tmincount++;
         tminmass.push_back(Blist[i].getBucketMass());
         tminPt.push_back(Blist[i].getBucketPt());
         tmineta.push_back(Blist[i].getBucketEta());
@@ -66,12 +72,15 @@ BucketofTops::BucketofTops(std::vector<TLorentzVector> specbjets, std::vector<TL
     }
     else {
       if (Blist[i].getBucketMass() > -1) {
+	t0count++;
         t0mass.push_back(Blist[i].getBucketMass());
         t0Pt.push_back(Blist[i].getBucketPt());
         t0eta.push_back(Blist[i].getBucketEta());
       }
     }
   }
+  std::cout << "twcount final: " << twcount << std::endl;
+  
 
   Xtra = bucketAlgo::extra(specbjets, specnonbjets, Blist); // extra bucket
 

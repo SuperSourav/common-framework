@@ -27,15 +27,18 @@ namespace TTHbb{
   void OfflineBucketofTops::apply(TTHbb::Event* event){
     auto rcjets = event->m_customObj["rcjet"];
     std::vector<TLorentzVector> specbjets, specnonbjets; //for now using all the jets as spectators
+    //std::cout << "rcjetcontainer: " << rcjets << std::endl;
     for(auto jet : event->m_jets){
       bool ORfromRC = true;
       for (auto rcjet : rcjets){
+        std::cout << "*********************************** inside overlap removal loop *******************" << std::endl;
         TLorentzVector j = jet->p4();
-	TLorentzVector rcj = rcjet->p4();
-	if (rcj.DeltaR(j) < 0.1) {ORfromRC = false; break;}
+        TLorentzVector rcj = rcjet->p4();
+        std::cout << "overlap dR: " << rcj.DeltaR(j) << std::endl;
+        if (rcj.DeltaR(j) < 1.0) {ORfromRC = false; break;}
       }
       if (ORfromRC){
-        bool isbtagged_MV2c10_77 = jet->charVariable("isbtagged_MV2c10_60");
+        bool isbtagged_MV2c10_77 = jet->charVariable("isbtagged_MV2c10_77");
         if (isbtagged_MV2c10_77) 
         {
           TLorentzVector vecb = jet->p4();
@@ -69,11 +72,11 @@ namespace TTHbb{
       std::cout << "init bucket WcandMnum(): " << bucklist[0].WcandMnum() << "\t" << bucklist[1].WcandMnum() << std::endl;
 
       if (m_buckets == NULL) {std::cout << "bucket ptr is null" << std::endl;}
-	std::vector<bucketAlgo::bucket>& blistp = *m_buckets->returnbucketlistptr();
+        std::vector<bucketAlgo::bucket>& blistp = *m_buckets->returnbucketlistptr();
         std::cout << "get blist size: " << blistp.size() << std::endl;
 	std::cout <<"get blist mass: " << blistp[0].getBucketMass()  << "\t" << blistp[1].getBucketMass()  << std::endl;
-	std::cout <<"get blist label: " << blistp[0].getBucketLabel()  << "\t" << blistp[1].getBucketLabel()  << std::endl;
-	std::cout <<"get blist pT: " << blistp[0].getBucketPt()  << "\t" << blistp[1].getBucketPt()  << std::endl;
+        std::cout <<"get blist label: " << blistp[0].getBucketLabel()  << "\t" << blistp[1].getBucketLabel()  << std::endl;
+        std::cout <<"get blist pT: " << blistp[0].getBucketPt()  << "\t" << blistp[1].getBucketPt()  << std::endl;
 	std::cout <<"get blist eta: " << blistp[0].getBucketEta()  << "\t" << blistp[1].getBucketEta()  << std::endl;
 	std::cout <<"get blist WcandMnum(): " << blistp[0].WcandMnum() << "\t" << blistp[1].WcandMnum() << std::endl;
       event->intVariable("blistsize") = blistp.size();
@@ -89,6 +92,10 @@ namespace TTHbb{
       std::cout << "inside DoBuckets after call" << std::endl;
       //tbuck = m_buckets->B;
       //event->intVariable("B1mass") = tbuck.size();
+      event->floatVariable("twcount") = m_buckets->twcount;
+      event->floatVariable("t0count") = m_buckets->t0count;
+      event->floatVariable("tmincount") = m_buckets->tmincount;
+
       std::vector<float> m_mW = m_buckets->mWcand;
       for(unsigned int iTarget = 0; iTarget < m_mW.size(); ++iTarget ) {
         std::string thisVarToSave = "mW"+std::to_string(iTarget); 
@@ -176,8 +183,8 @@ namespace TTHbb{
       std::vector<float> m_Xeta = m_buckets->Xeta;
       for(unsigned int iTarget = 0; iTarget < m_Xeta.size(); ++iTarget ) {
         std::string thisVarToSave = "Xeta"+std::to_string(iTarget); 
-	cout << "var_name: " << thisVarToSave;
-	event->floatVariable(thisVarToSave) = m_Xeta.at(iTarget);
+        cout << "var_name: " << thisVarToSave;
+        event->floatVariable(thisVarToSave) = m_Xeta.at(iTarget);
       } 
     }
     std::cout << "HELLO WORLD FROM BUCKETS" << std::endl;

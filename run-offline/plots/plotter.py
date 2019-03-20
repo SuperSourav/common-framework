@@ -5,13 +5,13 @@ import root_numpy as rnp
 
 def main():
   ROOT.gROOT.SetBatch(1)
-  #njet = "all" 
+  njet = "all" 
   #njet = "ge10" 
   #njet = "9" 
   #njet = "8" 
   #njet = "7" 
   #njet = "6" 
-  njet = "5"
+  #njet = "5"
   if (njet=="all"):
     t = ROOT.TChain("nominal_Loose")
     jet_cat = ["ge10", "9", "8", "7", "6", "5"]
@@ -24,6 +24,12 @@ def main():
     t = f.Get("nominal_Loose")
   t.ls()
   
+  #bucket type count
+  twcount = rnp.tree2array(t, branches="twcount")
+  tmincount = rnp.tree2array(t, branches="tmincount")
+  t0count = rnp.tree2array(t, branches="t0count")
+
+  ##
   mW0 = rnp.tree2array(t, branches="mW0") 
   mW1 = rnp.tree2array(t, branches="mW1")
   mW = np.concatenate((mW0, mW1), axis=None)
@@ -78,6 +84,20 @@ def main():
   print type(mW)
   
   c = ROOT.TCanvas('c', 'c', 800, 600)
+  #bucket type count
+  htwcount = ROOT.TH1F("htwcount", "number of tw buckets per event", 5, -0.5, 4.5)
+  fill_hist(htwcount, twcount, "twbuckets per event", "")
+  htwcount.Draw()
+  c.Print("htwcount_%sjetregion.eps"%njet)
+  htmincount = ROOT.TH1F("htmincount", "number of tmin buckets per event", 5, -0.5, 4.5)
+  fill_hist(htmincount, tmincount, "tminbuckets per event", "")
+  htmincount.Draw()
+  c.Print("htmincount_%sjetregion.eps"%njet)
+  ht0count = ROOT.TH1F("ht0count", "number of t0 buckets per event", 5, -0.5, 4.5)
+  fill_hist(ht0count, t0count, "t0buckets per event", "")
+  ht0count.Draw()
+  c.Print("ht0count_%sjetregion.eps"%njet)
+
   #mass
   htwmass = ROOT.TH1F("htwmass", "Mass of tw Buckets",150,0.0001,300);
   fill_hist(htwmass, twmass, "Mass (Gev)", "")

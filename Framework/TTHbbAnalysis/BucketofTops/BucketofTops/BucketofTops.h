@@ -19,7 +19,7 @@ class BucketofTops {
     std::vector<float> tminmass, tminPt, tmineta; //GeV
     std::vector<float> t0mass, t0Pt, t0eta; //GeV
     std::vector<float> Xmass, XPt, Xeta; //GeV
-
+    float twcount, tmincount, t0count; //per event
 
     BucketofTops(std::vector<TLorentzVector> specbjets, std::vector<TLorentzVector> specnonbjets);
     ~BucketofTops();
