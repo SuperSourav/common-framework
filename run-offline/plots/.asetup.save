@@ -1,7 +1,7 @@
 #Release cmake
 
-export AtlasSetup="/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase/x86_64/AtlasSetup/V01-00-26/AtlasSetup"
-export AtlasSetupVersion="AtlasSetup-01-00-26"
+export AtlasSetup="/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase/x86_64/AtlasSetup/V01-00-30/AtlasSetup"
+export AtlasSetupVersion="AtlasSetup-01-00-30"
 export LANG="C"
 export LC_ALL="C"
 export BINARY_TAG="x86_64-slc6-gcc62-opt"
@@ -57,6 +57,7 @@ if [ ! -z $ATLAS_LOCAL_ROOT_BASE ]; then
         export PATH="$ATLAS_LOCAL_ROOT_BASE/wrappers/linuxApp:$PATH"
     fi
 fi
+export TestArea="/afs/cern.ch/work/s/sosen/ChongbinTop/common-framework/run-offline/plots"
 
 #Release Summary as follows:
 #Release base=/cvmfs/atlas.cern.ch/repo/sw/software/21.0

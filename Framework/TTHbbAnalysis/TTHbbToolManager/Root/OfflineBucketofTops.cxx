@@ -3,6 +3,7 @@
 #include "TTHbbConfiguration/GlobalConfiguration.h"
 #include <iostream>
 #include <string>
+#include "TTHbbObjects/Event.h"
 
 namespace TTHbb{
 
@@ -26,11 +27,13 @@ namespace TTHbb{
 
   void OfflineBucketofTops::apply(TTHbb::Event* event){
     auto rcjets = event->m_customObj["rcjet"];
+    std::cout << "rcjets length " << rcjets.size() << std::endl;
     std::vector<TLorentzVector> specbjets, specnonbjets; //for now using all the jets as spectators
     //std::cout << "rcjetcontainer: " << rcjets << std::endl;
-    for(auto jet : event->m_jets){
+    for(auto &jet : event->m_jets){
       bool ORfromRC = true;
-      for (auto rcjet : rcjets){
+      std::cout << "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" << std::endl;
+      for (auto &rcjet : rcjets){
         std::cout << "*********************************** inside overlap removal loop *******************" << std::endl;
         TLorentzVector j = jet->p4();
         TLorentzVector rcj = rcjet->p4();
@@ -50,19 +53,24 @@ namespace TTHbb{
         }
       }
     } 
-    std::cout << specbjets.size() << std::endl;
-    for(auto btjet : specbjets){
-      std::cout << "print b jet px: " << btjet.Px() << "\tpy: " << btjet.Py() << "\tpz: " << btjet.Pz() << "\tE: " << btjet.E() << std::endl;
-    }
-    for(auto tjet : specnonbjets){
-      std::cout << "print nonb jet px: " << tjet.Px() << "\tpy: " << tjet.Py() << "\tpz: " << tjet.Pz() << "\tE: " << tjet.E() << std::endl;
-    }
+    //lepton added (TODO to be tracked later) 
+    std::shared_ptr<Lepton> lep = event->m_leptons[0];
+    TLorentzVector vecnonblep = lep->p4();
+    //specnonbjets.push_back(vecnonblep*(0.001));
+    //std::cout << specbjets.size() << std::endl;
+    //for(auto btjet : specbjets){
+    //  std::cout << "print b jet px: " << btjet.Px() << "\tpy: " << btjet.Py() << "\tpz: " << btjet.Pz() << "\tE: " << btjet.E() << std::endl;
+    //}
+    //for(auto tjet : specnonbjets){
+    //  std::cout << "print nonb jet px: " << tjet.Px() << "\tpy: " << tjet.Py() << "\tpz: " << tjet.Pz() << "\tE: " << tjet.E() << std::endl;
+    //}
     std::cout << m_DoBuckets << std::endl;
     std::cout << (m_DoBuckets and (specbjets.size() == 2)) << std::endl;
+    event->intVariable("Naddjets") = (specnonbjets.size() + specbjets.size());
     if (m_DoBuckets and (specbjets.size() == 2)) {
     //if (m_DoBuckets) {
       std::cout << "inside DoBuckets before call" << std::endl;
-      m_buckets = new BucketofTops(specbjets, specnonbjets);
+      m_buckets = new BucketofTops(specbjets, specnonbjets, (vecnonblep*0.001));
       std::vector<bucketAlgo::bucket> bucklist = m_buckets->Blist;
       std::cout << "buclet list size: " << bucklist.size() << std::endl;
       std::cout << "init bucket mass: " << bucklist[0].getBucketMass() << "\t" << bucklist[1].getBucketMass() << std::endl;

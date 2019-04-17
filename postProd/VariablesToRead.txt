@@ -56,3 +56,9 @@ float Xeta0
 float Xeta1 
 float Xeta2 
 float Xeta3 
+int nRCJets
+rcjet float rcjet_pt
+rcjet float rcjet_eta
+rcjet float rcjet_phi
+rcjet float rcjet_e
+int Naddjets

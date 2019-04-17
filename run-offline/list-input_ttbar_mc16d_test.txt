@@ -1,0 +1,1 @@
+/eos/atlas/atlascerngroupdisk/phys-top/4tops2019/ntuples/common-fw_tag212560/online/mc16d/1LOS/group.phys-top.410470.PhPy8EG.DAOD_TOPQ1.e6337_a875_r10201_p3629.SM4t-212560_mc16d_1LOS_v1_output.root/group.phys-top.16457222._000012.output.root

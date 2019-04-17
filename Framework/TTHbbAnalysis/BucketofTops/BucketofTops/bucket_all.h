@@ -193,7 +193,7 @@ namespace bucketAlgo
 
 
   //function to get two top buckets
-  std::vector <bucketAlgo::bucket> doublebucket(std::vector<TLorentzVector> specbjets, std::vector<TLorentzVector> specnonbjets, double MbucketMax, double MbucketMin, string target_label, double B1weight)
+  std::vector <bucketAlgo::bucket> doublebucket(std::vector<TLorentzVector> specbjets, std::vector<TLorentzVector> specnonbjets, double MbucketMax, double MbucketMin, string target_label, double B1weight, TLorentzVector step1lep=TLorentzVector())
   {
     std::vector <bucketAlgo::bucket> Blist; //B1 and B2
     bucketAlgo::bucket B1, B2;
@@ -247,60 +247,146 @@ namespace bucketAlgo
         {
           nonbB.push_back(specnonbjets[nonbindexset2[i1][k1]]);
         }
-        bucketAlgo::bucket Afirst(nonbA, specbjets[0]);
-        double AfirstDistance = (target_label == "tw") ? Afirst.twOptMetric() : Afirst.tminusOptMetric();
-        std::vector <int> pidlAfirst = Afirst.getOrderlist(); //
-        bucketAlgo::bucket Asecond(nonbA, specbjets[1]);
-	double AsecondDistance = (target_label == "tw") ? Asecond.twOptMetric() : Asecond.tminusOptMetric();
-        std::vector <int> pidlAsecond = Asecond.getOrderlist(); //
-        bucketAlgo::bucket Bfirst(nonbB, specbjets[0]);
-	double BfirstDistance = (target_label == "tw") ? Bfirst.twOptMetric() : Bfirst.tminusOptMetric();
-        std::vector <int> pidlBfirst = Bfirst.getOrderlist(); //
-        bucketAlgo::bucket Bsecond(nonbB, specbjets[1]);
-	double BsecondDistance = (target_label == "tw") ? Bsecond.twOptMetric() : Bsecond.tminusOptMetric();
-        std::vector <int> pidlBsecond = Bsecond.getOrderlist(); //
+	//
+	if (target_label == "tw"){
+          bucketAlgo::bucket Afirst(nonbA, specbjets[0]);
+          double AfirstDistance = Afirst.twOptMetric();
+          std::vector <int> pidlAfirst = Afirst.getOrderlist(); //
+	  
+	  bucketAlgo::bucket Asecond(nonbA, specbjets[1]);
+	  double AsecondDistance = Asecond.twOptMetric();
+          std::vector <int> pidlAsecond = Asecond.getOrderlist(); //
+          
+	  std::vector <TLorentzVector> nonbAl = nonbA;
+	  nonbAl.push_back(step1lep);
+          
+	  bucketAlgo::bucket Alfirst(nonbAl, specbjets[0]);
+          double AlfirstDistance = Alfirst.twOptMetric();
+          std::vector <int> pidlAlfirst = Alfirst.getOrderlist(); //
+          
+	  bucketAlgo::bucket Alsecond(nonbAl, specbjets[1]);
+	  double AlsecondDistance = Alsecond.twOptMetric();
+          std::vector <int> pidlAlsecond = Alsecond.getOrderlist(); //
+          
+	  bucketAlgo::bucket Bfirst(nonbB, specbjets[0]);
+	  double BfirstDistance = Bfirst.twOptMetric();
+          std::vector <int> pidlBfirst = Bfirst.getOrderlist(); //
+          
+	  bucketAlgo::bucket Bsecond(nonbB, specbjets[1]);
+	  double BsecondDistance = Bsecond.twOptMetric();
+          std::vector <int> pidlBsecond = Bsecond.getOrderlist(); //
         
-        double del1 = (B1weight*AfirstDistance) + BsecondDistance;
-        double del2 = (B1weight*BfirstDistance) + AsecondDistance;
-        double del3 = AfirstDistance + (B1weight*BsecondDistance);
-        double del4 = BfirstDistance + (B1weight*AsecondDistance);
-        if ((del1 < del2) && (del1 < del3) && (del1 < del4))
-        {
-          if (del1 < Deltatw)
-          {
-            Deltatw = del1;
-            B1 = Afirst;
-            B2 = Bsecond;
-          }
-        }
-        else if ((del2 < del1) && (del2 < del3) && (del2 < del4))
-        {
-          if (del2 < Deltatw)
-          {
-            Deltatw = del2;
-            B1 = Bfirst;
-            B2 = Asecond;
-          }
-        }
-        else if ((del3 < del1) && (del3 < del2) && (del3 < del4))
-        {
-          if (del3 < Deltatw)
-          {
-            Deltatw = del3;
-            B1 = Bsecond;
-            B2 = Afirst;
-          }
-        }
-        else 
-        {
-          if (del4 < Deltatw)
-          {
-            Deltatw = del4;
-            B1 = Asecond;
-            B2 = Bfirst;
-          }
-        }
+	  std::vector <TLorentzVector> nonbBl = nonbB;
+	  nonbBl.push_back(step1lep);
 
+	  bucketAlgo::bucket Blfirst(nonbBl, specbjets[0]);
+	  double BlfirstDistance = Blfirst.twOptMetric();
+          std::vector <int> pidlBlfirst = Blfirst.getOrderlist(); //
+          
+	  bucketAlgo::bucket Blsecond(nonbBl, specbjets[1]);
+	  double BlsecondDistance = Blsecond.twOptMetric();
+          std::vector <int> pidlBlsecond = Blsecond.getOrderlist(); //
+        
+          double del1 = (B1weight*AfirstDistance) + (BlsecondDistance);
+          double del2 = (B1weight*BfirstDistance) + (AlsecondDistance);
+          double del3 = (AlfirstDistance) + (B1weight*BsecondDistance);
+          double del4 = (BlfirstDistance) + (B1weight*AsecondDistance);
+	
+          if ((del1 < del2) && (del1 < del3) && (del1 < del4))
+          {
+            if (del1 < Deltatw)
+            {
+              Deltatw = del1;
+              B1 = Afirst;
+              B2 = Blsecond;
+            }
+          }
+          else if ((del2 < del1) && (del2 < del3) && (del2 < del4))
+          {
+            if (del2 < Deltatw)
+            {
+              Deltatw = del2;
+              B1 = Bfirst;
+              B2 = Alsecond;
+            }
+          }
+          else if ((del3 < del1) && (del3 < del2) && (del3 < del4))
+          {
+            if (del3 < Deltatw)
+            {
+              Deltatw = del3;
+              B1 = Bsecond;
+              B2 = Alfirst;
+            }
+          }
+          else 
+          {
+            if (del4 < Deltatw)
+            {
+              Deltatw = del4;
+              B1 = Asecond;
+              B2 = Blfirst;
+            }
+          }
+        }
+	//
+	else {	
+          bucketAlgo::bucket Afirst(nonbA, specbjets[0]);
+          double AfirstDistance =  Afirst.tminusOptMetric();
+          std::vector <int> pidlAfirst = Afirst.getOrderlist(); //
+          bucketAlgo::bucket Asecond(nonbA, specbjets[1]);
+	  double AsecondDistance =  Asecond.tminusOptMetric();
+          std::vector <int> pidlAsecond = Asecond.getOrderlist(); //
+          bucketAlgo::bucket Bfirst(nonbB, specbjets[0]);
+	  double BfirstDistance =  Bfirst.tminusOptMetric();
+          std::vector <int> pidlBfirst = Bfirst.getOrderlist(); //
+          bucketAlgo::bucket Bsecond(nonbB, specbjets[1]);
+	  double BsecondDistance =  Bsecond.tminusOptMetric();
+          std::vector <int> pidlBsecond = Bsecond.getOrderlist(); //
+        
+          double del1 = (B1weight*AfirstDistance) + BsecondDistance;
+          double del2 = (B1weight*BfirstDistance) + AsecondDistance;
+          double del3 = AfirstDistance + (B1weight*BsecondDistance);
+          double del4 = BfirstDistance + (B1weight*AsecondDistance);
+	
+          if ((del1 < del2) && (del1 < del3) && (del1 < del4))
+          {
+            if (del1 < Deltatw)
+            {
+              Deltatw = del1;
+              B1 = Afirst;
+              B2 = Bsecond;
+            }
+          }
+          else if ((del2 < del1) && (del2 < del3) && (del2 < del4))
+          {
+            if (del2 < Deltatw)
+            {
+              Deltatw = del2;
+              B1 = Bfirst;
+              B2 = Asecond;
+            }
+          }
+          else if ((del3 < del1) && (del3 < del2) && (del3 < del4))
+          {
+            if (del3 < Deltatw)
+            {
+              Deltatw = del3;
+              B1 = Bsecond;
+              B2 = Afirst;
+            }
+          }
+          else 
+          {
+            if (del4 < Deltatw)
+            {
+              Deltatw = del4;
+              B1 = Asecond;
+              B2 = Bfirst;
+            }
+          }
+	}
+        //
 
 
       }
@@ -309,11 +395,12 @@ namespace bucketAlgo
     Blist.push_back(B2);
     for (int i = 0; i < Blist.size(); ++i)
     {
-      string label; //label assignement , 
+      string label; //label assignement  
       double Bm = Blist[i].getBucketMass();
       if (target_label == "tw")
       {
-        label = (Blist[i].twflag())?"tw":"t-";
+        if (i == 0) {label = (Blist[i].twflag())?"tw":"t-";}
+	else {label = "t-";} //B2 cannot be tw anymore
       }
       else {label = "t-";}
       if ((Bm > MbucketMax) || (Bm < MbucketMin))

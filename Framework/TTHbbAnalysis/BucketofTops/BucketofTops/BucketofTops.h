@@ -21,7 +21,7 @@ class BucketofTops {
     std::vector<float> Xmass, XPt, Xeta; //GeV
     float twcount, tmincount, t0count; //per event
 
-    BucketofTops(std::vector<TLorentzVector> specbjets, std::vector<TLorentzVector> specnonbjets);
+    BucketofTops(std::vector<TLorentzVector> specbjets, std::vector<TLorentzVector> specnonbjets, TLorentzVector lepton);
     ~BucketofTops();
 
     std::vector<bucketAlgo::bucket> * returnbucketlistptr();

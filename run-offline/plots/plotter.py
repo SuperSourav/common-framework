@@ -5,7 +5,19 @@ import root_numpy as rnp
 
 def main():
   ROOT.gROOT.SetBatch(1)
-  njet = "all" 
+  njet = "all"
+  #process = "sig1lnotTwB1wt1000tminfixed_5K"
+  process = "bkg1lnotTwB1wt1000tminfixed_5K"
+  #process = "sig1lnotTwB1wt1000_5K"
+  #process = "bkg1lnotTwB1wt1000_5K"
+  #process = "sig1lnotTwB1wt1000_1K"
+  #process = "bkg1lnotTwB1wt1000_1K"
+  #process = "sig1lnotTwB1wt100_1K"
+  #process = "bkg1lnotTwB1wt100_1K"
+  #process = "sig"
+  #process = "bkg"
+  #process = "sigOld"
+  #process = "bkgOld"
   #njet = "ge10" 
   #njet = "9" 
   #njet = "8" 
@@ -16,21 +28,23 @@ def main():
     t = ROOT.TChain("nominal_Loose")
     jet_cat = ["ge10", "9", "8", "7", "6", "5"]
     for jetc in jet_cat:
-      fj = ROOT.TFile("/afs/cern.ch/work/s/sosen/ChongbinTop/common-framework/run-offline/test/ljets%sj/ttbar_powpyt8.root"%jetc, 'READ')
-      t.Add("/afs/cern.ch/work/s/sosen/ChongbinTop/common-framework/run-offline/test/ljets%sj/ttbar_powpyt8.root"%jetc)
+      fj = ROOT.TFile("/afs/cern.ch/work/s/sosen/ChongbinTop/common-framework/run-offline/test_%s/ljets%sj/ttbar_powpyt8.root"%(process, jetc), 'READ')
+      t.Add("/afs/cern.ch/work/s/sosen/ChongbinTop/common-framework/run-offline/test_%s/ljets%sj/ttbar_powpyt8.root"%(process, jetc))
   else:
-    f = ROOT.TFile("/afs/cern.ch/work/s/sosen/ChongbinTop/common-framework/run-offline/test/ljets%sj/ttbar_powpyt8.root"%njet, 'READ')
+    f = ROOT.TFile("/afs/cern.ch/work/s/sosen/ChongbinTop/common-framework/run-offline/test_%s/ljets%sj/ttbar_powpyt8.root"%(process, njet), 'READ')
     f.ls()
     t = f.Get("nominal_Loose")
   t.ls()
   
   #bucket type count
   twcount = rnp.tree2array(t, branches="twcount")
+  print len(twcount), "\ttwcount\t", list(twcount).count(-999)
   tmincount = rnp.tree2array(t, branches="tmincount")
   t0count = rnp.tree2array(t, branches="t0count")
 
   ##
   mW0 = rnp.tree2array(t, branches="mW0") 
+  print len(mW0), "\tmW0\t", list(mW0).count(-999)
   mW1 = rnp.tree2array(t, branches="mW1")
   mW = np.concatenate((mW0, mW1), axis=None)
   mBucketPrim0 = rnp.tree2array(t, branches="mBucketPrim0")
@@ -71,6 +85,7 @@ def main():
   Xmass2 = rnp.tree2array(t, branches="Xmass2")
   Xmass3 = rnp.tree2array(t, branches="Xmass3")
   Xmass = np.concatenate((Xmass0, Xmass1, Xmass2, Xmass3), axis=None)
+  print len(Xmass0), "\tXmass0", list(Xmass0).count(-999)
   XPt0  = rnp.tree2array(t, branches="XPt0")
   XPt1  = rnp.tree2array(t, branches="XPt1")
   XPt2 = rnp.tree2array(t, branches="XPt2")
@@ -82,9 +97,15 @@ def main():
   Xeta3  = rnp.tree2array(t, branches="Xeta3")
   Xeta = np.concatenate((Xeta0, Xeta1, Xeta2, Xeta3), axis=None)
   print type(mW)
+
+
   
   c = ROOT.TCanvas('c', 'c', 800, 600)
   #bucket type count
+  htotalcount = ROOT.TH1F("htotalcount", "total number of buckets per event", 5, -0.5, 4.5)
+  fill_hist(htotalcount, (twcount + tmincount + t0count), "total buckets per event", "")
+  htotalcount.Draw()
+  c.Print("htotalcount_%sjetregion.eps"%njet)
   htwcount = ROOT.TH1F("htwcount", "number of tw buckets per event", 5, -0.5, 4.5)
   fill_hist(htwcount, twcount, "twbuckets per event", "")
   htwcount.Draw()

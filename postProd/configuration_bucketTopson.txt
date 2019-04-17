@@ -17,6 +17,10 @@ SampleName ttbar_powpyt8
 ###Sample options
 SampleType MC
 UseLargeJets false
+CustomObjects rcjet
+
+
+NEvents 50000
 
 ###Which systematics to save, provide a full list
 Systematics nominal_Loose
@@ -73,7 +77,11 @@ OfflineTtbarCorrections.ttbarFracRw false
 
 #Bucket of Tops algorithm on
 OfflineBucketofTops.TurnOn true
+#false
+#true
 OfflineBucketofTops.UseBucketsAlgo true
+#false
+#true
 
 
 BTaggingWP MV2c10_77
