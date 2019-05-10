@@ -55,7 +55,7 @@ namespace TTHbb{
     } 
     //lepton added (TODO to be tracked later) 
     std::shared_ptr<Lepton> lep = event->m_leptons[0];
-    TLorentzVector vecnonblep = lep->p4();
+    TLorentzVector vecnonblep; // = lep->p4();
     //specnonbjets.push_back(vecnonblep*(0.001));
     //std::cout << specbjets.size() << std::endl;
     //for(auto btjet : specbjets){
@@ -67,11 +67,12 @@ namespace TTHbb{
     std::cout << m_DoBuckets << std::endl;
     std::cout << (m_DoBuckets and (specbjets.size() == 2)) << std::endl;
     event->intVariable("Naddjets") = (specnonbjets.size() + specbjets.size());
+
+    //if (m_DoBuckets and (specbjets.size() == 2) and (vecnonblep.Pt() > 25000)) {
     if (m_DoBuckets and (specbjets.size() == 2)) {
     //if (m_DoBuckets) {
       std::cout << "inside DoBuckets before call" << std::endl;
-      m_buckets = new BucketofTops(specbjets, specnonbjets);
-      //m_buckets = new BucketofTops(specbjets, specnonbjets, (vecnonblep*0.001));
+      m_buckets = new BucketofTops(specbjets, specnonbjets, (vecnonblep*0.001));
       std::vector<bucketAlgo::bucket> bucklist = m_buckets->Blist;
       std::cout << "buclet list size: " << bucklist.size() << std::endl;
       std::cout << "init bucket mass: " << bucklist[0].getBucketMass() << "\t" << bucklist[1].getBucketMass() << std::endl;
@@ -104,10 +105,6 @@ namespace TTHbb{
       event->floatVariable("twcount") = m_buckets->twcount;
       event->floatVariable("t0count") = m_buckets->t0count;
       event->floatVariable("tmincount") = m_buckets->tmincount;
-      event->intVariable("nonbinitcount") = m_buckets->nonbinitcount;
-      event->intVariable("nonb1count") = m_buckets->nonb1count;
-      event->intVariable("nonb2count") = m_buckets->nonb2count;
-      event->intVariable("nonbISRcount") = m_buckets->nonbISRcount;
 
       std::vector<float> m_mW = m_buckets->mWcand;
       for(unsigned int iTarget = 0; iTarget < m_mW.size(); ++iTarget ) {

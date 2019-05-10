@@ -57,3 +57,7 @@ Xeta1
 Xeta2 
 Xeta3 
 Naddjets
+nonbinitcount
+nonb1count
+nonb2count
+nonbISRcount

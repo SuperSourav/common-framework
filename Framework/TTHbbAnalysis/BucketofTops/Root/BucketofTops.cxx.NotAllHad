@@ -5,46 +5,23 @@
 //#include "BucketofTops/bucket_all.h"
 #include "BucketofTops/BucketofTops.h"
 using namespace std;
-//**//
-//BucketofTops::BucketofTops(std::vector<TLorentzVector> specbjets, std::vector<TLorentzVector> specnonbjets, TLorentzVector lepton){
-//**//
-BucketofTops::BucketofTops(std::vector<TLorentzVector> specbjets, std::vector<TLorentzVector> specnonbjets){
-//**//
+
+BucketofTops::BucketofTops(std::vector<TLorentzVector> specbjets, std::vector<TLorentzVector> specnonbjets, TLorentzVector lepton){
   double bucketP1massMax = 200; //GeV
   double bucketP1massMin = 155; //GeV
-  double firstP1Bucketwt2 = 1;
-  //double firstP1Bucketwt2 = 100;
-  //double firstP1Bucketwt1 = 1;
-  //double firstP1Bucketwt1 = 10;
-  double firstP1Bucketwt1 = 100;
-  //double firstP1Bucketwt1 = 1000;
-  ///////std::cout << "inside buckets constructor " << specbjets.size() << std::endl;
+  //double firstP1Bucketwt = 1;
+  double firstP1Bucketwt = 100;
+  //double firstP1Bucketwt = 1000;
+  std::cout << "inside buckets constructor " << specbjets.size() << std::endl;
   //for(auto tesbtjet : specbjets){
   //  std::cout << "print b jet px: " << tesbtjet.Px() << "\tpy: " << tesbtjet.Py() << "\tpz: " << tesbtjet.Pz() << "\tE: " << tesbtjet.E() << std::endl;
   //}
   //for(auto testjet: specnonbjets){
   //  std::cout << "print jet px: " << testjet.Px() << "\tpy: " << testjet.Py() << "\tpz: " << testjet.Pz() << "\tE: " << testjet.E() << std::endl;
   //}
-  //**//
-  //
-  nonbinitcount = specnonbjets.size();
-  //
-  //
-
-  Blist = bucketAlgo::doublebucket(specbjets, specnonbjets, bucketP1massMax, bucketP1massMin, "tw", firstP1Bucketwt1, firstP1Bucketwt2);
-  //**//Blist = bucketAlgo::doublebucket(specbjets, specnonbjets, bucketP1massMax, bucketP1massMin, "tw", firstP1Bucketwt, lepton);
+  Blist = bucketAlgo::doublebucket(specbjets, specnonbjets, bucketP1massMax, bucketP1massMin, "tw", firstP1Bucketwt, lepton);
   vector <bucketAlgo::bucket> tmincand; //fill tmin candidates
   int telseindex; //tw or t0 bucket
-  //
-  B1bjet = Blist[0].BJET;
-  B2bjet = Blist[1].BJET;
-  B1nonbjets = Blist[0].nonBJETS;
-  B2nonbjets = Blist[1].nonBJETS;
-
-  nonb1count = Blist[0].nonBJETS.size();
-  nonb2count = Blist[1].nonBJETS.size();
-  nonbISRcount = nonbinitcount - (nonb1count + nonb2count);
-  //
   for (int i = 0; i < Blist.size(); ++i) {
     if (Blist[i].getBucketMass() > -1) {
       mWcand.push_back(Blist[i].WcandMnum());
@@ -62,16 +39,13 @@ BucketofTops::BucketofTops(std::vector<TLorentzVector> specbjets, std::vector<TL
   //redo both buckets for t-
   double bucketP2massMax = 155; //GeV
   double bucketP2massMin = 75; //GeV
-  double firstP2Bucketwt1 = 1;
-  double firstP2Bucketwt2 = 1;
+  double firstP2Bucketwt = 1;
 
   std::vector<TLorentzVector> specnonbjetsWithLep = specnonbjets;
-  //**//
-  //specnonbjetsWithLep.push_back(lepton);
-  //**//
+  specnonbjetsWithLep.push_back(lepton);
 
   if (tmincand.size() == 2) {
-    Blist = bucketAlgo::doublebucket(specbjets, specnonbjetsWithLep, bucketP2massMax, bucketP2massMin, "t-", firstP2Bucketwt1, firstP2Bucketwt2);
+    Blist = bucketAlgo::doublebucket(specbjets, specnonbjetsWithLep, bucketP2massMax, bucketP2massMin, "t-", firstP2Bucketwt);
   }
 
   else if (tmincand.size() == 1){
@@ -86,7 +60,7 @@ BucketofTops::BucketofTops(std::vector<TLorentzVector> specbjets, std::vector<TL
     if (Blist[i].getBucketLabel() == "tw") {
       //if (Blist[i].getBucketMass() > -1) {
 	twcount++;
-	//std::cout << "i: " << i << "twcount: " << twcount << std::endl;
+	std::cout << "i: " << i << "twcount: " << twcount << std::endl;
         twmass.push_back(Blist[i].getBucketMass());
         twPt.push_back(Blist[i].getBucketPt());
         tweta.push_back(Blist[i].getBucketEta()); 
@@ -109,7 +83,7 @@ BucketofTops::BucketofTops(std::vector<TLorentzVector> specbjets, std::vector<TL
       //}
     }
   }
-  //std::cout << "twcount final: " << twcount << std::endl;
+  std::cout << "twcount final: " << twcount << std::endl;
   
 
   Xtra = bucketAlgo::extra(specbjets, specnonbjets, Blist); // extra bucket

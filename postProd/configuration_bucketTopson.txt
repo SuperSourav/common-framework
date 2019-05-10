@@ -11,7 +11,7 @@
 ##################################################
 
 ###Where to save everything
-OutputDirectory test
+OutputDirectory testB1wt1
 SampleName ttbar_powpyt8
 
 ###Sample options
@@ -20,7 +20,7 @@ UseLargeJets false
 CustomObjects rcjet
 
 
-NEvents 50000
+#NEvents 200000
 
 ###Which systematics to save, provide a full list
 Systematics nominal_Loose

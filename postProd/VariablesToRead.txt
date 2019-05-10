@@ -62,3 +62,7 @@ rcjet float rcjet_eta
 rcjet float rcjet_phi
 rcjet float rcjet_e
 int Naddjets
+int nonbinitcount
+int nonb1count
+int nonb2count
+int nonbISRcount
