@@ -305,9 +305,19 @@ namespace bucketAlgo
             if (del1 < Deltatw)
             {
               Deltatw = del1;
-              B1 = Afirst;
+	      if (AfirstDistance < BsecondDistance)
+	      {
+                B1 = Afirst;
+                B2 = Bsecond;
+              }
+              else
+	      {
+                B2 = Afirst;
+                B1 = Bsecond;
+              }
+              /*B1 = Afirst;
               //B2 = Blsecond;
-              B2 = Bsecond;
+              B2 = Bsecond;*/
             }
           }
           else if ((del2 < del1) && (del2 < del3) && (del2 < del4))
@@ -315,9 +325,19 @@ namespace bucketAlgo
             if (del2 < Deltatw)
             {
               Deltatw = del2;
-              B1 = Bfirst;
+	      if (BfirstDistance < AsecondDistance)
+	      {
+                B1 = Bfirst;
+                B2 = Asecond;
+              }
+              else
+	      {
+                B2 = Bfirst;
+                B1 = Asecond;
+              }
+              /*B1 = Bfirst;
               //B2 = Alsecond;
-              B2 = Asecond;
+              B2 = Asecond;*/
             }
           }
           else if ((del3 < del1) && (del3 < del2) && (del3 < del4))
@@ -325,9 +345,19 @@ namespace bucketAlgo
             if (del3 < Deltatw)
             {
               Deltatw = del3;
-              B1 = Bsecond;
+	      if (AfirstDistance < BsecondDistance)
+	      {
+                B1 = Afirst;
+                B2 = Bsecond;
+              }
+              else
+	      {
+                B2 = Afirst;
+                B1 = Bsecond;
+              }
+              /*B1 = Bsecond;
               //B2 = Alfirst;
-              B2 = Afirst;
+              B2 = Afirst;*/
             }
           }
           else 
@@ -335,9 +365,19 @@ namespace bucketAlgo
             if (del4 < Deltatw)
             {
               Deltatw = del4;
-              B1 = Asecond;
+	      if (BfirstDistance < AsecondDistance)
+	      {
+                B1 = Bfirst;
+                B2 = Asecond;
+              }
+              else
+	      {
+                B2 = Bfirst;
+                B1 = Asecond;
+              }
+              /*B1 = Asecond;
               //B2 = Blfirst;
-              B2 = Bfirst;
+              B2 = Bfirst;*/
             }
           }
         }
@@ -366,8 +406,16 @@ namespace bucketAlgo
             if (del1 < Deltatw)
             {
               Deltatw = del1;
-              B1 = Afirst;
-              B2 = Bsecond;
+	      if (AfirstDistance < BsecondDistance)
+	      {
+                B1 = Afirst;
+                B2 = Bsecond;
+              }
+              else
+	      {
+                B2 = Afirst;
+                B1 = Bsecond;
+              }
             }
           }
           else if ((del2 < del1) && (del2 < del3) && (del2 < del4))
@@ -375,8 +423,16 @@ namespace bucketAlgo
             if (del2 < Deltatw)
             {
               Deltatw = del2;
-              B1 = Bfirst;
-              B2 = Asecond;
+	      if (BfirstDistance < AsecondDistance)
+	      {
+                B1 = Bfirst;
+                B2 = Asecond;
+              }
+              else
+	      {
+                B2 = Bfirst;
+                B1 = Asecond;
+              }
             }
           }
           else if ((del3 < del1) && (del3 < del2) && (del3 < del4))
@@ -384,8 +440,16 @@ namespace bucketAlgo
             if (del3 < Deltatw)
             {
               Deltatw = del3;
-              B1 = Bsecond;
-              B2 = Afirst;
+	      if (AfirstDistance < BsecondDistance)
+	      {
+                B1 = Afirst;
+                B2 = Bsecond;
+              }
+              else
+	      {
+                B2 = Afirst;
+                B1 = Bsecond;
+              }
             }
           }
           else 
@@ -393,8 +457,20 @@ namespace bucketAlgo
             if (del4 < Deltatw)
             {
               Deltatw = del4;
-              B1 = Asecond;
-              B2 = Bfirst;
+              if (del2 < Deltatw)
+              {
+                Deltatw = del2;
+	        if (BfirstDistance < AsecondDistance)
+	        {
+                  B1 = Bfirst;
+                  B2 = Asecond;
+                }
+                else
+	        {
+                  B2 = Bfirst;
+                  B1 = Asecond;
+                }
+              }
             }
           }
 	}

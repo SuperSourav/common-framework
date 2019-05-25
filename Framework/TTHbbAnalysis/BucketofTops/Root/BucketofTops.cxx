@@ -14,9 +14,9 @@ BucketofTops::BucketofTops(std::vector<TLorentzVector> specbjets, std::vector<TL
   double bucketP1massMin = 155; //GeV
   double firstP1Bucketwt2 = 1;
   //double firstP1Bucketwt2 = 100;
-  //double firstP1Bucketwt1 = 1;
+  double firstP1Bucketwt1 = 1;
   //double firstP1Bucketwt1 = 10;
-  double firstP1Bucketwt1 = 100;
+  //double firstP1Bucketwt1 = 100;
   //double firstP1Bucketwt1 = 1000;
   ///////std::cout << "inside buckets constructor " << specbjets.size() << std::endl;
   //for(auto tesbtjet : specbjets){
