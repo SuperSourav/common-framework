@@ -3,8 +3,10 @@
 #include <string>
 #include <vector>
 #include "TLorentzVector.h"
+#include <map>
 //#include "PathResolver/PathResolver.h"
 using namespace std;
+
 
 //put top bucket algo stuff inside bucketAlgo namespace
 namespace bucketAlgo
@@ -188,14 +190,18 @@ namespace bucketAlgo
   };
   
 
-
-
+  struct bucketpairs
+  {
+    map< int , std::vector<bucketAlgo::bucket> > Bpairs;
+    int solutionIndex;
+  };
 
 
   //function to get two top buckets
   //**//
   //std::vector <bucketAlgo::bucket> doublebucket(std::vector<TLorentzVector> specbjets, std::vector<TLorentzVector> specnonbjets, double MbucketMax, double MbucketMin, string target_label, double B1weight, TLorentzVector step1lep=TLorentzVector())
   //**//
+  //bucketpairs doublebucket(std::vector<TLorentzVector> specbjets, std::vector<TLorentzVector> specnonbjets, double MbucketMax, double MbucketMin, string target_label, double B1weight, double B2weight)
   std::vector <bucketAlgo::bucket> doublebucket(std::vector<TLorentzVector> specbjets, std::vector<TLorentzVector> specnonbjets, double MbucketMax, double MbucketMin, string target_label, double B1weight, double B2weight)
   {
     std::vector <bucketAlgo::bucket> Blist; //B1 and B2
@@ -252,231 +258,32 @@ namespace bucketAlgo
           nonbB.push_back(specnonbjets[nonbindexset2[i1][k1]]);
         }
 	//
-	if (target_label == "tw"){
-          bucketAlgo::bucket Afirst(nonbA, specbjets[0]);
-          double AfirstDistance = Afirst.twOptMetric();
-          std::vector <int> pidlAfirst = Afirst.getOrderlist(); //
-	  
-	  bucketAlgo::bucket Asecond(nonbA, specbjets[1]);
-	  double AsecondDistance = Asecond.twOptMetric();
-          std::vector <int> pidlAsecond = Asecond.getOrderlist(); //
-          
-	  std::vector <TLorentzVector> nonbAl = nonbA;
-	  //**//nonbAl.push_back(step1lep);
-          
-	  bucketAlgo::bucket Alfirst(nonbAl, specbjets[0]);
-          double AlfirstDistance = Alfirst.twOptMetric();
-          std::vector <int> pidlAlfirst = Alfirst.getOrderlist(); //
-          
-	  bucketAlgo::bucket Alsecond(nonbAl, specbjets[1]);
-	  double AlsecondDistance = Alsecond.twOptMetric();
-          std::vector <int> pidlAlsecond = Alsecond.getOrderlist(); //
-          
-	  bucketAlgo::bucket Bfirst(nonbB, specbjets[0]);
-	  double BfirstDistance = Bfirst.twOptMetric();
-          std::vector <int> pidlBfirst = Bfirst.getOrderlist(); //
-          
-	  bucketAlgo::bucket Bsecond(nonbB, specbjets[1]);
-	  double BsecondDistance = Bsecond.twOptMetric();
-          std::vector <int> pidlBsecond = Bsecond.getOrderlist(); //
-        
-	  std::vector <TLorentzVector> nonbBl = nonbB;
-	  //**//nonbBl.push_back(step1lep);
+        bucketAlgo::bucket b1(nonbA, specbjets[0]);
+	bucketAlgo::bucket b2(nonbB, specbjets[1]);
+        double b1Distance = (target_label == "tw") ? b1.twOptMetric() : b1.tminusOptMetric();
+	double b2Distance = (target_label == "tw") ? b2.twOptMetric() : b2.tminusOptMetric();
+        double del;
 
-	  bucketAlgo::bucket Blfirst(nonbBl, specbjets[0]);
-	  double BlfirstDistance = Blfirst.twOptMetric();
-          std::vector <int> pidlBlfirst = Blfirst.getOrderlist(); //
-          
-	  bucketAlgo::bucket Blsecond(nonbBl, specbjets[1]);
-	  double BlsecondDistance = Blsecond.twOptMetric();
-          std::vector <int> pidlBlsecond = Blsecond.getOrderlist(); //
-        
-          /*double del1 = (B1weight*AfirstDistance) + (B2weight*BlsecondDistance);
-          double del2 = (B1weight*BfirstDistance) + (B2weight*AlsecondDistance);
-          double del3 = (B2weight*AlfirstDistance) + (B1weight*BsecondDistance);
-          double del4 = (BlfirstDistance) + (B1weight*AsecondDistance);*/
-	
-          double del1 = (B1weight*AfirstDistance) + (B2weight*BsecondDistance);
-          double del2 = (B1weight*BfirstDistance) + (B2weight*AsecondDistance);
-          double del3 = (B2weight*AfirstDistance) + (B1weight*BsecondDistance);
-          double del4 = (B2weight*BfirstDistance) + (B1weight*AsecondDistance);
-          if ((del1 < del2) && (del1 < del3) && (del1 < del4))
-          {
-            if (del1 < Deltatw)
-            {
-              Deltatw = del1;
-	      if (AfirstDistance < BsecondDistance)
-	      {
-                B1 = Afirst;
-                B2 = Bsecond;
-              }
-              else
-	      {
-                B2 = Afirst;
-                B1 = Bsecond;
-              }
-              /*B1 = Afirst;
-              //B2 = Blsecond;
-              B2 = Bsecond;*/
-            }
-          }
-          else if ((del2 < del1) && (del2 < del3) && (del2 < del4))
-          {
-            if (del2 < Deltatw)
-            {
-              Deltatw = del2;
-	      if (BfirstDistance < AsecondDistance)
-	      {
-                B1 = Bfirst;
-                B2 = Asecond;
-              }
-              else
-	      {
-                B2 = Bfirst;
-                B1 = Asecond;
-              }
-              /*B1 = Bfirst;
-              //B2 = Alsecond;
-              B2 = Asecond;*/
-            }
-          }
-          else if ((del3 < del1) && (del3 < del2) && (del3 < del4))
-          {
-            if (del3 < Deltatw)
-            {
-              Deltatw = del3;
-	      if (AfirstDistance < BsecondDistance)
-	      {
-                B1 = Afirst;
-                B2 = Bsecond;
-              }
-              else
-	      {
-                B2 = Afirst;
-                B1 = Bsecond;
-              }
-              /*B1 = Bsecond;
-              //B2 = Alfirst;
-              B2 = Afirst;*/
-            }
-          }
-          else 
-          {
-            if (del4 < Deltatw)
-            {
-              Deltatw = del4;
-	      if (BfirstDistance < AsecondDistance)
-	      {
-                B1 = Bfirst;
-                B2 = Asecond;
-              }
-              else
-	      {
-                B2 = Bfirst;
-                B1 = Asecond;
-              }
-              /*B1 = Asecond;
-              //B2 = Blfirst;
-              B2 = Bfirst;*/
-            }
-          }
+        if (b1Distance < b2Distance)   //explicit sorting applied
+        {
+           del = (B1weight*b1Distance) + (B2weight*b2Distance);
+           if (del < Deltatw)
+           {
+               Deltatw = del;
+               B1 = b1;
+               B2 = b2;
+           }
         }
-	//
-	else {	
-          bucketAlgo::bucket Afirst(nonbA, specbjets[0]);
-          double AfirstDistance =  Afirst.tminusOptMetric();
-          std::vector <int> pidlAfirst = Afirst.getOrderlist(); //
-          bucketAlgo::bucket Asecond(nonbA, specbjets[1]);
-	  double AsecondDistance =  Asecond.tminusOptMetric();
-          std::vector <int> pidlAsecond = Asecond.getOrderlist(); //
-          bucketAlgo::bucket Bfirst(nonbB, specbjets[0]);
-	  double BfirstDistance =  Bfirst.tminusOptMetric();
-          std::vector <int> pidlBfirst = Bfirst.getOrderlist(); //
-          bucketAlgo::bucket Bsecond(nonbB, specbjets[1]);
-	  double BsecondDistance =  Bsecond.tminusOptMetric();
-          std::vector <int> pidlBsecond = Bsecond.getOrderlist(); //
-        
-          double del1 = (B1weight*AfirstDistance) + (B2weight*BsecondDistance);
-          double del2 = (B1weight*BfirstDistance) + (B2weight*AsecondDistance);
-          double del3 = (B2weight*AfirstDistance) + (B1weight*BsecondDistance);
-          double del4 = (B2weight*BfirstDistance) + (B1weight*AsecondDistance);
-	
-          if ((del1 < del2) && (del1 < del3) && (del1 < del4))
-          {
-            if (del1 < Deltatw)
-            {
-              Deltatw = del1;
-	      if (AfirstDistance < BsecondDistance)
-	      {
-                B1 = Afirst;
-                B2 = Bsecond;
-              }
-              else
-	      {
-                B2 = Afirst;
-                B1 = Bsecond;
-              }
-            }
-          }
-          else if ((del2 < del1) && (del2 < del3) && (del2 < del4))
-          {
-            if (del2 < Deltatw)
-            {
-              Deltatw = del2;
-	      if (BfirstDistance < AsecondDistance)
-	      {
-                B1 = Bfirst;
-                B2 = Asecond;
-              }
-              else
-	      {
-                B2 = Bfirst;
-                B1 = Asecond;
-              }
-            }
-          }
-          else if ((del3 < del1) && (del3 < del2) && (del3 < del4))
-          {
-            if (del3 < Deltatw)
-            {
-              Deltatw = del3;
-	      if (AfirstDistance < BsecondDistance)
-	      {
-                B1 = Afirst;
-                B2 = Bsecond;
-              }
-              else
-	      {
-                B2 = Afirst;
-                B1 = Bsecond;
-              }
-            }
-          }
-          else 
-          {
-            if (del4 < Deltatw)
-            {
-              Deltatw = del4;
-              if (del2 < Deltatw)
-              {
-                Deltatw = del2;
-	        if (BfirstDistance < AsecondDistance)
-	        {
-                  B1 = Bfirst;
-                  B2 = Asecond;
-                }
-                else
-	        {
-                  B2 = Bfirst;
-                  B1 = Asecond;
-                }
-              }
-            }
-          }
-	}
-        //
-
-
+        else
+        {
+           del = (B2weight*b1Distance) + (B1weight*b2Distance);
+           if (del < Deltatw)
+           {
+               Deltatw = del;
+               B2 = b1;
+               B1 = b2;
+           }
+        }
       }
     } // loop over all possible buckets ends
     Blist.push_back(B1);
