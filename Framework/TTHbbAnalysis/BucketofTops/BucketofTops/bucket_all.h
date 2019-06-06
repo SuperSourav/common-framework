@@ -82,6 +82,7 @@ namespace bucketAlgo
     std::vector <TLorentzVector> members;
     std::vector <TLorentzVector> nonBJETS;
     TLorentzVector BJET;
+    double twdelta;
 
   ~bucket() {} //destructor
 
@@ -92,6 +93,7 @@ namespace bucketAlgo
     pTbucket = -9999; //GeV
     etabucket = -9999;
     mpairnum = -9999; //GeV
+    twdelta = -9999; //GeV^2
   }
 
   bucket(std::vector <TLorentzVector> nonbjets, TLorentzVector bjet)
@@ -202,10 +204,14 @@ namespace bucketAlgo
   //std::vector <bucketAlgo::bucket> doublebucket(std::vector<TLorentzVector> specbjets, std::vector<TLorentzVector> specnonbjets, double MbucketMax, double MbucketMin, string target_label, double B1weight, TLorentzVector step1lep=TLorentzVector())
   //**//
   //bucketpairs doublebucket(std::vector<TLorentzVector> specbjets, std::vector<TLorentzVector> specnonbjets, double MbucketMax, double MbucketMin, string target_label, double B1weight, double B2weight)
-  std::vector <bucketAlgo::bucket> doublebucket(std::vector<TLorentzVector> specbjets, std::vector<TLorentzVector> specnonbjets, double MbucketMax, double MbucketMin, string target_label, double B1weight, double B2weight)
+  //std::vector <bucketAlgo::bucket> doublebucket(std::vector<TLorentzVector> specbjets, std::vector<TLorentzVector> specnonbjets, double MbucketMax, double MbucketMin, string target_label, double B1weight, double B2weight)
+  bucketpairs doublebucket(std::vector<TLorentzVector> specbjets, std::vector<TLorentzVector> specnonbjets, double MbucketMax, double MbucketMin, string target_label, double B1weight, double B2weight)
   {
     std::vector <bucketAlgo::bucket> Blist; //B1 and B2
     bucketAlgo::bucket B1, B2;
+    int solIndex;
+    int Index = 0;
+    bucketpairs allbpairs;
     int nonbjetsize = specnonbjets.size();
     std::vector <std::vector <int> > nonbindexset1;
     std::vector <int> nonbset;
@@ -262,30 +268,47 @@ namespace bucketAlgo
 	bucketAlgo::bucket b2(nonbB, specbjets[1]);
         double b1Distance = (target_label == "tw") ? b1.twOptMetric() : b1.tminusOptMetric();
 	double b2Distance = (target_label == "tw") ? b2.twOptMetric() : b2.tminusOptMetric();
+	if (target_label == "tw")
+	{
+	  b1.twdelta = b1Distance;
+	  b2.twdelta = b2Distance;
+	}
+	//cout << "b1: " << b1Distance << "\tb2: " << b2Distance << endl;
         double del;
 
         if (b1Distance < b2Distance)   //explicit sorting applied
         {
+           allbpairs.Bpairs[Index].push_back(b1);
+           allbpairs.Bpairs[Index].push_back(b2);
+	   //del = 5*b1Distance + b2Distance;
            del = (B1weight*b1Distance) + (B2weight*b2Distance);
            if (del < Deltatw)
            {
                Deltatw = del;
                B1 = b1;
                B2 = b2;
+	       solIndex = Index;
            }
         }
         else
         {
+           allbpairs.Bpairs[Index].push_back(b2);
+           allbpairs.Bpairs[Index].push_back(b1);
+	   //del = b1Distance + 5*b2Distance;
            del = (B2weight*b1Distance) + (B1weight*b2Distance);
            if (del < Deltatw)
            {
                Deltatw = del;
                B2 = b1;
                B1 = b2;
+	       solIndex = Index;
            }
         }
+        //allbpairs.Bpairs[Index] = tmpBlist;
+        Index++;	
       }
     } // loop over all possible buckets ends
+    allbpairs.solutionIndex = solIndex;
     Blist.push_back(B1);
     Blist.push_back(B2);
     for (int i = 0; i < Blist.size(); ++i)
@@ -303,7 +326,8 @@ namespace bucketAlgo
       }
       Blist[i].setBucketLabel(label);
     }
-    return Blist;
+    //return Blist;
+    return allbpairs;
   };
 
 

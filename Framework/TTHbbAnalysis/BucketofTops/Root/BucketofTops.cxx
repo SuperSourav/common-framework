@@ -14,9 +14,9 @@ BucketofTops::BucketofTops(std::vector<TLorentzVector> specbjets, std::vector<TL
   double bucketP1massMin = 155; //GeV
   double firstP1Bucketwt2 = 1;
   //double firstP1Bucketwt2 = 100;
-  double firstP1Bucketwt1 = 1;
+  //double firstP1Bucketwt1 = 1;
   //double firstP1Bucketwt1 = 10;
-  //double firstP1Bucketwt1 = 100;
+  double firstP1Bucketwt1 = 100;
   //double firstP1Bucketwt1 = 1000;
   ///////std::cout << "inside buckets constructor " << specbjets.size() << std::endl;
   //for(auto tesbtjet : specbjets){
@@ -30,9 +30,9 @@ BucketofTops::BucketofTops(std::vector<TLorentzVector> specbjets, std::vector<TL
   nonbinitcount = specnonbjets.size();
   //
   //
+  allbucketpairstw = bucketAlgo::doublebucket(specbjets, specnonbjets, bucketP1massMax, bucketP1massMin, "tw", firstP1Bucketwt1, firstP1Bucketwt2);
+  Blist = allbucketpairstw.Bpairs[allbucketpairstw.solutionIndex];
 
-  Blist = bucketAlgo::doublebucket(specbjets, specnonbjets, bucketP1massMax, bucketP1massMin, "tw", firstP1Bucketwt1, firstP1Bucketwt2);
-  //**//Blist = bucketAlgo::doublebucket(specbjets, specnonbjets, bucketP1massMax, bucketP1massMin, "tw", firstP1Bucketwt, lepton);
   vector <bucketAlgo::bucket> tmincand; //fill tmin candidates
   int telseindex; //tw or t0 bucket
   //
@@ -59,19 +59,21 @@ BucketofTops::BucketofTops(std::vector<TLorentzVector> specbjets, std::vector<TL
     }
   }
 
-  //redo both buckets for t-
-  double bucketP2massMax = 155; //GeV
-  double bucketP2massMin = 75; //GeV
+
+  redo both buckets for t-
+  double bucketP2massMax = 155; GeV
+  double bucketP2massMin = 75; GeV
   double firstP2Bucketwt1 = 1;
   double firstP2Bucketwt2 = 1;
 
   std::vector<TLorentzVector> specnonbjetsWithLep = specnonbjets;
-  //**//
-  //specnonbjetsWithLep.push_back(lepton);
-  //**//
+  **
+  specnonbjetsWithLep.push_back(lepton);
+  **
 
   if (tmincand.size() == 2) {
-    Blist = bucketAlgo::doublebucket(specbjets, specnonbjetsWithLep, bucketP2massMax, bucketP2massMin, "t-", firstP2Bucketwt1, firstP2Bucketwt2);
+    allbucketpairstmin = bucketAlgo::doublebucket(specbjets, specnonbjets, bucketP1massMax, bucketP1massMin, "t-", firstP1Bucketwt1, firstP1Bucketwt2);
+    Blist = allbucketpairstmin.Bpairs[allbucketpairstmin.solutionIndex];
   }
 
   else if (tmincand.size() == 1){
@@ -84,35 +86,35 @@ BucketofTops::BucketofTops(std::vector<TLorentzVector> specbjets, std::vector<TL
   for (int i = 0; i < Blist.size(); ++i)
   {
     if (Blist[i].getBucketLabel() == "tw") {
-      //if (Blist[i].getBucketMass() > -1) {
+      if (Blist[i].getBucketMass() > -1) {
 	twcount++;
-	//std::cout << "i: " << i << "twcount: " << twcount << std::endl;
+	std::cout << "i: " << i << "twcount: " << twcount << std::endl;
         twmass.push_back(Blist[i].getBucketMass());
         twPt.push_back(Blist[i].getBucketPt());
         tweta.push_back(Blist[i].getBucketEta()); 
-      //}
+      }
     }
     else if (Blist[i].getBucketLabel() == "t-") {
-      //if (Blist[i].getBucketMass() > -1) {
+      if (Blist[i].getBucketMass() > -1) {
 	tmincount++;
         tminmass.push_back(Blist[i].getBucketMass());
         tminPt.push_back(Blist[i].getBucketPt());
         tmineta.push_back(Blist[i].getBucketEta());
-      //}
+      }
     }
     else {
-      //if (Blist[i].getBucketMass() > -1) {
+      if (Blist[i].getBucketMass() > -1) {
 	t0count++;
         t0mass.push_back(Blist[i].getBucketMass());
         t0Pt.push_back(Blist[i].getBucketPt());
         t0eta.push_back(Blist[i].getBucketEta());
-      //}
+      }
     }
   }
-  //std::cout << "twcount final: " << twcount << std::endl;
+  std::cout << "twcount final: " << twcount << std::endl;
   
 
-  Xtra = bucketAlgo::extra(specbjets, specnonbjets, Blist); // extra bucket
+  Xtra = bucketAlgo::extra(specbjets, specnonbjets, Blist);  extra bucket
 
   for (int nn=0; nn < Xtra.size(); ++nn)
   {

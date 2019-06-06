@@ -12,6 +12,8 @@
 class BucketofTops {
   
   public:
+    bucketAlgo::bucketpairs allbucketpairstw; // includes the intermediates too
+    bucketAlgo::bucketpairs allbucketpairstmin; // includes the intermediates too
     std::vector<bucketAlgo::bucket> Blist; //
     std::vector<TLorentzVector> Xtra; //
     std::vector<float> mWcand, mBucketPrim, mratio; //GeV
